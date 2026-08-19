@@ -13,6 +13,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 9 — Expanding the test suite: isolation, cache, rate limits, and edge cases](#entry-9--expanding-the-test-suite-isolation-cache-rate-limits-and-edge-cases)
 - [Entry 10 — README and architecture diagram](#entry-10--readme-and-architecture-diagram)
 - [Entry 11 — Production deployment: Render, DATABASE_URL normalization, and the Dockerfile split](#entry-11--production-deployment-render-database_url-normalization-and-the-dockerfile-split)
+- [Entry 12 — Free-tier fallback: BackgroundTasks when Celery is too expensive](#entry-12--free-tier-fallback-backgroundtasks-when-celery-is-too-expensive)
 
 ---
 
@@ -904,3 +905,103 @@ services:
 **`celerybeat-schedule` file committed to git.** Celery beat creates a local file (`celerybeat-schedule` or `celerybeat-schedule.db`) to persist its schedule state across restarts. It's a binary runtime artifact that should never be in version control. Caught it during the initial `git add -A` — added `celerybeat-schedule*` to `.gitignore` and removed it from tracking with `git rm --cached`. Lesson: always review `git status` before committing, especially the first commit of a project — runtime artifacts, `.pyc` files, and local configs sneak in.
 
 **Docker Desktop stopped mid-deployment.** The Docker daemon on the development machine crashed during the rebuild step (Windows `com.docker.service` stopped). This wasn't a code issue — restarting Docker Desktop and re-running `docker compose up -d` resolved it. The code changes were already validated by the test suite running inside the container before the crash, so no rework was needed. Lesson: keep your work committed before doing infrastructure operations, so a Docker crash doesn't lose uncommitted code.
+
+---
+
+## Entry 12 — Free-tier fallback: BackgroundTasks when Celery is too expensive
+**Files touched:** `app/services/click_service.py` (new), `app/services/geoip_service.py`, `app/api/redirect.py`, `app/core/config.py`, `render.yaml`, `.env`, `.env.example`, `requirements.txt`, `tests/test_api.py`
+
+### Context
+Render's free tier covers the web service, Postgres, and Redis — but not background workers. The Celery worker requires a Starter plan at ~$7/month. Without it, click tracking silently fails: the redirect endpoint calls `record_click.delay()`, the task is enqueued to Redis, but no worker ever picks it up. Analytics shows zero clicks forever. For a portfolio project that should demonstrate *working* analytics, paying $7/month just to have a worker process running is a hard sell. We need click tracking to work without a dedicated worker process.
+
+### Before you read on
+You have a Celery-based click tracker. The redirect endpoint calls `record_click.delay(url_id, ip, ua, referer)` and returns 302 immediately. You can't afford a Celery worker on Render's free tier. Before reading further: what's the cheapest way to still record clicks? The redirect still needs to return 302 fast — the click write can't block the response. What FastAPI primitive runs code *after* the response is sent, inside the API process itself? And what's the tradeoff vs. a real Celery worker?
+
+### Options considered
+- **Synchronous inline write** — `INSERT INTO click_events` inside the redirect handler, before returning 302 → rejected because it adds 5-20ms of DB write latency to every redirect. The whole point of the architecture is cache-lookup + 302, nothing else.
+- **Spin up a Celery worker inside the API container** — run `celery worker` as a subprocess alongside uvicorn → rejected because it requires a process manager (supervisord), doubles the memory footprint, and the worker would die when the free-tier web service spins down after 15 min of inactivity.
+- **Drop click tracking entirely on free tier** → rejected because analytics is a core feature the portfolio needs to demonstrate.
+- **Chosen: FastAPI `BackgroundTasks`** — the redirect handler receives a `BackgroundTasks` instance, adds the click-writing coroutine to it, and returns 302. FastAPI runs the task after the response is sent, in the same event loop as the API. No extra process, no extra cost.
+
+### Why
+FastAPI's `BackgroundTasks` is purpose-built for this exact use case: "do something after the response is sent, but don't make the client wait for it." It runs in the API process's event loop — the 302 goes out immediately, then the click is written to Postgres. The tradeoff vs. Celery is:
+
+| | Celery worker | BackgroundTasks |
+|---|---|---|
+| Cost | $7/month on Render | Free |
+| Survives API crash? | Yes (task re-queued) | No (lost) |
+| Retries on failure? | Yes (`max_retries=3`) | No |
+| Runs when API spun down? | Yes (separate process) | No (no process running) |
+| Latency on redirect | Same (both are fire-and-forget) | Same |
+
+For a portfolio project where the goal is "recruiter clicks a shortened URL and sees the click in analytics," BackgroundTasks is more than sufficient. The click is written within milliseconds of the 302, well before anyone navigates to the analytics endpoint. The only scenario where it fails is if the API process crashes in the ~10ms window between sending the 302 and completing the background task — vanishingly unlikely at demo traffic volumes.
+
+The architectural win is that the *same code path* works in both modes. The redirect endpoint calls `track_click(background_tasks, ...)`, which checks `settings.CLICK_TRACKING_BACKEND` and dispatches to either `record_click.delay()` (Celery) or `background_tasks.add_task(_record_click_async, ...)` (BackgroundTasks). Switching between modes is a single env var change — no code changes, no redeploy of the redirect handler.
+
+### How to build it
+
+**Step 1: The config flag** (`app/core/config.py`):
+
+```python
+CLICK_TRACKING_BACKEND: str = "celery"  # or "background_tasks"
+```
+
+**Step 2: The async click recorder** (`app/services/click_service.py`):
+
+```python
+async def _record_click_async(url_id, ip_address, user_agent, referer):
+    country = await lookup_country_async(ip_address)
+    async with SessionLocal() as session:
+        click = ClickEvent(url_id=url_id, ip_address=ip_address,
+                           user_agent=user_agent, referer=referer,
+                           country=country)
+        session.add(click)
+        await session.commit()
+```
+
+**Key detail: `SessionLocal()`, not the request's session.** The request's DB session (`db: SessionDep`) is closed by the time the background task runs — FastAPI's dependency cleanup happens after the response but before background tasks. So the background task creates its own session via `SessionLocal()`. This is why the function is `async` — it uses the async session factory directly.
+
+**Step 3: The dispatcher** (`track_click` in the same file):
+
+```python
+def track_click(background_tasks, url_id, short_code, ip_address, user_agent, referer):
+    if settings.CLICK_TRACKING_BACKEND == "background_tasks":
+        background_tasks.add_task(_record_click_async, url_id=url_id, ...)
+    else:
+        from app.worker.celery_app import record_click
+        record_click.delay(url_id=url_id, short_code=short_code, ...)
+```
+
+The Celery import is *lazy* (inside the `else` branch) — when running in `background_tasks` mode, the Celery module is never loaded, and the Celery broker connection is never attempted. This matters on Render's free tier: there's no Celery worker, so attempting to connect to the broker would just add a timeout. By not importing it at all, the app starts faster and doesn't log spurious connection errors.
+
+**Step 4: The redirect endpoint** (`app/api/redirect.py`):
+
+```python
+async def redirect(
+    short_code: str,
+    request: Request,
+    db: SessionDep,
+    user: CurrentUserOptional,
+    background_tasks: BackgroundTasks,  # ← injected by FastAPI
+    _: RateLimitRedirect,
+) -> RedirectResponse:
+    ...
+    track_click(background_tasks=background_tasks, ...)
+    return RedirectResponse(url=target["original_url"], status_code=302)
+```
+
+`BackgroundTasks` is a FastAPI dependency — just adding it to the signature is enough. FastAPI populates it automatically and runs any tasks added to it after the response.
+
+**Step 5: GeoIP for both modes.** The sync `lookup_country()` (Celery path) and async `lookup_country_async()` (BackgroundTasks path) both use `httpx` — `httpx.get()` for sync, `httpx.AsyncClient` for async. This replaced the `requests` dependency entirely (httpx was already in requirements for tests). One library, both modes, no extra dependency.
+
+**Step 6: render.yaml** — removed the `worker` service, set `CLICK_TRACKING_BACKEND=background_tasks` on the web service. The render.yaml now defines 3 resources (web, postgres, redis) instead of 5. All on the free tier.
+
+**Verification:**
+1. Set `CLICK_TRACKING_BACKEND=background_tasks` in `.env`.
+2. Create a URL, click it with `X-Forwarded-For: 8.8.8.8`.
+3. Within 1 second (no 3s Celery wait needed), `GET /api/analytics/{code}` shows `total_clicks: 1` and `top_countries: [["US", 1]]`.
+4. Switch back to `CLICK_TRACKING_BACKEND=celery` — same behavior, but clicks are processed by the Celery worker instead.
+5. `pytest -q` → 18 passed (includes `test_background_tasks_click_tracking` which toggles the flag at runtime).
+
+### What went wrong
+Nothing broke. The implementation was clean because the GeoIP service already had a well-defined interface — adding an async variant was a 15-line addition. The only subtlety was the session lifecycle: the first attempt used the request's `db` session, which was already closed by the time the background task ran. The error was `StatementError: Object is not bound to a Session`. Diagnosis: the background task runs *after* FastAPI's dependency cleanup, which closes the request's session. Fix: create a new `SessionLocal()` inside the background task function. This is a general pattern for BackgroundTasks that touch the DB — never share the request's session, always create your own.

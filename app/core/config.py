@@ -42,6 +42,13 @@ class Settings(BaseSettings):
     CACHE_TTL_SECONDS: int = 3600
     SHORT_URL_BASE: str = "http://localhost:8000"
 
+    # Click tracking backend: "celery" (robust, requires a paid worker
+    # on Render) or "background_tasks" (free, runs in the API process
+    # via FastAPI's BackgroundTasks). The redirect endpoint checks this
+    # to decide whether to enqueue a Celery task or schedule a background
+    # function.
+    CLICK_TRACKING_BACKEND: str = "celery"
+
     @property
     def async_database_url(self) -> str:
         """URL with asyncpg driver for the FastAPI process."""

@@ -1,13 +1,13 @@
 import re
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from fastapi.responses import RedirectResponse
 
 from app.api.deps import CurrentUserOptional, SessionDep
 from app.core.metrics import clicks_enqueued_total
 from app.core.rate_limit import RateLimitRedirect
 from app.services import url_service
-from app.worker.celery_app import record_click
+from app.services.click_service import track_click
 
 router = APIRouter(tags=["redirect"])
 
@@ -27,6 +27,7 @@ async def redirect(
     request: Request,
     db: SessionDep,
     user: CurrentUserOptional,
+    background_tasks: BackgroundTasks,
     _: RateLimitRedirect,
 ) -> RedirectResponse:
     if not CODE_RE.match(short_code):
@@ -36,8 +37,11 @@ async def redirect(
     if target is None:
         raise HTTPException(status_code=404, detail="short url not found")
 
-    # Enqueue click persistence; the 302 returns immediately.
-    record_click.delay(
+    # Dispatch to Celery or BackgroundTasks depending on config.
+    # Either way, the 302 returns immediately — click persistence
+    # happens after the response is sent.
+    track_click(
+        background_tasks=background_tasks,
         url_id=target["id"],
         short_code=target["short_code"],
         ip_address=_client_ip(request),

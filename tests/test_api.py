@@ -312,3 +312,39 @@ async def test_rate_limit_scopes_are_independent(client: httpx.AsyncClient) -> N
         "/api/urls", json={"original_url": "https://example.com/scope-test"}
     )
     assert r.status_code == 201
+
+
+# ─── BackgroundTasks click tracking ──────────────────────────────────────────
+
+@pytest.mark.asyncio
+async def test_background_tasks_click_tracking(client: httpx.AsyncClient) -> None:
+    """When CLICK_TRACKING_BACKEND=background_tasks, clicks are written
+    by the API process via FastAPI's BackgroundTasks — no Celery needed."""
+    from app.core.config import settings
+
+    original = settings.CLICK_TRACKING_BACKEND
+    settings.CLICK_TRACKING_BACKEND = "background_tasks"
+    try:
+        resp = await client.post(
+            "/api/urls", json={"original_url": "https://example.com/bg-click"}
+        )
+        code = resp.json()["short_code"]
+
+        await client.get(
+            f"/{code}",
+            follow_redirects=False,
+            headers={"X-Forwarded-For": "8.8.8.8"},
+        )
+
+        # BackgroundTasks run after the response is sent but before the
+        # next request — no 3s sleep needed (unlike the Celery path).
+        # We still wait briefly for the async GeoIP lookup to complete.
+        time.sleep(1)
+
+        r = await client.get(f"/api/analytics/{code}")
+        assert r.status_code == 200
+        body = r.json()
+        assert body["total_clicks"] >= 1
+        assert body["top_countries"]  # GeoIP worked
+    finally:
+        settings.CLICK_TRACKING_BACKEND = original
