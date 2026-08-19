@@ -1,0 +1,102 @@
+# Render Blueprint — defines all services for the URL shortener.
+# Deploy via: connect this repo to Render, or use `render blueprint deploy`.
+#
+# Services created:
+#   1. web     — FastAPI API (uvicorn, 2 workers)
+#   2. worker  — Celery worker + beat (click tracking + hourly aggregation)
+#   3. postgres — Managed PostgreSQL 16
+#   4. redis   — Managed Redis
+#
+# Pricing (as of 2025):
+#   - Web service: free tier available (spins down after 15 min inactivity)
+#   - Worker: requires Starter plan (~$7/month) — NOT on free tier
+#   - PostgreSQL: free for 90 days, then ~$7/month
+#   - Redis: free tier available (15MB)
+#
+# To deploy fully free: delete the `worker` service below. Click tracking
+# will stop working (clicks are enqueued but never processed), but the
+# shortener, redirect, cache, and auth will all work fine.
+
+databases:
+  - name: shortener-db
+    databaseName: shortener
+    ipAllowList: []
+    plan: free
+
+  - name: shortener-redis
+    ipAllowList: []
+    plan: free
+
+services:
+  - type: web
+    name: url-shortener-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shortener-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: pserv
+          name: shortener-redis
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: pserv
+          name: shortener-redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: pserv
+          name: shortener-redis
+          property: connectionString
+      - key: SHORT_URL_BASE
+        value: https://url-shortener-api.onrender.com
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "10080"
+      - key: CACHE_TTL_SECONDS
+        value: "3600"
+
+  - type: worker
+    name: url-shortener-worker
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    dockerCommand: celery -A app.worker.celery_app worker --beat --loglevel=info --concurrency=2
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shortener-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: pserv
+          name: shortener-redis
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: pserv
+          name: shortener-redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: pserv
+          name: shortener-redis
+          property: connectionString
+      - key: SHORT_URL_BASE
+        value: https://url-shortener-api.onrender.com
