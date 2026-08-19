@@ -12,6 +12,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 8 — Pre-aggregated analytics: Celery beat + daily_stats rollup](#entry-8--pre-aggregated-analytics-celery-beat--daily_stats-rollup)
 - [Entry 9 — Expanding the test suite: isolation, cache, rate limits, and edge cases](#entry-9--expanding-the-test-suite-isolation-cache-rate-limits-and-edge-cases)
 - [Entry 10 — README and architecture diagram](#entry-10--readme-and-architecture-diagram)
+- [Entry 11 — Production deployment: Render, DATABASE_URL normalization, and the Dockerfile split](#entry-11--production-deployment-render-database_url-normalization-and-the-dockerfile-split)
 
 ---
 
@@ -769,3 +770,137 @@ The README has 6 sections:
 
 ### What went wrong
 Nothing broke. The only decision point was ASCII diagram vs. image. An image diagram (drawn in Excalidraw or Mermaid) looks prettier, but ASCII wins for maintainability: you can update it in a text editor, it shows up in `git diff`, and it renders everywhere. The tradeoff is that ASCII diagrams are harder to draw and less flexible — but for a 6-service architecture, the flow is simple enough that ASCII conveys it clearly.
+
+---
+
+## Entry 11 — Production deployment: Render, DATABASE_URL normalization, and the Dockerfile split
+**Files touched:** `Dockerfile`, `start.sh` (new), `render.yaml` (new), `app/core/config.py`, `app/core/database.py`, `app/worker/celery_app.py`, `app/worker/beat_tasks.py`, `alembic/env.py`, `docker-compose.yml`, `.env.example` (new), `.gitattributes` (new)
+
+### Context
+The app works locally via `docker compose up`, but a portfolio needs a live URL. We're deploying to Render (free tier, Docker support, managed Postgres + Redis). Three things have to change: (1) the Dockerfile is hardcoded to `--reload` (dev mode), (2) Render provides `DATABASE_URL` as `postgresql://...` but our code expects `postgresql+asyncpg://...` (async) and `postgresql+psycopg2://...` (sync for Celery), and (3) migrations need to run automatically on deploy, not manually.
+
+### Before you read on
+You're deploying a Docker app to Render. Render gives you a `DATABASE_URL` env var in the format `postgresql://user:pass@host:port/db` — no SQLAlchemy driver suffix. Your app needs *three* variants of this URL: async (for FastAPI), sync (for Celery + Alembic), and the raw one (for Render's dashboard). Before reading further: where do you put the logic that converts `postgresql://` to `postgresql+asyncpg://`? Should it live in the env var, in a config class, or in each consumer? And: should the Dockerfile have one CMD for both dev and prod, or separate Dockerfiles?
+
+### Options considered
+- **Separate Dockerfiles (`Dockerfile` + `Dockerfile.dev`)** → rejected because two Dockerfiles drift apart. The dev image might have dependencies the prod image doesn't, or vice versa. One image + runtime overrides is the Docker-native pattern.
+- **Set `DATABASE_URL` with the driver suffix in Render's dashboard** → rejected because Render's managed Postgres auto-generates the `DATABASE_URL` env var without a driver suffix, and you can't override an auto-injected env var. You'd have to create a *second* env var like `ASYNC_DATABASE_URL` and keep them in sync manually.
+- **Chosen: One Dockerfile, one `DATABASE_URL`, normalize in the `Settings` class** — the config class exposes `async_database_url` and `sync_database_url` as computed properties that call `_ensure_driver()`. Every consumer (`database.py`, `celery_app.py`, `beat_tasks.py`, `alembic/env.py`) asks for the variant it needs. One source of truth, no manual sync.
+
+### Why
+The `_ensure_driver()` function is the crux. It strips any existing driver suffix (`+asyncpg`, `+psycopg2`) from the URL, then injects the one the caller wants:
+
+```python
+def _ensure_driver(url: str, driver: str) -> str:
+    if "postgresql+asyncpg://" in url:
+        base = url.replace("postgresql+asyncpg://", "postgresql://")
+    elif "postgresql+psycopg2://" in url:
+        base = url.replace("postgresql+psycopg2://", "postgresql://")
+    else:
+        base = url
+    return base.replace("postgresql://", f"postgresql+{driver}://")
+```
+
+This handles three cases: Render's bare `postgresql://` (injects the driver), local dev's `postgresql+asyncpg://` (strips and re-injects the right one), and any future URL format. The `Settings` class then exposes:
+
+```python
+@property
+def async_database_url(self) -> str:
+    return _ensure_driver(self.DATABASE_URL, "asyncpg")
+
+@property
+def sync_database_url(self) -> str:
+    return _ensure_driver(self.DATABASE_URL, "psycopg2")
+```
+
+Every consumer calls `settings.async_database_url` (the FastAPI engine) or `settings.sync_database_url` (Celery tasks, Alembic). Nobody calls `settings.DATABASE_URL` directly for engine creation — it's the raw platform-provided value, not usable for SQLAlchemy without normalization.
+
+### How to build it
+
+**Step 1: The production Dockerfile.** Key changes from the dev version:
+
+```dockerfile
+# Non-root user (Render runs containers as root by default — security risk)
+RUN useradd -m -u 1000 appuser
+USER appuser
+
+# No --reload. Uses PORT env var (Render sets this, usually 10000).
+# start.sh runs migrations before starting uvicorn.
+CMD ["./start.sh"]
+```
+
+The dev override lives in `docker-compose.yml`, not in a second Dockerfile:
+```yaml
+api:
+  command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+This means `docker compose build` produces the production image, and docker-compose overrides the CMD for dev. One image, two run modes.
+
+**Step 2: `start.sh` — migrations before server start:**
+
+```bash
+#!/bin/sh
+set -e
+echo "Running database migrations..."
+alembic upgrade head
+echo "Starting uvicorn..."
+exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-8000}" --workers 2
+```
+
+`exec` replaces the shell process with uvicorn — without it, uvicorn would be a child of the shell, and `docker stop` would send SIGTERM to the shell (which doesn't forward it to uvicorn, causing a 10-second timeout before Docker SIGKILLs).
+
+**Key detail: migrations on every deploy.** `alembic upgrade head` is idempotent — if no new migrations exist, it prints "Running upgrade" with no SQL and exits 0. Running it on every deploy means you never have to manually migrate after pushing a schema change. The risk: if a migration is destructive (e.g., drops a column), it runs automatically on deploy. For a portfolio project this is fine; in a real production system you'd run migrations as a separate deploy step with a manual gate.
+
+**Step 3: `render.yaml` — infrastructure as code.** Defines 4 resources:
+
+```yaml
+databases:
+  - name: shortener-db        # Managed PostgreSQL (free for 90 days)
+  - name: shortener-redis     # Managed Redis (free tier, 15MB)
+
+services:
+  - type: web                 # FastAPI (free tier, spins down after 15 min)
+    name: url-shortener-api
+    runtime: docker
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: { name: shortener-db, property: connectionString }
+      - key: REDIS_URL
+        fromService: { type: pserv, name: shortener-redis, property: connectionString }
+      - key: SECRET_KEY
+        generateValue: true    # Render generates a random secret
+      - key: SHORT_URL_BASE
+        value: https://url-shortener-api.onrender.com
+
+  - type: worker              # Celery worker + beat (Starter plan, ~$7/month)
+    name: url-shortener-worker
+    dockerCommand: celery -A app.worker.celery_app worker --beat --loglevel=info --concurrency=2
+```
+
+**Key detail: `worker --beat` combines worker + beat in one process.** In local dev they're separate containers (`worker` + `beat` in docker-compose). On Render, each background worker costs ~$7/month, so we combine them with `--beat` to save one service. This is a deliberate tradeoff: if the worker restarts mid-schedule, a beat tick might be missed. For a demo this is fine; in production you'd separate them.
+
+**Key detail: `generateValue: true` for SECRET_KEY.** Render generates a random 32-byte hex string and injects it as the env var. You never see it — it's stored in Render's secret store. This is better than committing a secret to the repo, even for a demo.
+
+**Key detail: Redis on Render doesn't support multiple databases.** Locally we use Redis DB 0 for cache, DB 1 for broker, DB 2 for results. On Render's managed Redis, you get one database. The `REDIS_URL` from Render doesn't include a `/0` suffix — it's just `redis://host:port`. This works because Celery's broker keys (`celery-*`, `_kombu.*`) and our cache keys (`url:*`) and rate-limit keys (`rate_limit:*`) all use distinct prefixes, so they coexist in one keyspace without collision. The `CELERY_BROKER_URL` and `CELERY_RESULT_BACKEND` env vars are set to the same Redis URL as `REDIS_URL` — they all point to the same instance.
+
+**Step 4: Update all consumers to use normalized URLs.**
+
+| File | Before | After |
+|------|--------|-------|
+| `app/core/database.py` | `settings.DATABASE_URL` | `settings.async_database_url` |
+| `app/worker/celery_app.py` | `.replace("postgresql+asyncpg://", ...)` | `settings.sync_database_url` |
+| `app/worker/beat_tasks.py` | same .replace hack | `settings.sync_database_url` |
+| `alembic/env.py` | same .replace hack | `settings.sync_database_url` |
+
+**Verification:**
+1. Local: `docker compose up -d`, `docker compose exec api pytest -q` → `17 passed`. The normalization works for both local (`postgresql+asyncpg://...`) and Render (`postgresql://...`) URLs.
+2. `docker compose exec api python -c "from app.core.config import settings; print(settings.async_database_url)"` → prints the URL with `+asyncpg` driver, regardless of what format `DATABASE_URL` is in.
+3. `docker compose exec api python -c "from app.core.config import settings; print(settings.sync_database_url)"` → prints with `+psycopg2`.
+4. Production: push to GitHub, connect Render to the repo, Render auto-builds the Docker image, runs `start.sh` (migrations + uvicorn), health check at `/health` passes, service goes live.
+
+### What went wrong
+**`celerybeat-schedule` file committed to git.** Celery beat creates a local file (`celerybeat-schedule` or `celerybeat-schedule.db`) to persist its schedule state across restarts. It's a binary runtime artifact that should never be in version control. Caught it during the initial `git add -A` — added `celerybeat-schedule*` to `.gitignore` and removed it from tracking with `git rm --cached`. Lesson: always review `git status` before committing, especially the first commit of a project — runtime artifacts, `.pyc` files, and local configs sneak in.
+
+**Docker Desktop stopped mid-deployment.** The Docker daemon on the development machine crashed during the rebuild step (Windows `com.docker.service` stopped). This wasn't a code issue — restarting Docker Desktop and re-running `docker compose up -d` resolved it. The code changes were already validated by the test suite running inside the container before the crash, so no rework was needed. Lesson: keep your work committed before doing infrastructure operations, so a Docker crash doesn't lose uncommitted code.
