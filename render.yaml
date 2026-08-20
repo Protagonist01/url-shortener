@@ -1,27 +1,25 @@
 # Render Blueprint — defines all services for the URL shortener.
 # Deploy via: connect this repo to Render, or use `render blueprint deploy`.
 #
-# Services created:
-#   1. web     — FastAPI API (uvicorn, 2 workers)
-#   2. postgres — Managed PostgreSQL 16
-#   3. redis   — Managed Redis
+# After deploying, ONE manual step is needed:
+
+#   1. Go to: dashboard.render.com → New + → Redis → create (free plan, 30MB)
+#   2. Copy the Internal Connection String (looks like: rediss://red-xxxx:6379)
+#   3. Go to your web service's Environment tab and add these 3 env vars:
+#        REDIS_URL             = rediss://red-xxxx:6379
+#        CELERY_BROKER_URL     = rediss://red-xxxx:6379
+#        CELERY_RESULT_BACKEND = rediss://red-xxxx:6379
+#
+# That's it — everything else is automatic. The rate limiter, cache, and
+# click tracking all share the same Redis instance (key prefixes are unique
+# so there are no collisions).
 #
 # Click tracking uses FastAPI BackgroundTasks (CLICK_TRACKING_BACKEND=background_tasks)
-# instead of a Celery worker. This means:
-#   - Clicks are written to the DB by the API process after the 302 is sent.
-#   - No paid Celery worker needed — everything runs on the free tier.
-#   - Less robust than Celery (lost on crash/restart) but fine for a portfolio.
-#
-# To upgrade to Celery (more robust, retries on failure): set
-# CLICK_TRACKING_BACKEND=celery and add a worker service (see BUILD_BOOK Entry 12).
+# so no Celery worker is needed — all features work on the free tier.
 
 databases:
   - name: shortener-db
     databaseName: shortener
-    ipAllowList: []
-    plan: free
-
-  - name: shortener-redis
     ipAllowList: []
     plan: free
 
@@ -42,21 +40,6 @@ services:
       - key: DATABASE_URL
         fromDatabase:
           name: shortener-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: pserv
-          name: shortener-redis
-          property: connectionString
-      - key: CELERY_BROKER_URL
-        fromService:
-          type: pserv
-          name: shortener-redis
-          property: connectionString
-      - key: CELERY_RESULT_BACKEND
-        fromService:
-          type: pserv
-          name: shortener-redis
           property: connectionString
       - key: CLICK_TRACKING_BACKEND
         value: background_tasks
