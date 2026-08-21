@@ -14,6 +14,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 10 — README and architecture diagram](#entry-10--readme-and-architecture-diagram)
 - [Entry 11 — Production deployment: Render, DATABASE_URL normalization, and the Dockerfile split](#entry-11--production-deployment-render-database_url-normalization-and-the-dockerfile-split)
 - [Entry 12 — Free-tier fallback: BackgroundTasks when Celery is too expensive](#entry-12--free-tier-fallback-backgroundtasks-when-celery-is-too-expensive)
+- [Entry 13 — UI redesign: the "paper & ink" theme and why every interaction got a state](#entry-13--ui-redesign-the-paper--ink-theme-and-why-every-interaction-got-a-state)
 
 ---
 
@@ -1005,3 +1006,45 @@ async def redirect(
 
 ### What went wrong
 Nothing broke. The implementation was clean because the GeoIP service already had a well-defined interface — adding an async variant was a 15-line addition. The only subtlety was the session lifecycle: the first attempt used the request's `db` session, which was already closed by the time the background task ran. The error was `StatementError: Object is not bound to a Session`. Diagnosis: the background task runs *after* FastAPI's dependency cleanup, which closes the request's session. Fix: create a new `SessionLocal()` inside the background task function. This is a general pattern for BackgroundTasks that touch the DB — never share the request's session, always create your own.
+
+---
+
+## Entry 13 — UI redesign: the "paper & ink" theme and why every interaction got a state
+**Files touched:** `app/static/index.html`
+
+### Context
+The original UI was a competent but generic light theme: Tailwind-default blue (`#3b82f6`), DM Sans, flat `#fafafa` background. It looked like every other tool built from the same defaults - nothing about it said "SnipURL". The goal for the redesign: keep 100% of the existing API contract and JS logic shape, but give the page an actual point of view, and close the UX gaps (no loading states, browser `confirm()` dialogs, no keyboard support, toasts without icons).
+
+### Before you read on
+You have a single-file HTML app where all styling flows through ~15 CSS variables. Before reading further: what aesthetic actually fits a tool named *Snip*URL whose core gesture is "paste, cut, share"? Sketch two directions - one dark/technical, one warm/tactile - and decide which one survives contact with QR codes (which need a white box) and analytics charts (which need readable grids).
+
+### Options considered
+- **Dark developer-tool theme** (near-black, neon accent) - rejected: QR codes force a white box that glares against a dark page, and analytics modals become low-contrast squinting exercises.
+- **Generic SaaS light theme v2** (new blue, more whitespace) - rejected as sideways motion; still indistinguishable from a thousand dashboards.
+- **Chosen: warm "paper & ink" atelier theme** - cream paper background with subtle SVG grain, deep pine-green primary, amber accents, Fraunces serif display type. The name *Snip* evokes scissors/craft/stationery; the palette leans into it instead of fighting it.
+
+### Why
+Three reasons this direction wins:
+
+1. **Contrast hierarchy is physical, not just color.** Ink-on-paper is the most legible metaphor there is. Pine green (`#216B47`) on cream passes contrast comfortably while being instantly distinct from default-blue tools.
+2. **The serif display font earns the brand.** Fraunces (with its optical-size axis) gives the hero and section headings an editorial voice; Instrument Sans handles UI text; IBM Plex Mono marks anything machine-generated (short codes, aliases, table headers). Three fonts, three jobs, no overlap.
+3. **Every state now has a designed answer.** The old UI had exactly two interaction states (idle, error-toast). The redesign adds: button loading spinners ("Snipping…"), copy-button confirmation swaps, spinning refresh icon, pulsing health pill with ok/warn/offline variants, skeleton-free but explicit "Loading…" row, count chips, and empty states with an icon.
+
+### How to build it
+
+**Step 1: Tokenize the palette first.** Everything hangs off `:root` variables - `--paper`, `--surface`, `--pine`, `--amber`, plus shadow/radius/easing tokens including a shared `--ease: cubic-bezier(.22,1,.36,1)` so all motion feels like one hand wrote it.
+
+**Step 2: Atmosphere before components.** Two fixed pseudo-layers sit under everything: an inline-SVG `feTurbulence` noise texture at 5% opacity (multiply blend), and two blurred radial glows (green top-left, amber top-right). This costs zero requests and turns a flat background into a lit surface.
+
+**Step 3: Motion with restraint.** One orchestrated load sequence (hero → form → table, staggered via `animation-delay`), one signature moment (the amber underline draws itself under the italic *Share.* via stroke-dashoffset), and micro-transitions everywhere else. Modals animate opacity+visibility on the overlay and transform on the panel so both can transition (you can't transition `display:none`). A `prefers-reduced-motion` block flattens all of it.
+
+**Step 4: Replace browser chrome with in-page chrome.** `confirm()` became a custom overlay reusing the modal system (`askDelete()` stores the pending id, `reallyDelete()` executes). Toasts became dark ink cards with check/x icon chips and a shrinking progress bar timed to the auto-dismiss.
+
+**Step 5: Keyboard support.** `/` focuses the URL input (guarded so it doesn't fire while typing in inputs, hinted by a kbd chip shown only when the field is empty via `:placeholder-shown`-style focus rules); Escape closes any open overlay.
+
+**Step 6: Harden the render path.** Row templates now escape interpolated values (`esc()` helper) before dropping them into `title="..."` attributes - a long URL containing a quote previously broke the attribute silently.
+
+**Verification:** extracted the inline `<script>` and ran `node --check` (syntax OK); parsed the HTML with Python's `html.parser` tag-balance checker (no mismatches, nothing unclosed); API contract unchanged - same endpoints, same payloads, same localStorage keys.
+
+### What went wrong
+Two self-inflicted bugs during the rewrite. First, the `esc()` helper was written with `.replace(/"/g:'&quot;'` - colon instead of comma - which `node --check` caught immediately; lesson: always syntax-check template-heavy inline JS rather than eyeballing it. Second, the result panel's entrance animation only plays when `display` toggles, so re-snipping another link within the same page life wouldn't replay it; fixed by forcing a reflow between hide and show (`el.style.display='none'; void el.offsetWidth; el.style.display='block'`) - the standard trick for restarting a CSS animation.

@@ -1,0 +1,16 @@
+name: Keep Render Service Awake
+
+on:
+  schedule:
+    # Runs every 10 minutes (UTC) to keep Render free tier service active
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping:
+    name: Ping Health Endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send HTTP request to /health
+        run: |
+          curl -s -f -m 30 https://url-shortener-api-9rw4.onrender.com/health || echo "Ping failed or timed out"
