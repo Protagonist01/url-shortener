@@ -13,4 +13,4 @@ jobs:
     steps:
       - name: Send HTTP request to /health
         run: |
-          curl -s -f -m 30 https://url-shortener-api-9rw4.onrender.com/health || echo "Ping failed or timed out"
+          curl -s -f -m 30 https://snipurl.onrender.com/health || echo "Ping failed or timed out"

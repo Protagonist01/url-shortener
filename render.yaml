@@ -28,7 +28,7 @@ services:
     plan: free
 
   - type: web
-    name: url-shortener-api
+    name: snipurl
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
@@ -62,7 +62,7 @@ services:
       - key: CLICK_TRACKING_BACKEND
         value: background_tasks
       - key: SHORT_URL_BASE
-        value: https://url-shortener-api-9rw4.onrender.com
+        value: https://snipurl.onrender.com
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "10080"
       - key: CACHE_TTL_SECONDS
