@@ -110,8 +110,8 @@
 
     .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px;box-shadow:var(--sh-md)}
     .shorten-card{margin-bottom:40px;border-radius:var(--r-xl)}
-    .input-row{display:flex;gap:10px;margin-bottom:12px}
-    .inp-wrap{flex:1;position:relative}
+    .shorten-form{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"input btn" "alias alias";gap:12px 10px}
+    .inp-wrap{position:relative;grid-area:input}
     .inp-wrap input{
       width:100%;height:50px;padding:0 52px 0 18px;border:1px solid var(--border-strong);
       border-radius:14px;font:inherit;font-size:.95rem;outline:none;background:var(--surface);
@@ -126,8 +126,8 @@
       pointer-events:none;transition:opacity .15s;
     }
     .inp-wrap:focus-within .kbd-hint{opacity:0}
-    .go-btn{height:50px;padding:0 22px;font-size:.94rem;border-radius:14px;letter-spacing:.01em}
-    .alias-row{display:flex;align-items:center;gap:10px}
+    .go-btn{grid-area:btn;height:50px;padding:0 22px;font-size:.94rem;border-radius:14px;letter-spacing:.01em}
+    .alias-row{display:flex;align-items:center;gap:10px;grid-area:alias}
     .alias-box{
       display:flex;align-items:center;border:1px solid var(--border-strong);border-radius:12px;
       padding:0 14px;flex:1;height:46px;background:var(--surface);transition:border-color .18s,box-shadow .18s;
@@ -260,10 +260,9 @@
 
     @media(max-width:620px){
       .hero{padding:42px 0 30px}
-      .input-row{flex-direction:column}
+      .shorten-form{grid-template-columns:1fr;grid-template-areas:"input" "alias" "btn"}
       .kbd-hint{display:none}
       .go-btn{width:100%}
-      .alias-row{flex-direction:column}
       .alias-box{width:100%}
       th,td{padding:11px 12px}
       .td-orig{max-width:150px}
@@ -309,16 +308,10 @@
   </section>
 
   <section class="card shorten-card rise d2">
-    <form onsubmit="shorten(event)">
-      <div class="input-row">
-        <div class="inp-wrap">
-          <input type="url" id="urlIn" placeholder="https://paste-your-long-link-here.com/…" required autocomplete="off" spellcheck="false" autocapitalize="off">
-          <span class="kbd-hint">/</span>
-        </div>
-        <button type="submit" id="goBtn" class="btn btn-blue go-btn">
-          <span>Snip it</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </button>
+    <form class="shorten-form" onsubmit="shorten(event)">
+      <div class="inp-wrap">
+        <input type="url" id="urlIn" placeholder="https://paste-your-long-link-here.com/…" required autocomplete="off" spellcheck="false" autocapitalize="off">
+        <span class="kbd-hint">/</span>
       </div>
       <div class="alias-row">
         <div class="alias-box">
@@ -326,6 +319,10 @@
           <input type="text" id="aliasIn" placeholder="custom alias — optional" pattern="[0-9A-Za-z_-]{1,16}" title="Up to 16 characters: letters, numbers, dashes, underscores" autocapitalize="off" spellcheck="false">
         </div>
       </div>
+      <button type="submit" id="goBtn" class="btn btn-blue go-btn">
+        <span>Snip it</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
     </form>
 
     <div class="result" id="result" role="status" style="display:none">

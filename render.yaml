@@ -62,7 +62,7 @@ services:
       - key: CLICK_TRACKING_BACKEND
         value: background_tasks
       - key: SHORT_URL_BASE
-        value: https://snipurl.onrender.com
+        value: https://snipurl-f23p.onrender.com
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "10080"
       - key: CACHE_TTL_SECONDS
