@@ -217,7 +217,7 @@
         <h3>Analytics</h3>
         <span class="mono" style="font-size:.82rem;color:var(--text-3)" id="anCode"></span>
       </div>
-      <button class="modal-close" onclick="close('analyticsOv')">&times;</button>
+      <button class="modal-close" onclick="closeModal('analyticsOv')">&times;</button>
     </div>
     <div class="modal-body">
       <div class="stats">
@@ -239,7 +239,7 @@
   <div class="modal modal-sm">
     <div class="modal-head">
       <h3>QR Code</h3>
-      <button class="modal-close" onclick="close('qrOv')">&times;</button>
+      <button class="modal-close" onclick="closeModal('qrOv')">&times;</button>
     </div>
     <div class="modal-body">
       <div class="qr-wrap">
@@ -256,7 +256,7 @@
   <div class="modal modal-sm">
     <div class="modal-head">
       <h3 id="authTitle">Sign in</h3>
-      <button class="modal-close" onclick="close('authOv')">&times;</button>
+      <button class="modal-close" onclick="closeModal('authOv')">&times;</button>
     </div>
     <div class="modal-body">
       <div class="tabs">
@@ -426,12 +426,12 @@ async function authSubmit(e){
       const ld=await lr.json();token=ld.access_token;
     }else{token=d.access_token}
     user={email};localStorage.setItem('snip_t',token);localStorage.setItem('snip_u',JSON.stringify(user));
-    close('authOv');updateNav();loadUrls();toast(`Welcome, ${email}!`);
+    closeModal('authOv');updateNav();loadUrls();toast(`Welcome, ${email}!`);
   }catch(err){toast(err.message,false)}
   finally{btn.disabled=false;btn.textContent=authMode==='login'?'Sign in':'Create account'}
 }
 
-function close(id){document.getElementById(id).classList.remove('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
 window.onclick=e=>{if(e.target.classList.contains('overlay'))e.target.classList.remove('open')};
 </script>
 </body>
