@@ -2,7 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.api import analytics, auth, redirect, urls
@@ -47,6 +48,8 @@ Instrumentator(
     excluded_handlers=["/metrics"],
 ).instrument(app).expose(app, endpoint="/metrics")
 
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
 app.include_router(auth.router)
 app.include_router(urls.router)
 app.include_router(analytics.router)
@@ -58,8 +61,8 @@ async def health() -> dict:
 
 
 @app.get("/", include_in_schema=False)
-async def root() -> RedirectResponse:
-    return RedirectResponse(url="/docs")
+async def root():
+    return FileResponse("app/static/index.html")
 
 
 # redirect router LAST: it matches /{short_code} which would otherwise
