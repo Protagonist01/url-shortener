@@ -3,1572 +3,436 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SnipURL — Modern High-Performance URL Shortener & Analytics</title>
-  
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <title>SnipURL — URL Shortener</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Chart.js for Analytics -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  
-  <!-- QRCode.js for QR Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
   <style>
-    :root {
-      --bg-primary: #07080d;
-      --bg-secondary: #0e111a;
-      --bg-card: rgba(18, 22, 36, 0.75);
-      --bg-card-hover: rgba(25, 30, 48, 0.85);
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(99, 102, 241, 0.6);
-      
-      --accent-indigo: #6366f1;
-      --accent-indigo-light: #818cf8;
-      --accent-cyan: #06b6d4;
-      --accent-emerald: #10b981;
-      --accent-rose: #f43f5e;
-      --accent-amber: #f59e0b;
-      
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --radius-full: 9999px;
-      
-      --shadow-glow: 0 0 35px -5px rgba(99, 102, 241, 0.25);
-      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#fafafa;--surface:#fff;--surface-alt:#f4f4f5;
+      --border:#e4e4e7;--border-focus:#3b82f6;
+      --text:#18181b;--text-2:#52525b;--text-3:#a1a1aa;
+      --blue:#3b82f6;--blue-light:#eff6ff;--blue-dark:#2563eb;
+      --green:#22c55e;--green-light:#f0fdf4;
+      --red:#ef4444;--red-light:#fef2f2;
+      --radius:10px;--radius-lg:14px;
     }
+    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    .mono{font-family:'DM Mono',monospace}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Ambient Background Glows */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 700px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 70%);
-      filter: blur(60px);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -100px;
-      right: -100px;
-      width: 500px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
-      filter: blur(50px);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    /* Layout */
+    .wrap{max-width:720px;margin:0 auto;padding:0 20px;width:100%}
 
     /* Header */
-    header {
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border-color);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(7, 8, 13, 0.8);
-    }
-
-    .nav-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.25rem;
-      text-decoration: none;
-      color: var(--text-primary);
-      letter-spacing: -0.5px;
-    }
-
-    .logo-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.1rem;
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
-    }
-
-    .logo span {
-      background: linear-gradient(90deg, #fff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: var(--radius-full);
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--accent-emerald);
-      border: 1px solid rgba(16, 185, 129, 0.2);
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: var(--accent-emerald);
-      box-shadow: 0 0 8px var(--accent-emerald);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      border: none;
-      font-family: inherit;
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-secondary);
-      border: 1px solid var(--border-color);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-primary);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-indigo), #4f46e5);
-      color: white;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
-    }
-
-    .btn-accent {
-      background: linear-gradient(135deg, var(--accent-emerald), #059669);
-      color: white;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      border-radius: 6px;
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 56px 0 36px;
-    }
-
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: var(--radius-full);
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--accent-indigo-light);
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      letter-spacing: -1.2px;
-      line-height: 1.15;
-      margin-bottom: 16px;
-      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    /* Shortener Form Card */
-    .shortener-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      box-shadow: var(--shadow-card), var(--shadow-glow);
-      backdrop-filter: blur(16px);
-      margin: 28px 0;
-      transition: border-color 0.3s ease;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .input-icon {
-      position: absolute;
-      left: 18px;
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      pointer-events: none;
-    }
-
-    .main-input {
-      width: 100%;
-      padding: 16px 18px 16px 50px;
-      border-radius: var(--radius-md);
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      font-size: 1.05rem;
-      font-family: inherit;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .main-input:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    }
-
-    .main-input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .form-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .custom-alias-wrapper {
-      display: flex;
-      align-items: center;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 0 14px;
-      flex: 1;
-      min-width: 260px;
-      transition: border-color 0.2s ease;
-    }
-
-    .custom-alias-wrapper:focus-within {
-      border-color: var(--border-focus);
-    }
-
-    .alias-prefix {
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      white-space: nowrap;
-      user-select: none;
-    }
-
-    .alias-input {
-      background: transparent;
-      border: none;
-      padding: 12px 8px;
-      color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.92rem;
-      outline: none;
-      width: 100%;
-    }
-
-    .submit-btn {
-      padding: 14px 32px;
-      font-size: 1rem;
-      border-radius: var(--radius-sm);
-    }
-
-    /* Result Box */
-    .result-card {
-      display: none;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.06));
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      margin-top: 24px;
-      animation: fadeInDown 0.35s ease forwards;
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .result-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .result-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--accent-emerald);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .result-content {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 14px 18px;
-    }
-
-    .result-url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--accent-cyan);
-      word-break: break-all;
-      text-decoration: none;
-    }
-
-    .result-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    /* Dashboard & Tabs */
-    .dashboard-section {
-      margin: 40px 0;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .links-table-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow-card);
-    }
-
-    .links-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-
-    .links-table th {
-      padding: 14px 20px;
-      background: rgba(255, 255, 255, 0.02);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .links-table td {
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 0.92rem;
-      vertical-align: middle;
-    }
-
-    .links-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .links-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .short-link-cell {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
-      color: var(--accent-indigo-light);
-      text-decoration: none;
-    }
-
-    .orig-link-cell {
-      max-width: 260px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-    }
-
-    .actions-cell {
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-
-    .btn-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-color);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 0.85rem;
-    }
-
-    .btn-icon:hover {
-      background: rgba(99, 102, 241, 0.15);
-      color: var(--accent-indigo-light);
-      border-color: rgba(99, 102, 241, 0.3);
-    }
-
-    .btn-icon.danger:hover {
-      background: rgba(244, 63, 94, 0.15);
-      color: var(--accent-rose);
-      border-color: rgba(244, 63, 94, 0.3);
-    }
-
-    .empty-state {
-      padding: 48px 24px;
-      text-align: center;
-      color: var(--text-muted);
-    }
-
-    .empty-state i {
-      font-size: 2.5rem;
-      margin-bottom: 12px;
-      opacity: 0.5;
-    }
-
-    /* Analytics Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 680px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-card);
-      position: relative;
-      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes modalPop {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-
-    .close-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .close-btn:hover {
-      color: var(--text-primary);
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    /* Analytics Grid Stats */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      text-align: center;
-    }
-
-    .stat-val {
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .stat-lbl {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    .chart-container {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      height: 220px;
-      margin-bottom: 24px;
-    }
-
-    .breakdown-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .breakdown-box {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 14px;
-    }
-
-    .breakdown-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .pill-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 120px;
-      overflow-y: auto;
-    }
-
-    .pill-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      padding: 4px 8px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 4px;
-    }
-
-    /* QR Code Box */
-    .qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      padding: 20px;
-      background: white;
-      border-radius: var(--radius-md);
-      width: fit-content;
-      margin: 0 auto;
-    }
-
-    /* Auth Modal Tabs */
-    .auth-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 20px;
-    }
-
-    .auth-tab {
-      flex: 1;
-      text-align: center;
-      padding: 12px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-    }
-
-    .auth-tab.active {
-      color: var(--accent-indigo-light);
-      border-bottom-color: var(--accent-indigo);
-    }
-
-    .auth-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      font-size: 0.95rem;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .input-field:focus {
-      border-color: var(--border-focus);
-    }
-
-    /* Toast Notification */
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    }
-
-    .toast {
-      background: rgba(18, 22, 36, 0.95);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      padding: 12px 20px;
-      border-radius: var(--radius-sm);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(12px);
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      pointer-events: auto;
-    }
-
-    .toast.success { border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7; }
-    .toast.error { border-color: rgba(244, 63, 94, 0.4); color: #fda4af; }
-
-    @keyframes toastIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:56px}
+    .logo{font-weight:700;font-size:1.15rem;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:7px}
+    .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .pill{font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:5px}
+    .pill-green{background:var(--green-light);color:#16a34a}
+    .pill-green::before{content:'';width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 2s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font:inherit;font-size:.875rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-2);transition:all .15s}
+    .btn:hover{border-color:#d4d4d8;background:var(--surface-alt)}
+    .btn-blue{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 1px 2px rgba(59,130,246,.25)}
+    .btn-blue:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
+    .btn-sm{padding:5px 10px;font-size:.8rem}
+    .btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:8px}
+    .btn-red:hover{border-color:var(--red);color:var(--red);background:var(--red-light)}
+
+    /* Hero */
+    .hero{text-align:center;padding:48px 0 32px}
+    .hero h1{font-size:2rem;font-weight:700;letter-spacing:-.5px;line-height:1.2;margin-bottom:8px}
+    .hero p{color:var(--text-2);font-size:1rem;max-width:420px;margin:0 auto}
+
+    /* Card */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+
+    /* Shortener Form */
+    .shorten-card{margin-bottom:32px}
+    .input-row{display:flex;gap:10px;margin-bottom:12px}
+    .input-row input[type=url]{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius);font:inherit;font-size:.95rem;outline:none;background:var(--surface);transition:border .15s}
+    .input-row input:focus{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+    .alias-row{display:flex;align-items:center;gap:10px}
+    .alias-box{display:flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius);padding:0 12px;flex:1;background:var(--surface);transition:border .15s}
+    .alias-box:focus-within{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+    .alias-box span{color:var(--text-3);font-size:.85rem;white-space:nowrap}
+    .alias-box input{border:none;outline:none;padding:9px 6px;font:inherit;font-size:.85rem;background:transparent;width:100%;color:var(--text)}
+
+    /* Result */
+    .result{display:none;margin-top:16px;background:var(--blue-light);border:1px solid #bfdbfe;border-radius:var(--radius);padding:14px 16px;animation:slideIn .25s ease}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .result-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .result a{font-weight:600;color:var(--blue-dark);text-decoration:none;word-break:break-all}
+    .result a:hover{text-decoration:underline}
+    .result-btns{display:flex;gap:6px;flex-shrink:0}
+
+    /* Table */
+    .section{margin-bottom:40px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .section-head h2{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+    table{width:100%;border-collapse:collapse;text-align:left}
+    th{padding:10px 14px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-3);border-bottom:1px solid var(--border)}
+    td{padding:12px 14px;border-bottom:1px solid var(--surface-alt);font-size:.88rem;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:var(--surface-alt)}
+    .td-code a{font-weight:600;color:var(--blue);text-decoration:none}
+    .td-code a:hover{text-decoration:underline}
+    .td-orig{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-2);font-size:.82rem}
+    .td-acts{display:flex;gap:4px;justify-content:flex-end}
+    .empty{padding:40px;text-align:center;color:var(--text-3);font-size:.9rem}
+
+    /* Modal */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:100;align-items:center;justify-content:center;padding:16px}
+    .overlay.open{display:flex}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:520px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.12);animation:pop .2s ease}
+    @keyframes pop{from{transform:scale(.97);opacity:0}to{transform:scale(1);opacity:1}}
+    .modal-sm{max-width:360px}
+    .modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .modal-head h3{font-size:1.05rem;font-weight:700}
+    .modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-3);line-height:1}
+    .modal-close:hover{color:var(--text)}
+    .modal-body{padding:20px}
+
+    /* Stats */
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+    .stat{background:var(--surface-alt);border-radius:var(--radius);padding:14px;text-align:center}
+    .stat-n{font-size:1.4rem;font-weight:700}
+    .stat-l{font-size:.72rem;color:var(--text-3);text-transform:uppercase;font-weight:600;margin-top:2px}
+    .chart-box{background:var(--surface-alt);border-radius:var(--radius);padding:14px;height:200px;margin-bottom:16px}
+    .countries-box{background:var(--surface-alt);border-radius:var(--radius);padding:14px}
+    .countries-title{font-size:.75rem;font-weight:700;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+    .country-row{display:flex;justify-content:space-between;padding:4px 0;font-size:.85rem}
+    .country-row span:last-child{font-weight:600;color:var(--blue)}
+
+    /* QR */
+    .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+    .qr-box{background:#fff;padding:16px;border-radius:var(--radius);border:1px solid var(--border)}
+    .qr-label{font-size:.82rem;color:var(--text-2);word-break:break-all;text-align:center}
+
+    /* Auth */
+    .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+    .tab{flex:1;text-align:center;padding:10px;background:none;border:none;font:inherit;font-weight:600;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+    .tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+    .field{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font:inherit;font-size:.9rem;outline:none;margin-bottom:12px}
+    .field:focus{border-color:var(--border-focus)}
+
+    /* Toast */
+    .toasts{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{background:var(--surface);border:1px solid var(--border);padding:10px 16px;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.1);font-size:.85rem;display:flex;align-items:center;gap:8px;animation:toastIn .2s ease;pointer-events:auto}
+    .toast.ok{border-color:#86efac;color:#16a34a}
+    .toast.err{border-color:#fca5a5;color:var(--red)}
+    @keyframes toastIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
 
     /* Footer */
-    footer {
-      margin-top: auto;
-      border-top: 1px solid var(--border-color);
-      padding: 28px 0;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    footer{margin-top:auto;padding:20px;text-align:center;font-size:.78rem;color:var(--text-3);border-top:1px solid var(--border)}
+    .badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .badge{font-size:.7rem;padding:2px 8px;background:var(--surface-alt);border-radius:99px;color:var(--text-2)}
 
-    .tech-stack-badges {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .tech-badge {
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-full);
-      color: var(--text-secondary);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2.2rem; }
-      .breakdown-row { grid-template-columns: 1fr; }
-      .form-options { flex-direction: column; align-items: stretch; }
-      .submit-btn { width: 100%; }
-      .orig-link-cell { max-width: 140px; }
+    @media(max-width:600px){
+      .hero h1{font-size:1.5rem}
+      .input-row{flex-direction:column}
+      .alias-row{flex-direction:column}
+      .stats{grid-template-columns:1fr 1fr}
+      .td-orig{max-width:120px}
     }
   </style>
 </head>
 <body>
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
+<div class="toasts" id="toasts"></div>
 
-  <!-- Header -->
-  <header>
-    <div class="container nav-wrapper">
-      <a href="/" class="logo">
-        <div class="logo-icon">
-          <i class="fa-solid fa-bolt"></i>
+<header>
+  <div class="wrap nav">
+    <a href="/" class="logo"><span class="logo-dot"></span> SnipURL</a>
+    <div class="nav-right">
+      <span class="pill pill-green" id="statusPill">Online</span>
+      <a href="/docs" target="_blank" class="btn btn-sm">API Docs</a>
+      <div id="authNav">
+        <button class="btn btn-sm" onclick="openAuth('login')">Log in</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>Shorten any link, instantly</h1>
+    <p>Create short, trackable URLs with built-in analytics and QR codes. No sign-up required.</p>
+  </section>
+
+  <section class="card shorten-card">
+    <form onsubmit="shorten(event)">
+      <div class="input-row">
+        <input type="url" id="urlIn" placeholder="Paste a long URL here..." required autocomplete="off">
+        <button type="submit" id="goBtn" class="btn btn-blue">Shorten</button>
+      </div>
+      <div class="alias-row">
+        <div class="alias-box">
+          <span class="mono">snipurl/</span>
+          <input type="text" id="aliasIn" placeholder="custom alias (optional)" pattern="^[0-9A-Za-z_-]{1,16}$" class="mono">
         </div>
-        <span>SnipURL</span>
-      </a>
-      
-      <div class="nav-actions">
-        <div class="status-badge" id="apiStatusBadge">
-          <div class="status-dot"></div>
-          <span id="apiStatusText">API Online</span>
-        </div>
-        
-        <a href="/docs" target="_blank" class="btn btn-ghost">
-          <i class="fa-solid fa-code"></i>
-          <span>API Docs</span>
-        </a>
-        
-        <div id="authNavContainer">
-          <button class="btn btn-ghost" onclick="openAuthModal('login')">
-            <i class="fa-solid fa-user"></i>
-            <span>Log In</span>
-          </button>
+      </div>
+    </form>
+
+    <div class="result" id="result">
+      <div class="result-row">
+        <a href="#" id="resultUrl" target="_blank" class="mono"></a>
+        <div class="result-btns">
+          <button class="btn btn-sm btn-blue" onclick="copyResult()" id="copyBtn">Copy</button>
+          <button class="btn btn-sm" onclick="openQr()">QR</button>
+          <button class="btn btn-sm" onclick="openAnalytics(curCode)">Stats</button>
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <!-- Main Container -->
-  <main class="container">
-    
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-pill">
-        <i class="fa-solid fa-sparkles"></i>
-        <span>Lightning Fast Redis Caching + Async Analytics</span>
+  <section class="section">
+    <div class="section-head">
+      <h2 id="tableTitle">Recent links</h2>
+      <button class="btn btn-sm" onclick="loadUrls()">↻ Refresh</button>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table>
+        <thead><tr><th>Short</th><th>Destination</th><th>Date</th><th style="text-align:right">Actions</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- Analytics Modal -->
+<div class="overlay" id="analyticsOv">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3>Analytics</h3>
+        <span class="mono" style="font-size:.82rem;color:var(--text-3)" id="anCode"></span>
       </div>
-      <h1>Shorten Links. Analyze Clicks. Scale Effortlessly.</h1>
-      <p>Transform unwieldy URLs into high-speed, branded short links with built-in geo-location, referrer analytics, and instant QR generation.</p>
-    </section>
+      <button class="modal-close" onclick="close('analyticsOv')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="stats">
+        <div class="stat"><div class="stat-n" id="anTotal">0</div><div class="stat-l">Total</div></div>
+        <div class="stat"><div class="stat-n" id="an24h">0</div><div class="stat-l">24h</div></div>
+        <div class="stat"><div class="stat-n" id="an7d">0</div><div class="stat-l">7 days</div></div>
+      </div>
+      <div class="chart-box"><canvas id="chart"></canvas></div>
+      <div class="countries-box">
+        <div class="countries-title">Top countries</div>
+        <div id="anCountries"><span style="color:var(--text-3);font-size:.85rem">No data yet</span></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Shortener Input Card -->
-    <section class="shortener-card">
-      <form id="shortenForm" onsubmit="handleShorten(event)" class="form-group">
-        <div class="input-wrapper">
-          <i class="fa-solid fa-link input-icon"></i>
-          <input 
-            type="url" 
-            id="urlInput" 
-            class="main-input" 
-            placeholder="Paste your long link here (e.g. https://github.com/my-awesome-repo)..." 
-            required 
-            autocomplete="off"
-          />
-        </div>
+<!-- QR Modal -->
+<div class="overlay" id="qrOv">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <h3>QR Code</h3>
+      <button class="modal-close" onclick="close('qrOv')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="qr-wrap">
+        <div class="qr-box" id="qrBox"></div>
+        <p class="qr-label mono" id="qrLabel"></p>
+        <button class="btn btn-blue btn-sm" onclick="dlQr()">Download PNG</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="form-options">
-          <div class="custom-alias-wrapper">
-            <span class="alias-prefix">snipurl/</span>
-            <input 
-              type="text" 
-              id="aliasInput" 
-              class="alias-input" 
-              placeholder="custom-alias (optional)" 
-              pattern="^[0-9A-Za-z_-]{1,16}$"
-              title="1-16 alphanumeric characters"
-            />
-          </div>
-
-          <button type="submit" id="submitBtn" class="btn btn-primary submit-btn">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span>Shorten Link</span>
-          </button>
-        </div>
+<!-- Auth Modal -->
+<div class="overlay" id="authOv">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <h3 id="authTitle">Sign in</h3>
+      <button class="modal-close" onclick="close('authOv')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab on" id="tabLogin" onclick="authTab('login')">Sign in</button>
+        <button class="tab" id="tabReg" onclick="authTab('register')">Register</button>
+      </div>
+      <form onsubmit="authSubmit(event)">
+        <input type="email" id="authEmail" class="field" placeholder="Email" required>
+        <input type="password" id="authPass" class="field" placeholder="Password" minlength="8" required>
+        <button type="submit" class="btn btn-blue" style="width:100%" id="authBtn">Sign in</button>
       </form>
-
-      <!-- Result Card -->
-      <div id="resultCard" class="result-card">
-        <div class="result-header">
-          <span class="result-badge">
-            <i class="fa-solid fa-circle-check"></i> Link Ready
-          </span>
-          <span id="createdTimestamp" style="font-size: 0.8rem; color: var(--text-muted);"></span>
-        </div>
-        <div class="result-content">
-          <a href="#" id="resultShortUrl" target="_blank" class="result-url"></a>
-          <div class="result-actions">
-            <button class="btn btn-primary btn-sm" onclick="copyResultUrl()">
-              <i class="fa-solid fa-copy"></i>
-              <span id="copyBtnText">Copy</span>
-            </button>
-            <button class="btn btn-ghost btn-sm" onclick="openQrModal(currentShortCode, currentShortUrl)">
-              <i class="fa-solid fa-qrcode"></i>
-              <span>QR Code</span>
-            </button>
-            <button class="btn btn-ghost btn-sm" onclick="viewAnalytics(currentShortCode)">
-              <i class="fa-solid fa-chart-line"></i>
-              <span>Analytics</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dashboard / History Section -->
-    <section class="dashboard-section">
-      <div class="section-header">
-        <h2 class="section-title">
-          <i class="fa-solid fa-list-check" style="color: var(--accent-indigo-light);"></i>
-          <span id="linksTableHeading">Recently Shortened Links</span>
-        </h2>
-        <button class="btn btn-ghost btn-sm" onclick="loadMyUrls()">
-          <i class="fa-solid fa-rotate-right"></i> Refresh
-        </button>
-      </div>
-
-      <div class="links-table-card">
-        <table class="links-table">
-          <thead>
-            <tr>
-              <th>Short Code</th>
-              <th>Original Destination</th>
-              <th>Created</th>
-              <th style="text-align: right;">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="linksTableBody">
-            <!-- Populated via JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Analytics Modal -->
-  <div class="modal-overlay" id="analyticsModal">
-    <div class="modal">
-      <div class="modal-header">
-        <div>
-          <h3 class="modal-title">Live Analytics</h3>
-          <p id="analyticsShortCode" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-cyan); margin-top: 2px;"></p>
-        </div>
-        <button class="close-btn" onclick="closeModal('analyticsModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-val" id="analyticsTotalClicks">0</div>
-            <div class="stat-lbl">Total Clicks</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" id="analyticsUniqueCountries">0</div>
-            <div class="stat-lbl">Countries</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" id="analyticsTopReferrer">-</div>
-            <div class="stat-lbl">Top Source</div>
-          </div>
-        </div>
-
-        <!-- Chart -->
-        <div class="chart-container">
-          <canvas id="clicksChart"></canvas>
-        </div>
-
-        <!-- Breakdown Details -->
-        <div class="breakdown-row">
-          <div class="breakdown-box">
-            <div class="breakdown-title"><i class="fa-solid fa-globe"></i> Top Countries</div>
-            <div class="pill-list" id="countriesList">
-              <div class="empty-state" style="padding: 12px; font-size: 0.8rem;">No country data yet</div>
-            </div>
-          </div>
-
-          <div class="breakdown-box">
-            <div class="breakdown-title"><i class="fa-solid fa-arrow-up-right-from-square"></i> Top Referrers</div>
-            <div class="pill-list" id="referrersList">
-              <div class="empty-state" style="padding: 12px; font-size: 0.8rem;">No referrer data yet</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
+</div>
 
-  <!-- QR Code Modal -->
-  <div class="modal-overlay" id="qrModal">
-    <div class="modal" style="max-width: 400px; text-align: center;">
-      <div class="modal-header">
-        <h3 class="modal-title">QR Code</h3>
-        <button class="close-btn" onclick="closeModal('qrModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="qr-container">
-          <div id="qrcode"></div>
-        </div>
-        <p id="qrUrlLabel" style="margin: 16px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); word-break: break-all;"></p>
-        <button class="btn btn-primary" onclick="downloadQrCode()">
-          <i class="fa-solid fa-download"></i> Download Image
-        </button>
-      </div>
+<footer>
+  <div class="wrap">
+    SnipURL &mdash; Fast, open-source URL shortener
+    <div class="badges">
+      <span class="badge">FastAPI</span>
+      <span class="badge">PostgreSQL</span>
+      <span class="badge">Redis</span>
+      <span class="badge">Docker</span>
     </div>
   </div>
+</footer>
 
-  <!-- Auth Modal -->
-  <div class="modal-overlay" id="authModal">
-    <div class="modal" style="max-width: 440px;">
-      <div class="modal-header">
-        <h3 class="modal-title" id="authModalTitle">Account Access</h3>
-        <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="auth-tabs">
-          <button class="auth-tab active" id="loginTabBtn" onclick="switchAuthTab('login')">Sign In</button>
-          <button class="auth-tab" id="registerTabBtn" onclick="switchAuthTab('register')">Create Account</button>
-        </div>
+<script>
+let token=ls('snip_t'),user=lsj('snip_u'),hist=lsj('snip_h')||[],curCode='',curUrl='',authMode='login',chartI=null;
+function ls(k){return localStorage.getItem(k)}
+function lsj(k){try{return JSON.parse(ls(k))}catch{return null}}
 
-        <form id="authForm" onsubmit="handleAuthSubmit(event)" class="auth-form">
-          <input type="email" id="authEmail" class="input-field" placeholder="name@company.com" required autocomplete="email" />
-          <input type="password" id="authPassword" class="input-field" placeholder="Password (minimum 8 characters)" minlength="8" required autocomplete="current-password" />
-          <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="margin-top: 8px;">
-            <span id="authSubmitText">Sign In</span>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
+document.addEventListener('DOMContentLoaded',()=>{checkHealth();updateNav();loadUrls()});
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>SnipURL &copy; 2026 — High-Throughput Production URL Shortener</p>
-      <div class="tech-stack-badges">
-        <span class="tech-badge"><i class="fa-brands fa-python"></i> FastAPI</span>
-        <span class="tech-badge"><i class="fa-solid fa-database"></i> PostgreSQL</span>
-        <span class="tech-badge"><i class="fa-solid fa-bolt"></i> Redis Cache</span>
-        <span class="tech-badge"><i class="fa-solid fa-chart-pie"></i> Background Analytics</span>
-        <span class="tech-badge"><i class="fa-brands fa-docker"></i> Docker on Render</span>
-      </div>
-    </div>
-  </footer>
+function toast(m,ok=true){const t=document.getElementById('toasts'),d=document.createElement('div');d.className='toast '+(ok?'ok':'err');d.textContent=m;t.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity .2s';setTimeout(()=>d.remove(),200)},3500)}
 
-  <!-- Application JS Logic -->
-  <script>
-    // State management
-    let currentUser = JSON.parse(localStorage.getItem('snip_user') || 'null');
-    let authToken = localStorage.getItem('snip_token') || null;
-    let localHistory = JSON.parse(localStorage.getItem('snip_history') || '[]');
-    let currentShortCode = '';
-    let currentShortUrl = '';
-    let currentAuthMode = 'login';
-    let chartInstance = null;
+async function checkHealth(){try{const r=await fetch('/health');document.getElementById('statusPill').textContent=r.ok?'Online':'Degraded'}catch{document.getElementById('statusPill').textContent='Offline'}}
 
-    // Initialize App
-    document.addEventListener('DOMContentLoaded', () => {
-      checkHealth();
-      updateAuthUI();
-      loadMyUrls();
-    });
+function updateNav(){
+  const c=document.getElementById('authNav'),h=document.getElementById('tableTitle');
+  if(token&&user){
+    h.textContent='My links';
+    c.innerHTML=`<span style="font-size:.82rem;color:var(--text-2)">${user.email}</span> <button class="btn btn-sm" onclick="logout()">Log out</button>`;
+  }else{
+    h.textContent='Recent links';
+    c.innerHTML=`<button class="btn btn-sm" onclick="openAuth('login')">Log in</button>`;
+  }
+}
 
-    // Toast notifications
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      
-      let icon = 'fa-info-circle';
-      if (type === 'success') icon = 'fa-circle-check';
-      if (type === 'error') icon = 'fa-triangle-exclamation';
+function logout(){localStorage.removeItem('snip_t');localStorage.removeItem('snip_u');token=null;user=null;updateNav();loadUrls();toast('Logged out')}
 
-      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
-      container.appendChild(toast);
+async function shorten(e){
+  e.preventDefault();
+  const url=document.getElementById('urlIn').value.trim(),alias=document.getElementById('aliasIn').value.trim()||undefined,btn=document.getElementById('goBtn');
+  if(!url)return;
+  btn.disabled=true;btn.textContent='...';
+  try{
+    const h={'Content-Type':'application/json'};if(token)h['Authorization']=`Bearer ${token}`;
+    const r=await fetch('/api/urls',{method:'POST',headers:h,body:JSON.stringify({original_url:url,custom_code:alias})});
+    const d=await r.json();if(!r.ok)throw new Error(d.detail||'Error');
+    curCode=d.short_code;curUrl=d.short_url;
+    const el=document.getElementById('result'),a=document.getElementById('resultUrl');
+    a.href=d.short_url;a.textContent=d.short_url;el.style.display='block';
+    toast('Link created!');
+    if(!token){hist=[d,...hist.filter(i=>i.short_code!==d.short_code)].slice(0,20);localStorage.setItem('snip_h',JSON.stringify(hist))}
+    document.getElementById('urlIn').value='';document.getElementById('aliasIn').value='';loadUrls();
+  }catch(err){toast(err.message,false)}
+  finally{btn.disabled=false;btn.textContent='Shorten'}
+}
 
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        toast.style.transition = 'all 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
-    }
+function copyResult(){if(!curUrl)return;navigator.clipboard.writeText(curUrl);const b=document.getElementById('copyBtn');b.textContent='Copied!';toast('Copied!');setTimeout(()=>b.textContent='Copy',1500)}
+function copyText(t){navigator.clipboard.writeText(t);toast('Copied!')}
 
-    // Health check
-    async function checkHealth() {
-      try {
-        const res = await fetch('/health');
-        if (res.ok) {
-          document.getElementById('apiStatusText').textContent = 'API Online';
-        } else {
-          document.getElementById('apiStatusText').textContent = 'Degraded';
-        }
-      } catch (err) {
-        document.getElementById('apiStatusText').textContent = 'Offline';
-      }
-    }
+async function loadUrls(){
+  const tb=document.getElementById('tbody');tb.innerHTML='';
+  if(token){
+    try{const r=await fetch('/api/urls',{headers:{'Authorization':`Bearer ${token}`}});if(r.ok){render(await r.json(),true);return}}catch{}
+  }
+  render(hist,false);
+}
 
-    // Auth state UI
-    function updateAuthUI() {
-      const container = document.getElementById('authNavContainer');
-      const heading = document.getElementById('linksTableHeading');
+function render(urls,owner){
+  const tb=document.getElementById('tbody');
+  if(!urls||!urls.length){tb.innerHTML='<tr><td colspan="4"><div class="empty">No links yet. Shorten one above!</div></td></tr>';return}
+  tb.innerHTML=urls.map(u=>{
+    const su=u.short_url||`${location.origin}/${u.short_code}`,dt=new Date(u.created_at).toLocaleDateString();
+    return `<tr>
+      <td class="td-code"><a href="${su}" target="_blank" class="mono">${u.short_code}</a></td>
+      <td><div class="td-orig" title="${u.original_url}">${u.original_url}</div></td>
+      <td style="color:var(--text-3);font-size:.82rem">${dt}</td>
+      <td><div class="td-acts">
+        <button class="btn-icon btn" onclick="copyText('${su}')" title="Copy">⧉</button>
+        <button class="btn-icon btn" onclick="openQrFor('${u.short_code}','${su}')" title="QR">⊞</button>
+        <button class="btn-icon btn" onclick="openAnalytics('${u.short_code}')" title="Stats">◔</button>
+        ${owner?`<button class="btn-icon btn btn-red" onclick="delUrl(${u.id})" title="Delete">✕</button>`:''}
+      </div></td></tr>`;
+  }).join('');
+}
 
-      if (authToken && currentUser) {
-        heading.textContent = 'My Managed Links';
-        container.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.85rem; color: var(--text-secondary);"><i class="fa-solid fa-circle-user"></i> ${currentUser.email}</span>
-            <button class="btn btn-ghost btn-sm" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-          </div>
-        `;
-      } else {
-        heading.textContent = 'Recently Shortened Links (Local)';
-        container.innerHTML = `
-          <button class="btn btn-ghost" onclick="openAuthModal('login')">
-            <i class="fa-solid fa-user"></i>
-            <span>Log In</span>
-          </button>
-        `;
-      }
-    }
+async function delUrl(id){
+  if(!confirm('Delete this link?'))return;
+  try{const r=await fetch(`/api/urls/${id}`,{method:'DELETE',headers:{'Authorization':`Bearer ${token}`}});if(r.ok){toast('Deleted');loadUrls()}else toast('Failed',false)}catch{toast('Error',false)}
+}
 
-    function handleLogout() {
-      localStorage.removeItem('snip_token');
-      localStorage.removeItem('snip_user');
-      authToken = null;
-      currentUser = null;
-      updateAuthUI();
-      loadMyUrls();
-      showToast('Logged out successfully', 'info');
-    }
+async function openAnalytics(code){
+  document.getElementById('anCode').textContent='/'+code;
+  document.getElementById('analyticsOv').classList.add('open');
+  try{
+    const r=await fetch(`/api/analytics/${code}`);if(!r.ok)throw new Error('Not found');
+    const d=await r.json();
+    document.getElementById('anTotal').textContent=d.total_clicks||0;
+    document.getElementById('an24h').textContent=d.last_24h||0;
+    document.getElementById('an7d').textContent=d.last_7d||0;
+    drawChart(d.timeseries||[]);
+    drawCountries(d.top_countries||[]);
+  }catch(err){toast(err.message,false)}
+}
 
-    // Shorten Form Submission
-    async function handleShorten(e) {
-      e.preventDefault();
-      const urlInput = document.getElementById('urlInput');
-      const aliasInput = document.getElementById('aliasInput');
-      const submitBtn = document.getElementById('submitBtn');
+function drawChart(ts){
+  const ctx=document.getElementById('chart').getContext('2d');
+  const labels=ts.map(p=>new Date(p.bucket).toLocaleDateString('en',{month:'short',day:'numeric'}));
+  const data=ts.map(p=>p.clicks);
+  if(chartI)chartI.destroy();
+  chartI=new Chart(ctx,{
+    type:'bar',
+    data:{labels:labels.length?labels:['No data'],datasets:[{label:'Clicks',data:data.length?data:[0],backgroundColor:'rgba(59,130,246,.18)',borderColor:'#3b82f6',borderWidth:1.5,borderRadius:6,barPercentage:.6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#a1a1aa'}},y:{beginAtZero:true,grid:{color:'#f4f4f5'},ticks:{font:{family:'DM Mono',size:11},color:'#a1a1aa',stepSize:1}}}}
+  });
+}
 
-      const original_url = urlInput.value.trim();
-      const custom_alias = aliasInput.value.trim() || undefined;
+function drawCountries(cs){
+  const el=document.getElementById('anCountries');
+  if(!cs||!cs.length){el.innerHTML='<span style="color:var(--text-3);font-size:.85rem">No data yet</span>';return}
+  el.innerHTML=cs.map(([c,n])=>`<div class="country-row"><span>${c||'Unknown'}</span><span>${n}</span></div>`).join('');
+}
 
-      if (!original_url) return;
+function openQr(){openQrFor(curCode,curUrl)}
+function openQrFor(code,url){
+  document.getElementById('qrLabel').textContent=url;
+  const box=document.getElementById('qrBox');box.innerHTML='';
+  new QRCode(box,{text:url,width:160,height:160,colorDark:'#18181b',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+  curCode=code;curUrl=url;
+  document.getElementById('qrOv').classList.add('open');
+}
+function dlQr(){const img=document.querySelector('#qrBox img');if(img){const a=document.createElement('a');a.href=img.src;a.download=`qr_${curCode}.png`;a.click()}}
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Creating...</span>';
+function openAuth(m){authTab(m);document.getElementById('authOv').classList.add('open')}
+function authTab(m){
+  authMode=m;
+  document.getElementById('tabLogin').className='tab'+(m==='login'?' on':'');
+  document.getElementById('tabReg').className='tab'+(m==='register'?' on':'');
+  document.getElementById('authBtn').textContent=m==='login'?'Sign in':'Create account';
+  document.getElementById('authTitle').textContent=m==='login'?'Sign in':'Create account';
+}
 
-      try {
-        const headers = { 'Content-Type': 'application/json' };
-        if (authToken) {
-          headers['Authorization'] = `Bearer ${authToken}`;
-        }
+async function authSubmit(e){
+  e.preventDefault();
+  const email=document.getElementById('authEmail').value.trim(),pw=document.getElementById('authPass').value,btn=document.getElementById('authBtn');
+  btn.disabled=true;btn.textContent='...';
+  try{
+    const ep=authMode==='login'?'/api/auth/login':'/api/auth/register';
+    const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
+    const d=await r.json();if(!r.ok)throw new Error(d.detail||'Error');
+    if(authMode==='register'){
+      toast('Account created!');
+      const lr=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw})});
+      const ld=await lr.json();token=ld.access_token;
+    }else{token=d.access_token}
+    user={email};localStorage.setItem('snip_t',token);localStorage.setItem('snip_u',JSON.stringify(user));
+    close('authOv');updateNav();loadUrls();toast(`Welcome, ${email}!`);
+  }catch(err){toast(err.message,false)}
+  finally{btn.disabled=false;btn.textContent=authMode==='login'?'Sign in':'Create account'}
+}
 
-        const res = await fetch('/api/urls', {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify({ original_url, custom_code: custom_alias })
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.detail || 'Failed to shorten URL');
-        }
-
-        // Show result
-        currentShortCode = data.short_code;
-        currentShortUrl = data.short_url;
-
-        const resultCard = document.getElementById('resultCard');
-        const resultShortUrl = document.getElementById('resultShortUrl');
-        const createdTimestamp = document.getElementById('createdTimestamp');
-
-        resultShortUrl.href = data.short_url;
-        resultShortUrl.textContent = data.short_url;
-        createdTimestamp.textContent = new Date(data.created_at).toLocaleTimeString();
-        resultCard.style.display = 'block';
-
-        showToast('Short URL created successfully!', 'success');
-
-        // Save in local history if guest
-        if (!authToken) {
-          localHistory = [data, ...localHistory.filter(i => i.short_code !== data.short_code)].slice(0, 20);
-          localStorage.setItem('snip_history', JSON.stringify(localHistory));
-        }
-
-        urlInput.value = '';
-        aliasInput.value = '';
-        loadMyUrls();
-
-      } catch (err) {
-        showToast(err.message, 'error');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Shorten Link</span>';
-      }
-    }
-
-    function copyResultUrl() {
-      if (!currentShortUrl) return;
-      navigator.clipboard.writeText(currentShortUrl).then(() => {
-        const btnText = document.getElementById('copyBtnText');
-        btnText.textContent = 'Copied!';
-        showToast('Copied link to clipboard!', 'success');
-        setTimeout(() => { btnText.textContent = 'Copy'; }, 2000);
-      });
-    }
-
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('Copied to clipboard!', 'success');
-      });
-    }
-
-    // Load URLs
-    async function loadMyUrls() {
-      const tbody = document.getElementById('linksTableBody');
-      tbody.innerHTML = '';
-
-      if (authToken) {
-        try {
-          const res = await fetch('/api/urls', {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-          });
-          if (res.ok) {
-            const urls = await res.json();
-            renderUrlsTable(urls, true);
-            return;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      }
-
-      renderUrlsTable(localHistory, false);
-    }
-
-    function renderUrlsTable(urls, isOwner) {
-      const tbody = document.getElementById('linksTableBody');
-      if (!urls || urls.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="4">
-              <div class="empty-state">
-                <i class="fa-solid fa-link-slash"></i>
-                <p>No links shortened yet. Create your first link above!</p>
-              </div>
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      tbody.innerHTML = urls.map(u => {
-        const shortUrl = u.short_url || `${window.location.origin}/${u.short_code}`;
-        const dateStr = new Date(u.created_at).toLocaleDateString();
-        return `
-          <tr>
-            <td>
-              <a href="${shortUrl}" target="_blank" class="short-link-cell">${u.short_code}</a>
-            </td>
-            <td>
-              <div class="orig-link-cell" title="${u.original_url}">${u.original_url}</div>
-            </td>
-            <td style="color: var(--text-muted); font-size: 0.85rem;">${dateStr}</td>
-            <td>
-              <div class="actions-cell">
-                <button class="btn-icon" title="Copy Short Link" onclick="copyToClipboard('${shortUrl}')">
-                  <i class="fa-solid fa-copy"></i>
-                </button>
-                <button class="btn-icon" title="QR Code" onclick="openQrModal('${u.short_code}', '${shortUrl}')">
-                  <i class="fa-solid fa-qrcode"></i>
-                </button>
-                <button class="btn-icon" title="View Analytics" onclick="viewAnalytics('${u.short_code}')">
-                  <i class="fa-solid fa-chart-line"></i>
-                </button>
-                ${isOwner ? `
-                  <button class="btn-icon danger" title="Delete URL" onclick="deleteUrl(${u.id})">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                ` : ''}
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    async function deleteUrl(urlId) {
-      if (!confirm('Are you sure you want to delete this shortened URL?')) return;
-      try {
-        const res = await fetch(`/api/urls/${urlId}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        if (res.ok) {
-          showToast('Link deleted', 'info');
-          loadMyUrls();
-        } else {
-          showToast('Failed to delete URL', 'error');
-        }
-      } catch (err) {
-        showToast('Error deleting URL', 'error');
-      }
-    }
-
-    // Analytics Modal & Charts
-    async function viewAnalytics(shortCode) {
-      document.getElementById('analyticsShortCode').textContent = `/${shortCode}`;
-      document.getElementById('analyticsModal').classList.add('active');
-
-      try {
-        const res = await fetch(`/api/analytics/${shortCode}`);
-        if (!res.ok) {
-          throw new Error('Could not fetch analytics');
-        }
-        const data = await res.json();
-        
-        document.getElementById('analyticsTotalClicks').textContent = data.total_clicks || 0;
-        document.getElementById('analyticsUniqueCountries').textContent = data.top_countries?.length || 0;
-        document.getElementById('analyticsTopReferrer').textContent = data.top_referrers?.[0]?.[0] || 'None';
-
-        renderChart(data.clicks_by_date || []);
-        renderCountries(data.top_countries || []);
-        renderReferrers(data.top_referrers || []);
-      } catch (err) {
-        showToast(err.message, 'error');
-      }
-    }
-
-    function renderChart(timeline) {
-      const ctx = document.getElementById('clicksChart').getContext('2d');
-      
-      const labels = timeline.map(item => item[0]);
-      const values = timeline.map(item => item[1]);
-
-      if (chartInstance) {
-        chartInstance.destroy();
-      }
-
-      chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels.length ? labels : ['No Data'],
-          datasets: [{
-            label: 'Clicks',
-            data: values.length ? values : [0],
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.15)',
-            fill: true,
-            tension: 0.35,
-            borderWidth: 2,
-            pointBackgroundColor: '#818cf8',
-            pointRadius: 4
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: {
-              grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } }
-            },
-            y: {
-              beginAtZero: true,
-              grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 }, stepSize: 1 }
-            }
-          }
-        }
-      });
-    }
-
-    function renderCountries(countries) {
-      const container = document.getElementById('countriesList');
-      if (!countries || countries.length === 0) {
-        container.innerHTML = '<div class="empty-state" style="padding: 12px; font-size: 0.8rem;">No country data yet</div>';
-        return;
-      }
-      container.innerHTML = countries.map(([country, count]) => `
-        <div class="pill-item">
-          <span><i class="fa-solid fa-location-dot" style="color: var(--accent-indigo-light); margin-right: 6px;"></i> ${country || 'Unknown'}</span>
-          <span style="font-weight: 700; color: var(--accent-cyan); font-family: 'JetBrains Mono';">${count}</span>
-        </div>
-      `).join('');
-    }
-
-    function renderReferrers(referrers) {
-      const container = document.getElementById('referrersList');
-      if (!referrers || referrers.length === 0) {
-        container.innerHTML = '<div class="empty-state" style="padding: 12px; font-size: 0.8rem;">No referrer data yet</div>';
-        return;
-      }
-      container.innerHTML = referrers.map(([ref, count]) => `
-        <div class="pill-item">
-          <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px;"><i class="fa-solid fa-arrow-up-right-from-square" style="color: var(--accent-emerald); margin-right: 6px;"></i> ${ref || 'Direct / Internal'}</span>
-          <span style="font-weight: 700; color: var(--accent-cyan); font-family: 'JetBrains Mono';">${count}</span>
-        </div>
-      `).join('');
-    }
-
-    // QR Code Modal
-    function openQrModal(shortCode, shortUrl) {
-      document.getElementById('qrUrlLabel').textContent = shortUrl;
-      const qrcodeContainer = document.getElementById('qrcode');
-      qrcodeContainer.innerHTML = '';
-      
-      new QRCode(qrcodeContainer, {
-        text: shortUrl,
-        width: 180,
-        height: 180,
-        colorDark: '#07080d',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-
-      document.getElementById('qrModal').classList.add('active');
-    }
-
-    function downloadQrCode() {
-      const img = document.querySelector('#qrcode img');
-      if (img && img.src) {
-        const a = document.createElement('a');
-        a.href = img.src;
-        a.download = `qrcode_${currentShortCode || 'snipurl'}.png`;
-        a.click();
-      }
-    }
-
-    // Auth Modal Handlers
-    function openAuthModal(mode = 'login') {
-      switchAuthTab(mode);
-      document.getElementById('authModal').classList.add('active');
-    }
-
-    function switchAuthTab(mode) {
-      currentAuthMode = mode;
-      const loginTab = document.getElementById('loginTabBtn');
-      const regTab = document.getElementById('registerTabBtn');
-      const submitText = document.getElementById('authSubmitText');
-      const modalTitle = document.getElementById('authModalTitle');
-
-      if (mode === 'login') {
-        loginTab.classList.add('active');
-        regTab.classList.remove('active');
-        submitText.textContent = 'Sign In';
-        modalTitle.textContent = 'Welcome Back';
-      } else {
-        regTab.classList.add('active');
-        loginTab.classList.remove('active');
-        submitText.textContent = 'Create Account';
-        modalTitle.textContent = 'Create an Account';
-      }
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
-      const submitBtn = document.getElementById('authSubmitBtn');
-
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Processing...</span>';
-
-      try {
-        const endpoint = currentAuthMode === 'login' ? '/api/auth/login' : '/api/auth/register';
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.detail || 'Authentication failed');
-        }
-
-        if (currentAuthMode === 'register') {
-          showToast('Account registered! Signing you in...', 'success');
-          // Auto login after register
-          const loginRes = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-          });
-          const loginData = await loginRes.json();
-          authToken = loginData.access_token;
-        } else {
-          authToken = data.access_token;
-        }
-
-        currentUser = { email };
-        localStorage.setItem('snip_token', authToken);
-        localStorage.setItem('snip_user', JSON.stringify(currentUser));
-
-        closeModal('authModal');
-        updateAuthUI();
-        loadMyUrls();
-        showToast(`Welcome, ${email}!`, 'success');
-
-      } catch (err) {
-        showToast(err.message, 'error');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `<span>${currentAuthMode === 'login' ? 'Sign In' : 'Create Account'}</span>`;
-      }
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('active');
-    }
-
-    // Close modal on background click
-    window.onclick = function(event) {
-      if (event.target.classList.contains('modal-overlay')) {
-        event.target.classList.remove('active');
-      }
-    };
-  </script>
+function close(id){document.getElementById(id).classList.remove('open')}
+window.onclick=e=>{if(e.target.classList.contains('overlay'))e.target.classList.remove('open')};
+</script>
 </body>
 </html>
