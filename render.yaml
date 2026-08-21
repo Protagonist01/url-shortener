@@ -62,7 +62,7 @@ services:
       - key: CLICK_TRACKING_BACKEND
         value: background_tasks
       - key: SHORT_URL_BASE
-        value: https://url-shortener-api.onrender.com
+        value: https://url-shortener-api-9rw4.onrender.com
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "10080"
       - key: CACHE_TTL_SECONDS

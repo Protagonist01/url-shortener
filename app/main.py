@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.api import analytics, auth, redirect, urls
@@ -54,6 +55,11 @@ app.include_router(analytics.router)
 @app.get("/health", tags=["meta"])
 async def health() -> dict:
     return {"status": "ok", "env": settings.APP_ENV}
+
+
+@app.get("/", include_in_schema=False)
+async def root() -> RedirectResponse:
+    return RedirectResponse(url="/docs")
 
 
 # redirect router LAST: it matches /{short_code} which would otherwise
