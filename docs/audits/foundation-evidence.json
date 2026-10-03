@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-03",
+  "source": {
+    "head": "26eee06929f6e3cfd6522de3657ea19996d3c212",
+    "state": "dirty owner working tree, not clean main",
+    "sha256": {
+      "alembic/versions/0003_qr_destinations.py": "c5683c15d72bc85831a0aaa9347125032b42df761f181ac39105489743f3a058",
+      "app/api/qr.py": "9aec2169ebf391c6ed33fb2eb9bc897d1194ca87d99ce41865343619fd6059cb",
+      "app/api/qr_redirect.py": "b4d86580a7194eadc72d389ec9904f3de6d7036aa72e9283696757df9c1cec0c",
+      "app/core/upload_limit.py": "cff092e94082664db931abdf3b79120f67d0943369750ed2a5d4bfcb22649a8b",
+      "app/qr/__init__.py": "6a4fba45dc59d79af80747088b690da23857453c463b841445d177f0dd547a9c",
+      "app/qr/art.py": "9c32646024f9082f5a77fec53df1372b11801b2cccb8abff8adf170d689f2e1c",
+      "app/qr/bitspace.py": "6b789ffebda3d6989e4c1fa93a9aaa051b836abadc73a142c8b4b141ca49c737",
+      "app/qr/cli.py": "6c21bff5616cba18d2f5b0487b76d8d853fd5da9093fe4937395c5c3513f703c",
+      "app/qr/detail.py": "336b6ea874ea520f636f3af0e88c989d0b45e6440c7011e0d6e6c091d53b6222",
+      "app/qr/engine.py": "c6c802be28e93d3a5415d62f062f9a7e81417b456c5b42f080f7fada59ab804a",
+      "app/qr/split_logo.py": "4d37d960e2b93922404bae2a85a7df60edcae4f2f999b45c857312f67bf5342b",
+      "app/qr/targets.py": "4f1af9a0d1650c13794130d330c5da76fb74acea906c9731234583a226f2bb3b",
+      "app/services/external_shortener.py": "559e309d59a0e89df1377abc6791fc800014516ee4043bd2a12a178693b1d779",
+      "app/services/qr_destination.py": "f65acc95dac72a9f4d5641cd2d9047dafd1a7503965be8c09a9efa8f1c362f55",
+      "app/services/qr_service.py": "8f9db92222b321245503af06d64e45eb512ce4edb0e370d0e67b695fb8b63315",
+      "app/static/demo-qr.png": "9b19b30f2813eb8cc0c6c643109bc8fcfe0733c7934776a79f6c1011f75ef15d",
+      "app/static/experience.css": "748000e3f49e8a40071f81e3b97712bf7c80c8d3f08d44cc76f0e124b4e6107d",
+      "app/static/qr-studio.js": "c7aaef41e2f98730a449503d68a8d04115303189cee86c24cc43011d933282de",
+      "app/static/story.css": "6e736de2da6921fb151ff4f7430c01b9068cff1967ba5d2f1d35c31d07c21ef3",
+      "app/static/vendor/LICENSE.md": "5a0877ad6d818529be4f33009d0942cdf7e2ed7656156f4aba7308459a546030",
+      "app/static/vendor/chart.umd.js": "74401d738dd3e03ee5dfb3b6841210fe2c4ead8a960c4011ca4ba0b78a9fd8f3",
+      "tests/test_qart.py": "d3f6176fe1970081e4fedf687a1fc595c4ba342df0a1a59728af70dfcd40ccc1",
+      "tests/test_qr.py": "7fa867f9d88b4fd38b6afdc363fa0db8c709159eca6d5fbcb258e70492f0632f",
+      "tests/test_qr_api.py": "9bdf31d3d7db526e8a6cfef2610b6d876ec80cc19a4ce3089afe55056cc3e13a",
+      "tests/test_qr_destination.py": "7d7fbf1928263df934f8d21b54c68fb6dcb4a432fa4ed65b7f18d558bc3bd9ba",
+      "tests/test_qr_review.py": "452f576e0ec18f21011ace7c95e5cc500e0f90fe40c83e9e503f09c373019370",
+      "tests/test_redirect_alias.py": "1c5bc13716df95cef2d238fb0b39f966d2dd569e429c2c32a44f40e3d612afdc",
+      "tests/test_url_service.py": "930ba46eccb9ffb7abdd6cb072531ad27d1ff4379e6bae4cef4e6a7dbc34bf3a",
+      ".gitignore": "1c7985efd2f559b770d874423e4a11ba5186ba89f319d6269d1a29035a5d0425",
+      "Dockerfile": "7efac2429655bbd0b0d9db6cf9c154e4f65d22bc8893e21495d35c92ce03d20e",
+      "README.md": "944119d54c49f8a78d34f765a0096a3f956b60ba2cede2bc71cfdc472a469ee6",
+      "alembic/README": "c65dd54ff2069553c7a3788df986fcd0691eceacfdde6a16824c8b97668e18f7",
+      "alembic/env.py": "9853d9281493f01c65d69b4f7ee39e3a5f34cdfdbd9fa455fcdc5c2164d5750c",
+      "alembic/script.py.mako": "7751187956408f7a64742e0bf746d0684d24013bfe11d1895d936d6757da1766",
+      "alembic/versions/0001_initial.py": "92c9ed4c5c6020d9e198c9998406de6d23cbe61cf1aa1dc921043a46d88ea46e",
+      "alembic/versions/0002_daily_stats.py": "416112ed001bf6ea608f69a45c2181ead07d85b30f73ffe6e1d6a22003241e43",
+      "app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/api/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/api/analytics.py": "83296e39810a5eb7a5491357536099c26946c34a20b03936caeb5afcca449846",
+      "app/api/auth.py": "d20e73b3df9a32bdf8b63b2170fbc3198c6ded39a03d710100abe3a6ec0c2781",
+      "app/api/deps.py": "6cf407831ce6db711124ba961f0748da8c86b94dec3078a8251d1d494e8649d4",
+      "app/api/redirect.py": "20005bd6db5e2dc9424252560765f832be8489f27da2d5525c75117540497e02",
+      "app/api/urls.py": "604c2e6961ef7f700ed27b0c53e0a1d54d3fb211f625fda0bd76950430925bae",
+      "app/core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/core/config.py": "231b4f661e218580d7d8ae647d9d3eb20dc531b4ed3af857ee878901747f5fc7",
+      "app/core/database.py": "3a7f2f61e7580a41785ef67fc078bafcbd0416dc8c60d85feac9ff2ff6839f59",
+      "app/core/logging.py": "5b6f5e6af5aa42a884bf232bcb342cc7695731988b042e44c3d9b33676e194ab",
+      "app/core/metrics.py": "340ffb3204c85710e6140186862dfbf91d0d964685d6807409ae7ad400c25e96",
+      "app/core/rate_limit.py": "330fcd56b6b4937086e2777cda35a878993991f847346d3f13595051000464bb",
+      "app/core/redis.py": "6321784f3d9c62895db3bedd0abebd91af9cfdf8b316baeb5ced1bf1f80c81cd",
+      "app/core/security.py": "49d404c7954442a12c47f32261b2429ccbab689f9fbb996f64bffd5021d75ff0",
+      "app/main.py": "9369fb9aebee0da9b16b76308cdc0f3e18d04afea0b013f394679134791ccee2",
+      "app/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/models/models.py": "1a536071c728aa442a9bcd748d4598c4430be40cb2b6665d4d6fd98c418e24ed",
+      "app/schemas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/schemas/analytics.py": "18a6b1c3da7235cb75f787819d1f9afca890e742912675d9287b64d3c260da78",
+      "app/schemas/url.py": "90c72fe698ac0b6b1a468dd16f99db514422d7269155a285492ee97ef9e61bb9",
+      "app/schemas/user.py": "cb004f84a68ddd5cc5d37af5e3b2c50ae48c933e9c22f287ebfedab7ecd491cb",
+      "app/services/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/services/analytics_service.py": "38e4643a6bb942d0b085415636f0ab60e1501a70429063369302e4879dc047df",
+      "app/services/auth_service.py": "4d771b24a2aae425d3e02d77d57d58d33213b9061e3c42656b85c045eb1b5db6",
+      "app/services/click_service.py": "e412a37ba081be51326f26ce926d70e2b50235112f4a5e8b3e91d2e825dee092",
+      "app/services/geoip_service.py": "50fbde8e0092311ce17c9ff6a1c85d1c90a5b8d52eda17acf8c88cb46c174dee",
+      "app/services/url_service.py": "3e72ee019a06214e276fa9ddf52cfe600cc962dce6df0e2219d50aa8a9dd76aa",
+      "app/static/index.html": "952db8b97cf32531abdeb561dc85a0ff03e134d0b3a693818277946b96116ccf",
+      "app/utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/utils/shortener.py": "227f4d4d5d250108daa6f155193aa9cfbceb9e6b9742c481ab9d6171e7b6a843",
+      "app/worker/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "app/worker/beat_tasks.py": "3ef2438aadf789df852b6107454305d05e05d78f1f5c1ae4238d4eec73533baf",
+      "app/worker/celery_app.py": "a76603f0f1227ce195c4867f8026c4824a55d6426620b195638994c8a7dce8b2",
+      "docker-compose.yml": "342d1dc6321902b24b7c2ecb3730f83d2c07177684c92a8d9089f60f499738e1",
+      "render.yaml": "c95ad9eb9fbcd493b9239101efb5110467df5d4ecfca1d6469ecce9c1270e6bc",
+      "requirements.txt": "4b14c4f9bd0db4a9470bcd29715f22613cd7f78f08117b06ce2d715735a4492d",
+      "start.sh": "e8c250d49d82105cb3f6269e1dd06fea2067b7b486dcbcab3b292abef27f92e2",
+      "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests/test_api.py": "1655122f2724547490c396c391a2258983d378c37be3f5e60a3f7936b6309779"
+    }
+  },
+  "runtime": {
+    "python": "3.12.13",
+    "platform": "Windows",
+    "dependencies": {
+      "fastapi": "0.115.6",
+      "SQLAlchemy": "2.0.36",
+      "redis": "5.2.1",
+      "celery": "5.4.0",
+      "bcrypt": "4.2.1",
+      "Pillow": "12.3.0",
+      "numpy": "2.5.3",
+      "zxing-cpp": "3.1.1",
+      "opencv-python-headless": "5.0.0.93",
+      "pytest": "8.3.4"
+    },
+    "docker_server": "29.7.2",
+    "service_images": [
+      "postgres:16-alpine",
+      "redis:7-alpine"
+    ]
+  },
+  "isolation": {
+    "synthetic_credentials": true,
+    "loopback_ports": [
+      15432,
+      16379,
+      18000
+    ],
+    "geoip": "stubbed ZZ; no provider availability test"
+  },
+  "tests": {
+    "focused": {
+      "tests": 82,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 154.273,
+      "raw_artifact": "output/foundation-audit/focused.xml",
+      "sha256": "f90b8d7b7e208382b1af1264ad7128c2c6f86b3ee59619988569f2f6f77ef5d9",
+      "failure_nodes": [
+        "tests.test_qart::test_split_logo_cleanup_passes_final_scan_gate_and_reports_ink_reduction"
+      ],
+      "passed": 81
+    },
+    "api": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 11.221,
+      "raw_artifact": "output/foundation-audit/api.xml",
+      "sha256": "0eb29a0374eb2e260072a5fc145609694aa880d6a3ccd2cb2801472534a0778c",
+      "failure_nodes": [],
+      "passed": 18
+    }
+  },
+  "migrations": {
+    "empty_postgresql_upgrade": "passed",
+    "head": "0003_qr_destinations",
+    "downgrade_restore_old_new_compatibility": "unverified"
+  },
+  "offline_probes": [
+    {
+      "case": "redis_outage",
+      "observed": "Redis error propagated",
+      "database_fallback_calls": 0
+    },
+    {
+      "case": "anonymous_delete",
+      "allowed": true
+    },
+    {
+      "case": "proxy_header",
+      "observed_ip": "192.0.2.123",
+      "peer": "127.0.0.1",
+      "trust_configuration_present": false
+    },
+    {
+      "case": "broker_enqueue_failure",
+      "observed": "enqueue exception propagated before 302"
+    },
+    {
+      "case": "scheduled_rollup_registration",
+      "registered_on_worker_module_import": false,
+      "schedule_names_task": "aggregate_daily_stats"
+    },
+    {
+      "case": "bcrypt_72_byte_boundary",
+      "different_suffix_authenticates": true
+    },
+    {
+      "case": "authenticated_cache_hit_dependency",
+      "status": 302,
+      "user_lookup_calls": 1,
+      "mode": "controlled dependency probe, not a latency benchmark"
+    }
+  ],
+  "live_probes": [
+    {
+      "case": "anonymous_owned_analytics",
+      "status": 200
+    },
+    {
+      "case": "unbounded_analytics_days",
+      "status": 500
+    },
+    {
+      "case": "anonymous_delete_real_services",
+      "status": 204
+    },
+    {
+      "case": "owned_qr_fragment",
+      "status": 302,
+      "location": "https://example.com/audit#retained"
+    },
+    {
+      "case": "direct_db_deactivation_cache_consistency",
+      "short_link_status": 302,
+      "qr_status": 404,
+      "note": "Direct DB change: demonstrates TTL/invalidation policy gap, not API delete behavior."
+    }
+  ],
+  "preservation": {
+    "preexisting_files_changed": [],
+    "checked_files": 76
+  },
+  "tracked_dotenv": true,
+  "dotenv_values": "not included; active credential exposure not assessed",
+  "unverified": [
+    "load and tail-latency budgets",
+    "production deployment",
+    "backup restore and failover",
+    "clean dependency installation/advisories",
+    "external provider availability/continuity",
+    "browser/accessibility flows",
+    "physical phone/printed QR reliability"
+  ]
+}

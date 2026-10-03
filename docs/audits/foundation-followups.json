@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-03",
+  "owner": "Protagonist01",
+  "repo": "url-shortener",
+  "milestone": 1,
+  "audit_issue": 2,
+  "note": "Linked remediation issues; F02 delivers evidence, not completion of these fixes.",
+  "issues": [
+    {
+      "key": "AUD01",
+      "title": "[AUD01] Enforce ownership for analytics and anonymous-link management",
+      "related": [
+        3,
+        11,
+        14
+      ],
+      "scope": "The foundation probe read an owned link's analytics anonymously (200) and deleted an anonymous-created URL without authentication (204). Audit evidence: docs/audits/2026-10-03-foundation.md. Clarify the product policy for anonymous legacy links before changing ownership semantics; public IDs are not management credentials.",
+      "acceptance": [
+        "Require appropriate owner/workspace scope for analytics and management queries, including exports and jobs.",
+        "Define and migrate legacy ownerless links without breaking printed redirects; use a reviewed claim/recovery policy if needed.",
+        "Add unauthenticated and cross-owner negative tests against real PostgreSQL; distinguish intended public analytics from private management data.",
+        "Verify scoped queries and indexes with representative plans; preserve existing redirect and fragment contracts."
+      ],
+      "number": 42,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/42"
+    },
+    {
+      "key": "AUD02",
+      "title": "[AUD02] Remove tracked secret configuration and harden password/session handling",
+      "related": [
+        3
+      ],
+      "scope": "Git tracks .env; the audit did not inspect its values or establish whether credentials are active. A controlled bcrypt 4.2.1 probe authenticated different suffixes after identical first 72 bytes. Password hashing runs synchronously in async handlers; frontend tokens use localStorage and CORS is wildcard with credentials. Assess actual exposure privately and design migration-safe authentication.",
+      "acceptance": [
+        "Remove secret configuration from tracking and add safe ignore/example handling in a scoped change; assess history exposure privately and rotate confirmed exposed active credentials under applicable authorization.",
+        "Define a byte-aware password policy or standard migration-safe hashing scheme; test long and Unicode passwords and old hashes.",
+        "Move blocking crypto off the async loop with bounded admission; measure login load alongside redirects.",
+        "Choose and document session, CORS and CSRF behavior; test logout/expiry and browser attack boundaries.",
+        "Run actual secret/advisory checks without publishing values; do not call an unperformed audit a pass."
+      ],
+      "number": 43,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/43"
+    },
+    {
+      "key": "AUD03",
+      "title": "[AUD03] Make redirect cache and analytics dispatch failures bounded and safe",
+      "related": [
+        4,
+        5,
+        11,
+        13
+      ],
+      "scope": "Redis GET errors propagate without DB fallback; synchronous Celery enqueue exceptions escape before302. Optional bearer auth adds a user DB lookup on cached redirects. Creation commits before cache write; deletion invalidates before commit, allowing stale refill. Direct DB deactivation returned short302 but /q404. This is an invalidation-policy gap, not proof of API-delete failure.",
+      "acceptance": [
+        "Approve/cache the intended stale-data and revocation window; preserve authoritative block/expiry/access behavior.",
+        "Bound Redis, DB and broker waits; implement explicit outage fallback and analytics delivery/loss policy without unbounded buffer or retries.",
+        "Remove unnecessary DB authentication from unrestricted warm redirects; document protected exceptions.",
+        "Test concurrent create/delete/edit/refill, deactivation, cache outage and broker outage with real services.",
+        "Meet approved warm/cold tail-latency budgets and zero-DB-read unrestricted warm-hit gate; expose failed/dropped dispatch evidence."
+      ],
+      "number": 44,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/44"
+    },
+    {
+      "key": "AUD04",
+      "title": "[AUD04] Register scheduled analytics jobs and make ingestion/rollups efficient",
+      "related": [
+        3,
+        4,
+        13
+      ],
+      "scope": "The worker's clean module import does not register aggregate_daily_stats named by beat; it lives in a separate module. Per-click engine construction/disposal defeats pooling; events have no dedupe identity. Rollup repeatedly scans seven days then queries countries and upserts per URL/day. Render deployment selects in-process crash-lossy tracking without worker/beat.",
+      "acceptance": [
+        "Register the scheduled task and prove one scheduler/worker consumes it in an isolated real-service integration run.",
+        "Use process-lifecycle engine pools with explicit aggregate connection budgets.",
+        "Define event identity, retry/deduplication and late-event policy; replay duplicates without inflating analytics.",
+        "Use bounded incremental/batched rollups with query plans and job-lag/concurrency evidence.",
+        "Document deployment modes, crash-loss tradeoff, dead-letter/replay and shutdown behavior; no durable guarantee for BackgroundTasks."
+      ],
+      "number": 45,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/45"
+    },
+    {
+      "key": "AUD05",
+      "title": "[AUD05] Configure trusted proxies and minimize scan IP/GeoIP data",
+      "related": [
+        1,
+        3,
+        13,
+        14
+      ],
+      "scope": "An arbitrary X-Forwarded-For value was accepted over the actual peer. The application stores raw IPs and calls a plain-HTTP external GeoIP endpoint with incomplete string-prefix private-IP filtering. The audit server stubbed GeoIP; external reliability was not tested.",
+      "acceptance": [
+        "Resolve approved proxy topology and audience/privacy retention/disclosure before dependent implementation.",
+        "Accept forwarding headers only through configured trusted proxies; normalize IPv4/IPv6 chains and test spoofing/rate-limit identity.",
+        "Minimize stored scan data and implement retention/deletion; do not silently enable precise location or fingerprinting.",
+        "Use a reviewed secure enrichment approach, robust address classification and bounded asynchronous work.",
+        "Verify no enrichment enters the redirect critical path and privacy-safe metrics/logging."
+      ],
+      "number": 46,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/46"
+    },
+    {
+      "key": "AUD06",
+      "title": "[AUD06] Bound API ranges and design scalable pagination and analytics queries",
+      "related": [
+        4,
+        5,
+        14
+      ],
+      "scope": "A live analytics request with days=1000000000 returned500. URL lists have unbounded limit/offset and non-deterministic ties on created_at. Most analytics counts/country grouping query raw history; only timeseries uses rollups. Existing Redis rate limiter uses a transactional pipeline; do not misreport it as non-atomic.",
+      "acceptance": [
+        "Validate ranges and sizes with explicit minimum/maximum and safe 4xx errors, including extreme/negative inputs.",
+        "Introduce stable keyset pagination with compound order/indexes and compatibility transition.",
+        "Review tenant-scoped analytics access patterns, incremental aggregate needs and exactness/lag policy.",
+        "Capture PostgreSQL EXPLAIN (ANALYZE, BUFFERS) at approved row sizes and query-count/pool/timeout evidence.",
+        "Test stable pagination during concurrent writes and tail latency alongside scan traffic; explain index write/storage costs."
+      ],
+      "number": 47,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/47"
+    },
+    {
+      "key": "AUD07",
+      "title": "[AUD07] Diagnose off-white split-logo regression without relaxing scan validation",
+      "related": [
+        3,
+        10,
+        23
+      ],
+      "scope": "Focused suite result:81 passed/1 failed. test_split_logo_cleanup_passes_final_scan_gate_and_reports_ink_reduction rejected its final artifact at app/qr/art.py522 on renderer5.0 in the recorded Windows environment. The test creates an off-white (245,250,247) split-logo fixture with 0.72 ratio. This is a renderer/dependency investigation, not justification to bypass the final gate.",
+      "acceptance": [
+        "Reproduce on the recorded snapshot and pinned supported environments; identify renderer, fixture or decoder/version sensitivity.",
+        "Retain two-decoder/18-transformation checks on exact final bytes and record manifest/artifact identity.",
+        "Preserve upload, pixel, memory, timeout and global admission limits; measure render memory/time impacts.",
+        "Run relevant classic/image/split regression checks and document fallback behavior.",
+        "Keep physical phone/print reliability explicitly unverified unless a separate real-world study provides evidence."
+      ],
+      "number": 48,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/48"
+    }
+  ]
+}
