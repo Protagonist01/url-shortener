@@ -1,0 +1,678 @@
+{
+  "schema_version": 1,
+  "owner": "Protagonist01",
+  "repo": "url-shortener",
+  "stack": {
+    "backend": "FastAPI",
+    "database": "PostgreSQL",
+    "frontend": "Next.js"
+  },
+  "created": "2026-10-03",
+  "publication": {
+    "state": "published",
+    "notes": "Milestones and issues published through GitHub REST using the existing Git credential helper. MCP reads succeeded; MCP issue creation returned an unsubmitted interactive form."
+  },
+  "milestones": [
+    {
+      "key": "M0",
+      "title": "M0 — Foundation and performance baseline",
+      "gate": "Establish an agreed architecture, reproducible checks, security baseline and measured service budgets before feature expansion.",
+      "status": "planned",
+      "number": 1,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/1"
+    },
+    {
+      "key": "M1",
+      "title": "M1 — Free offline QR foundation",
+      "gate": "Deliver private, account-free static QR tools, conservative styling, scan checks and print-ready exports.",
+      "status": "planned",
+      "number": 2,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/2"
+    },
+    {
+      "key": "M2",
+      "title": "M2 — Dynamic codes and analytics",
+      "gate": "Deliver owned editable codes, resilient redirects, bounded routing and privacy-conscious asynchronous analytics.",
+      "status": "planned",
+      "number": 3,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/3"
+    },
+    {
+      "key": "M3",
+      "title": "M3 — Hosted pages and MVP launch",
+      "gate": "Deliver constrained mobile pages and complete the operational, accessibility, abuse and performance gates for MVP release.",
+      "status": "planned",
+      "number": 4,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/4"
+    },
+    {
+      "key": "M4",
+      "title": "M4 — Pro Brand Studio and first industry pilot",
+      "gate": "Deliver brand workflows, one validated industry pack, reviewed AI page drafts and approved paid entitlements.",
+      "status": "planned",
+      "number": 5,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/5"
+    },
+    {
+      "key": "M5",
+      "title": "M5 — Business governance and trust",
+      "gate": "Deliver teams, multi-location governance, domains, authenticity, wallet passes and selected business connectors.",
+      "status": "planned",
+      "number": 6,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/6"
+    },
+    {
+      "key": "M6",
+      "title": "M6 — Public API and developer platform",
+      "gate": "Deliver governed API keys, batch jobs, signed webhooks, developer SDKs and demonstrated tenant isolation under load.",
+      "status": "planned",
+      "number": 7,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/7"
+    },
+    {
+      "key": "M7",
+      "title": "M7 — Expansion and experimental features",
+      "gate": "Evaluate text updates, offline hosted pages, artistic exports, community blocks and further packs behind evidence gates.",
+      "status": "planned",
+      "number": 8,
+      "url": "https://github.com/Protagonist01/url-shortener/milestone/8"
+    }
+  ],
+  "issues": [
+    {
+      "key": "F01",
+      "stage": "M0",
+      "title": "[F01] Approve architecture, deployment profile and performance budgets",
+      "dependencies": [],
+      "scope": "Record FastAPI, PostgreSQL and Next.js as the confirmed stack. Decide hosting, regions, traffic mix, expected peak/burst RPS, data scale, cost ceiling, availability, latency percentiles, analytics lag, RPO/RTO and privacy retention. Assess existing Redis/Celery rather than replacing them by default; select a thin modular application with an independently scalable redirect and job boundary only where evidence warrants it. Record ADRs and the first industry-pack decision process.",
+      "acceptance": "Owner-approved ADRs and budgets include measurement boundaries, hardware, dataset, cache states, network profiles and a cost model. Unresolved choices explicitly block dependent work; no fabricated due dates or production guarantees.",
+      "number": 1,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/1",
+      "body_template": "<!-- qr-roadmap:F01 -->\n\n## Outcome and scope\nRecord FastAPI, PostgreSQL and Next.js as the confirmed stack. Decide hosting, regions, traffic mix, expected peak/burst RPS, data scale, cost ceiling, availability, latency percentiles, analytics lag, RPO/RTO and privacy retention. Assess existing Redis/Celery rather than replacing them by default; select a thin modular application with an independently scalable redirect and job boundary only where evidence warrants it. Record ADRs and the first industry-pack decision process.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M0 — Foundation and performance baseline\n\n## Acceptance criteria\n- [ ] Owner-approved ADRs and budgets include measurement boundaries, hardware, dataset, cache states, network profiles and a cost model.\n- [ ] Unresolved choices explicitly block dependent work; no fabricated due dates or production guarantees.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "F02",
+      "stage": "M0",
+      "title": "[F02] Audit and reconcile the existing shortener and QR prototype",
+      "dependencies": [],
+      "scope": "Inventory tracked and uncommitted functionality, migrations and test coverage without discarding changes. Map legacy /{short_code} and /q/{code} links, existing clients and experimental image modes. Check alias collisions, authorization, trusted proxy headers, Redis failure, synchronous Celery enqueue, raw IP storage and external-shortener continuity. Plan moving the existing HTML UI to Next.js while preserving printed links.",
+      "acceptance": "A reproducible audit records pass/fail/unverified evidence, a compatibility matrix and follow-up fixes. Existing files are preserved. Prototype success is never reported as physical QR reliability or production readiness.",
+      "number": 2,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/2",
+      "body_template": "<!-- qr-roadmap:F02 -->\n\n## Outcome and scope\nInventory tracked and uncommitted functionality, migrations and test coverage without discarding changes. Map legacy /{short_code} and /q/{code} links, existing clients and experimental image modes. Check alias collisions, authorization, trusted proxy headers, Redis failure, synchronous Celery enqueue, raw IP storage and external-shortener continuity. Plan moving the existing HTML UI to Next.js while preserving printed links.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M0 — Foundation and performance baseline\n\n## Acceptance criteria\n- [ ] A reproducible audit records pass/fail/unverified evidence, a compatibility matrix and follow-up fixes.\n- [ ] Existing files are preserved.\n- [ ] Prototype success is never reported as physical QR reliability or production readiness.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "F03",
+      "stage": "M0",
+      "title": "[F03] Establish reproducible CI and security checks",
+      "dependencies": [
+        "F01",
+        "F02"
+      ],
+      "scope": "Add backend lint/type checks, focused and PostgreSQL/Redis integration tests, migration smoke tests, Next.js lint/type/build and browser checks once scaffolded. Pin dependencies and lockfiles; check secrets and dependency vulnerabilities. Threat-model ownership, redirect abuse, uploads, hosted pages, SSRF, session/CSRF handling and OAuth. Audit real dependency advisories before upgrades.",
+      "acceptance": "A clean checkout runs documented commands in isolated test services. CI fails on relevant regressions, unsafe migrations and material security findings; any exceptions have an owner and expiry. No test connects to production or clears shared Redis keys.",
+      "number": 3,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/3",
+      "body_template": "<!-- qr-roadmap:F03 -->\n\n## Outcome and scope\nAdd backend lint/type checks, focused and PostgreSQL/Redis integration tests, migration smoke tests, Next.js lint/type/build and browser checks once scaffolded. Pin dependencies and lockfiles; check secrets and dependency vulnerabilities. Threat-model ownership, redirect abuse, uploads, hosted pages, SSRF, session/CSRF handling and OAuth. Audit real dependency advisories before upgrades.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M0 — Foundation and performance baseline\n\n## Acceptance criteria\n- [ ] A clean checkout runs documented commands in isolated test services.\n- [ ] CI fails on relevant regressions, unsafe migrations and material security findings; any exceptions have an owner and expiry.\n- [ ] No test connects to production or clears shared Redis keys.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "F04",
+      "stage": "M0",
+      "title": "[F04] Design the tenant-aware data model and safe migration strategy",
+      "dependencies": [
+        "F01",
+        "F02"
+      ],
+      "scope": "Design codes, versions, workspaces, styles, pages/revisions, events, rollups and audit records with ownership, constraints and retention. Include legacy-row backfill and stable public IDs. Define workload-specific indexes, cursor pagination, transaction boundaries, connection budgets, timeout limits and expand/backfill/contract migration steps.",
+      "acceptance": "ERD and reviewed migrations explain access patterns and measured EXPLAIN (ANALYZE, BUFFERS) results on representative PostgreSQL fixtures. Rollout/backfill/rollback tests preserve existing links. Index choices explain write/storage costs; partitioning remains evidence-driven.",
+      "number": 4,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/4",
+      "body_template": "<!-- qr-roadmap:F04 -->\n\n## Outcome and scope\nDesign codes, versions, workspaces, styles, pages/revisions, events, rollups and audit records with ownership, constraints and retention. Include legacy-row backfill and stable public IDs. Define workload-specific indexes, cursor pagination, transaction boundaries, connection budgets, timeout limits and expand/backfill/contract migration steps.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M0 — Foundation and performance baseline\n\n## Acceptance criteria\n- [ ] ERD and reviewed migrations explain access patterns and measured EXPLAIN (ANALYZE, BUFFERS) results on representative PostgreSQL fixtures.\n- [ ] Rollout/backfill/rollback tests preserve existing links.\n- [ ] Index choices explain write/storage costs; partitioning remains evidence-driven.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "F05",
+      "stage": "M0",
+      "title": "[F05] Build performance, observability and recovery baselines",
+      "dependencies": [
+        "F01",
+        "F02"
+      ],
+      "scope": "Create repeatable load fixtures covering redirect hit/miss, /q aliases, invalid-code bursts, CRUD, analytics and rendering. Record p50/p95/p99, throughput, errors, event-loop lag, CPU/RSS, DB queries and waits, Redis behavior and queue lag. Add bounded-cardinality metrics, liveness/readiness and initial backup/restore/dependency-failure drills.",
+      "acceptance": "Versioned baseline reports include commit, environment, dataset, duration, traffic mix, costs and cache state. Selected budgets become machine-checkable where stable. Redis/worker failure effects and restore results are measured; draft SLOs are not claimed as achieved.",
+      "number": 5,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/5",
+      "body_template": "<!-- qr-roadmap:F05 -->\n\n## Outcome and scope\nCreate repeatable load fixtures covering redirect hit/miss, /q aliases, invalid-code bursts, CRUD, analytics and rendering. Record p50/p95/p99, throughput, errors, event-loop lag, CPU/RSS, DB queries and waits, Redis behavior and queue lag. Add bounded-cardinality metrics, liveness/readiness and initial backup/restore/dependency-failure drills.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M0 — Foundation and performance baseline\n\n## Acceptance criteria\n- [ ] Versioned baseline reports include commit, environment, dataset, duration, traffic mix, costs and cache state.\n- [ ] Selected budgets become machine-checkable where stable.\n- [ ] Redis/worker failure effects and restore results are measured; draft SLOs are not claimed as achieved.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "Q01",
+      "stage": "M1",
+      "title": "[Q01] Build browser-only offline payload generation",
+      "dependencies": [
+        "F01",
+        "F03"
+      ],
+      "scope": "Implement URL, text, email, phone, SMS, calendar, Wi-Fi and vCard plus minimal medical/home emergency templates in Next.js. Bundle encoding locally; keep entered payloads and logos out of uploads, analytics and logs. Explain publicly readable static medical data and that printed static payloads cannot change.",
+      "acceptance": "Unicode/escaping and scanner-format fixtures pass; after assets load, supported static flows generate offline with network access blocked. A network/storage inspection proves no sensitive payload upload or silent persistence. No account is needed.",
+      "number": 6,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/6",
+      "body_template": "<!-- qr-roadmap:Q01 -->\n\n## Outcome and scope\nImplement URL, text, email, phone, SMS, calendar, Wi-Fi and vCard plus minimal medical/home emergency templates in Next.js. Bundle encoding locally; keep entered payloads and logos out of uploads, analytics and logs. Explain publicly readable static medical data and that printed static payloads cannot change.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M1 — Free offline QR foundation\n\n## Acceptance criteria\n- [ ] Unicode/escaping and scanner-format fixtures pass; after assets load, supported static flows generate offline with network access blocked.\n- [ ] A network/storage inspection proves no sensitive payload upload or silent persistence.\n- [ ] No account is needed.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "Q02",
+      "stage": "M1",
+      "title": "[Q02] Build conservative QR styling and preview",
+      "dependencies": [
+        "Q01"
+      ],
+      "scope": "Add colors, backgrounds, approved module/finder shapes, local logo placement and simple CTA frames. Preserve required patterns and quiet zones. Define shared style/payload contracts for future server rendering and document any library differences.",
+      "acceptance": "Exported symbols independently decode the exact intended payload. Safe defaults pass geometry and contrast checks; unsupported combinations explain how to fix them. Live editing meets the agreed UI responsiveness budget.",
+      "number": 7,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/7",
+      "body_template": "<!-- qr-roadmap:Q02 -->\n\n## Outcome and scope\nAdd colors, backgrounds, approved module/finder shapes, local logo placement and simple CTA frames. Preserve required patterns and quiet zones. Define shared style/payload contracts for future server rendering and document any library differences.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M1 — Free offline QR foundation\n\n## Acceptance criteria\n- [ ] Exported symbols independently decode the exact intended payload.\n- [ ] Safe defaults pass geometry and contrast checks; unsupported combinations explain how to fix them.\n- [ ] Live editing meets the agreed UI responsiveness budget.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "Q03",
+      "stage": "M1",
+      "title": "[Q03] Implement free scannability and print-readiness checks",
+      "dependencies": [
+        "Q01",
+        "Q02"
+      ],
+      "scope": "Evaluate contrast, quiet zones, module size and logo coverage; decode the final export under a documented transformation suite. Keep a score's limitations visible; separate heuristics, synthetic decodes and physical-device evidence. Preserve the existing two-decoder gate for experimental server image exports.",
+      "acceptance": "Green/yellow/red feedback is actionable and accessible. Failed gates cannot be bypassed for validated export modes. Physical camera/print sampling has a reproducible protocol; no score is called a guaranteed scan-success probability.",
+      "number": 8,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/8",
+      "body_template": "<!-- qr-roadmap:Q03 -->\n\n## Outcome and scope\nEvaluate contrast, quiet zones, module size and logo coverage; decode the final export under a documented transformation suite. Keep a score's limitations visible; separate heuristics, synthetic decodes and physical-device evidence. Preserve the existing two-decoder gate for experimental server image exports.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M1 — Free offline QR foundation\n\n## Acceptance criteria\n- [ ] Green/yellow/red feedback is actionable and accessible.\n- [ ] Failed gates cannot be bypassed for validated export modes.\n- [ ] Physical camera/print sampling has a reproducible protocol; no score is called a guaranteed scan-success probability.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "Q04",
+      "stage": "M1",
+      "title": "[Q04] Add PNG, SVG and printable card exports",
+      "dependencies": [
+        "Q02",
+        "Q03"
+      ],
+      "scope": "Export PNG/SVG, wallet cards and sticker sheets with explicit size, DPI/module size, quiet zones and text fallback URLs where applicable. Validate final composed outputs, sanitize SVG output and provide screen/print profiles.",
+      "acceptance": "Fixtures verify final payloads and geometry, print dimensions and wallet/sticker layouts. The user downloads the checked artifact bytes. Real print trials document supported minimum sizes and limits before claiming print readiness.",
+      "number": 9,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/9",
+      "body_template": "<!-- qr-roadmap:Q04 -->\n\n## Outcome and scope\nExport PNG/SVG, wallet cards and sticker sheets with explicit size, DPI/module size, quiet zones and text fallback URLs where applicable. Validate final composed outputs, sanitize SVG output and provide screen/print profiles.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M1 — Free offline QR foundation\n\n## Acceptance criteria\n- [ ] Fixtures verify final payloads and geometry, print dimensions and wallet/sticker layouts.\n- [ ] The user downloads the checked artifact bytes.\n- [ ] Real print trials document supported minimum sizes and limits before claiming print readiness.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "Q05",
+      "stage": "M1",
+      "title": "[Q05] Complete accessible account-free QR onboarding",
+      "dependencies": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04"
+      ],
+      "scope": "Build goal-based forms, template previews, helpful empty/error states and keyboard/screen-reader flows. Explain static versus dynamic before selection, never advertise converting an already printed static pattern into an editable code. Provide a reduced-motion experience and user research for the five-minute goal.",
+      "acceptance": "Core journeys work on mobile and keyboard, with WCAG 2.2 AA checks and manual review. Median time-to-export is measured with the test cohort. Static-to-dynamic upgrade generates a clearly identified new pattern.",
+      "number": 10,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/10",
+      "body_template": "<!-- qr-roadmap:Q05 -->\n\n## Outcome and scope\nBuild goal-based forms, template previews, helpful empty/error states and keyboard/screen-reader flows. Explain static versus dynamic before selection, never advertise converting an already printed static pattern into an editable code. Provide a reduced-motion experience and user research for the five-minute goal.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M1 — Free offline QR foundation\n\n## Acceptance criteria\n- [ ] Core journeys work on mobile and keyboard, with WCAG 2.2 AA checks and manual review.\n- [ ] Median time-to-export is measured with the test cohort.\n- [ ] Static-to-dynamic upgrade generates a clearly identified new pattern.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "D01",
+      "stage": "M2",
+      "title": "[D01] Harden accounts, ownership and free-tier quotas",
+      "dependencies": [
+        "F03",
+        "F04"
+      ],
+      "scope": "Harden authentication/session boundaries and per-object ownership for all mutations and analytics. Make API IDs non-authoritative for access. Define configurable, concurrency-safe free code/page quotas pending product approval; no hidden arbitrary plan limits.",
+      "acceptance": "Cross-account read/write tests fail safely, secret rotation/revocation are documented and concurrent quota tests cannot over-allocate. Frontend auth integration matches the chosen session/CSRF model; logs exclude tokens.",
+      "number": 11,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/11",
+      "body_template": "<!-- qr-roadmap:D01 -->\n\n## Outcome and scope\nHarden authentication/session boundaries and per-object ownership for all mutations and analytics. Make API IDs non-authoritative for access. Define configurable, concurrency-safe free code/page quotas pending product approval; no hidden arbitrary plan limits.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M2 — Dynamic codes and analytics\n\n## Acceptance criteria\n- [ ] Cross-account read/write tests fail safely, secret rotation/revocation are documented and concurrent quota tests cannot over-allocate.\n- [ ] Frontend auth integration matches the chosen session/CSRF model; logs exclude tokens.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "D02",
+      "stage": "M2",
+      "title": "[D02] Implement dynamic-code lifecycle and destination history",
+      "dependencies": [
+        "D01",
+        "F04"
+      ],
+      "scope": "Create/edit/deactivate codes while keeping stable redirect IDs and printed patterns. Add destination version history and restore/undo, reserved slug validation and idempotent mutations where retried. Define retention/tombstones and cache invalidation after committed changes.",
+      "acceptance": "Old printed links resolve after destination edits and revision restores. Update/delete/cache races and code collisions are covered with PostgreSQL/Redis integration tests. Rollbacks never reuse retired public codes for an unrelated destination.",
+      "number": 12,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/12",
+      "body_template": "<!-- qr-roadmap:D02 -->\n\n## Outcome and scope\nCreate/edit/deactivate codes while keeping stable redirect IDs and printed patterns. Add destination version history and restore/undo, reserved slug validation and idempotent mutations where retried. Define retention/tombstones and cache invalidation after committed changes.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M2 — Dynamic codes and analytics\n\n## Acceptance criteria\n- [ ] Old printed links resolve after destination edits and revision restores.\n- [ ] Update/delete/cache races and code collisions are covered with PostgreSQL/Redis integration tests.\n- [ ] Rollbacks never reuse retired public codes for an unrelated destination.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "D03",
+      "stage": "M2",
+      "title": "[D03] Make redirect resolution resilient and measurable",
+      "dependencies": [
+        "D02",
+        "F05"
+      ],
+      "scope": "Remove unnecessary auth/DB reads on unrestricted cached redirects; bound Redis/broker timeouts and isolate analytics enqueue failure. Add tested DB fallback, stampede controls, bounded negative caching and capacity guards. Respect disable/expiry/security revocation with an agreed cache-consistency window; reserve paths for Next.js/API/page routing.",
+      "acceptance": "Cache-hit query counts and p95/p99 meet approved budgets. Cache miss, Redis outage, worker outage, unknown-code bursts and concurrent edits preserve documented semantics. No GeoIP, rendering, AI, remote link checks or unbounded retries run on the scan path.",
+      "number": 13,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/13",
+      "body_template": "<!-- qr-roadmap:D03 -->\n\n## Outcome and scope\nRemove unnecessary auth/DB reads on unrestricted cached redirects; bound Redis/broker timeouts and isolate analytics enqueue failure. Add tested DB fallback, stampede controls, bounded negative caching and capacity guards. Respect disable/expiry/security revocation with an agreed cache-consistency window; reserve paths for Next.js/API/page routing.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M2 — Dynamic codes and analytics\n\n## Acceptance criteria\n- [ ] Cache-hit query counts and p95/p99 meet approved budgets.\n- [ ] Cache miss, Redis outage, worker outage, unknown-code bursts and concurrent edits preserve documented semantics.\n- [ ] No GeoIP, rendering, AI, remote link checks or unbounded retries run on the scan path.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "D04",
+      "stage": "M2",
+      "title": "[D04] Build asynchronous privacy-conscious scan analytics",
+      "dependencies": [
+        "D03",
+        "F04"
+      ],
+      "scope": "Choose an explicit delivery/loss policy for scan events, bounded queue admission and idempotent event IDs; use batch persistence, incremental rollups and retention jobs. Minimize IP/location/device data, disclose approximate counts and bots, and make new/returning measurement conditional on approved privacy choices.",
+      "acceptance": "Retry/replay tests do not double-count, lag/loss/drop metrics are observable and bounded analytics queries meet approved budgets at target scale. Enrichment runs off-request; retention/deletion tests pass. Queue failure cannot silently block a basic redirect.",
+      "number": 14,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/14",
+      "body_template": "<!-- qr-roadmap:D04 -->\n\n## Outcome and scope\nChoose an explicit delivery/loss policy for scan events, bounded queue admission and idempotent event IDs; use batch persistence, incremental rollups and retention jobs. Minimize IP/location/device data, disclose approximate counts and bots, and make new/returning measurement conditional on approved privacy choices.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M2 — Dynamic codes and analytics\n\n## Acceptance criteria\n- [ ] Retry/replay tests do not double-count, lag/loss/drop metrics are observable and bounded analytics queries meet approved budgets at target scale.\n- [ ] Enrichment runs off-request; retention/deletion tests pass.\n- [ ] Queue failure cannot silently block a basic redirect.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "D05",
+      "stage": "M2",
+      "title": "[D05] Implement bounded routing, expiry and atomic scan limits",
+      "dependencies": [
+        "D02",
+        "D03",
+        "D04"
+      ],
+      "scope": "Add device/language/time rules, opt-in approximate-region routing, expiry, password gates, single-use/scan limits and fallback pages. Separate authoritative authorization/redemption state from asynchronous analytics. Define exactly what consumes a limit, including bots, test scans and retries.",
+      "acceptance": "A deterministic rule matrix covers time zones/DST, unknown device/location and fallbacks. Concurrent redemption tests cannot overspend limits. Password and limits fail according to the approved safe policy during dependency outages; rule evaluation meets redirect budgets.",
+      "number": 15,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/15",
+      "body_template": "<!-- qr-roadmap:D05 -->\n\n## Outcome and scope\nAdd device/language/time rules, opt-in approximate-region routing, expiry, password gates, single-use/scan limits and fallback pages. Separate authoritative authorization/redemption state from asynchronous analytics. Define exactly what consumes a limit, including bots, test scans and retries.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M2 — Dynamic codes and analytics\n\n## Acceptance criteria\n- [ ] A deterministic rule matrix covers time zones/DST, unknown device/location and fallbacks.\n- [ ] Concurrent redemption tests cannot overspend limits.\n- [ ] Password and limits fail according to the approved safe policy during dependency outages; rule evaluation meets redirect budgets.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "P01",
+      "stage": "M3",
+      "title": "[P01] Build constrained hosted-page schemas, themes and editor",
+      "dependencies": [
+        "D01",
+        "F04",
+        "Q05"
+      ],
+      "scope": "Implement one mobile-first page per object, fixed blocks, brand-matched presets, phone preview, draft revisions and undo. Keep schema validation server-side and prohibit arbitrary HTML/scripts/embeds. Enforce approved free page quotas.",
+      "acceptance": "A complete create/edit/draft journey works in Next.js with keyboard/mobile checks. Unknown block fields and script injection are rejected or safely escaped. Schema versions and optimistic concurrency prevent silent edit loss.",
+      "number": 16,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/16",
+      "body_template": "<!-- qr-roadmap:P01 -->\n\n## Outcome and scope\nImplement one mobile-first page per object, fixed blocks, brand-matched presets, phone preview, draft revisions and undo. Keep schema validation server-side and prohibit arbitrary HTML/scripts/embeds. Enforce approved free page quotas.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M3 — Hosted pages and MVP launch\n\n## Acceptance criteria\n- [ ] A complete create/edit/draft journey works in Next.js with keyboard/mobile checks.\n- [ ] Unknown block fields and script injection are rejected or safely escaped.\n- [ ] Schema versions and optimistic concurrency prevent silent edit loss.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "P02",
+      "stage": "M3",
+      "title": "[P02] Implement versioned publish, subdomains and edge caching",
+      "dependencies": [
+        "P01",
+        "D02",
+        "F05"
+      ],
+      "scope": "Publish immutable sanitized revisions, route platform subdomains and point dynamic codes to pages. Implement atomic publish/rollback, CDN/cache keys scoped by host/page/revision, invalidation and stale behavior; plan wildcard DNS/TLS based on hosting decisions.",
+      "acceptance": "Publishing and rollback expose whole revisions, never partial content. Host/tenant collision and cache-leak tests pass. Page TTFB, transfer size and LCP meet approved cold/warm and weak-network profiles; static pages do not require editor bundles.",
+      "number": 17,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/17",
+      "body_template": "<!-- qr-roadmap:P02 -->\n\n## Outcome and scope\nPublish immutable sanitized revisions, route platform subdomains and point dynamic codes to pages. Implement atomic publish/rollback, CDN/cache keys scoped by host/page/revision, invalidation and stale behavior; plan wildcard DNS/TLS based on hosting decisions.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M3 — Hosted pages and MVP launch\n\n## Acceptance criteria\n- [ ] Publishing and rollback expose whole revisions, never partial content.\n- [ ] Host/tenant collision and cache-leak tests pass.\n- [ ] Page TTFB, transfer size and LCP meet approved cold/warm and weak-network profiles; static pages do not require editor bundles.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "P03",
+      "stage": "M3",
+      "title": "[P03] Deliver core page blocks and open-status behavior",
+      "dependencies": [
+        "P01",
+        "P02"
+      ],
+      "scope": "Add contact/call/WhatsApp/SMS, hours/map links, links/socials, menu/services, controlled galleries, announcements/FAQ and Wi-Fi/vCard save. Support open/closed/back-in-ten-minutes and safe booking/payment/review link-outs; advanced forms remain separately governed.",
+      "acceptance": "Every supported block has mobile/accessibility and schema tests. Time-zone-aware hours are correct and do not become stale in caches. Review and private-feedback options are neutral; no built-in checkout, inventory or scheduling engine is implied.",
+      "number": 18,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/18",
+      "body_template": "<!-- qr-roadmap:P03 -->\n\n## Outcome and scope\nAdd contact/call/WhatsApp/SMS, hours/map links, links/socials, menu/services, controlled galleries, announcements/FAQ and Wi-Fi/vCard save. Support open/closed/back-in-ten-minutes and safe booking/payment/review link-outs; advanced forms remain separately governed.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M3 — Hosted pages and MVP launch\n\n## Acceptance criteria\n- [ ] Every supported block has mobile/accessibility and schema tests.\n- [ ] Time-zone-aware hours are correct and do not become stale in caches.\n- [ ] Review and private-feedback options are neutral; no built-in checkout, inventory or scheduling engine is implied.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "P04",
+      "stage": "M3",
+      "title": "[P04] Add page media limits, destination previews and abuse response",
+      "dependencies": [
+        "P01",
+        "P02",
+        "F03"
+      ],
+      "scope": "Compress and constrain images, validate uploads, strip metadata and provide asset deletion. Add free destination preview, report-abuse and moderation workflows with new-account throttles. Keep live pages safe without putting remote safety checks on redirects; remote fetchers defend against SSRF including redirects/DNS changes.",
+      "acceptance": "Unsafe block content/uploads and SSRF fixtures are blocked. Reports have a documented response path and takedown invalidates caches within the agreed window. Image/network budgets pass; sensitive offline QR data never enters page ingestion implicitly.",
+      "number": 19,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/19",
+      "body_template": "<!-- qr-roadmap:P04 -->\n\n## Outcome and scope\nCompress and constrain images, validate uploads, strip metadata and provide asset deletion. Add free destination preview, report-abuse and moderation workflows with new-account throttles. Keep live pages safe without putting remote safety checks on redirects; remote fetchers defend against SSRF including redirects/DNS changes.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M3 — Hosted pages and MVP launch\n\n## Acceptance criteria\n- [ ] Unsafe block content/uploads and SSRF fixtures are blocked.\n- [ ] Reports have a documented response path and takedown invalidates caches within the agreed window.\n- [ ] Image/network budgets pass; sensitive offline QR data never enters page ingestion implicitly.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "P05",
+      "stage": "M3",
+      "title": "[P05] Pass MVP release, backup restore and printed-link continuity gates",
+      "dependencies": [
+        "F03",
+        "F05",
+        "Q05",
+        "D04",
+        "D05",
+        "P02",
+        "P03",
+        "P04"
+      ],
+      "scope": "Run the full MVP journey, load/soak/failure tests, accessibility/device/print sampling and abuse review. Exercise database/object storage restoration, credential rotation, migration rollout/rollback and paid-hosting capacity decisions. Write incident runbooks, continuity/export policy and stage evidence.",
+      "acceptance": "No unresolved launch-critical security/correctness failures or unapproved budget gaps remain. Restore meets approved RPO/RTO; redirects remain compatible. Release evidence identifies exact commits, test environments and physical-scanning limits; deployment follows explicit release authorization.",
+      "number": 20,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/20",
+      "body_template": "<!-- qr-roadmap:P05 -->\n\n## Outcome and scope\nRun the full MVP journey, load/soak/failure tests, accessibility/device/print sampling and abuse review. Exercise database/object storage restoration, credential rotation, migration rollout/rollback and paid-hosting capacity decisions. Write incident runbooks, continuity/export policy and stage evidence.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M3 — Hosted pages and MVP launch\n\n## Acceptance criteria\n- [ ] No unresolved launch-critical security/correctness failures or unapproved budget gaps remain.\n- [ ] Restore meets approved RPO/RTO; redirects remain compatible.\n- [ ] Release evidence identifies exact commits, test environments and physical-scanning limits; deployment follows explicit release authorization.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "B01",
+      "stage": "M4",
+      "title": "[B01] Build Brand Studio presets and campaign variants",
+      "dependencies": [
+        "Q02",
+        "Q03",
+        "P01",
+        "P05"
+      ],
+      "scope": "Add logo color extraction, brand kits, saved styles, gradients/duotones and approved custom shapes. Apply seasonal skins and campaign variants consistently to code/page while preserving dynamic payloads; add digital-card/creator export templates.",
+      "acceptance": "Saved styles validate in both rendering paths. Restyling does not mutate destinations or printed QR patterns already in use. Variant attribution and final export scan checks pass; styles remain inside render and page budgets.",
+      "number": 21,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/21",
+      "body_template": "<!-- qr-roadmap:B01 -->\n\n## Outcome and scope\nAdd logo color extraction, brand kits, saved styles, gradients/duotones and approved custom shapes. Apply seasonal skins and campaign variants consistently to code/page while preserving dynamic payloads; add digital-card/creator export templates.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M4 — Pro Brand Studio and first industry pilot\n\n## Acceptance criteria\n- [ ] Saved styles validate in both rendering paths.\n- [ ] Restyling does not mutate destinations or printed QR patterns already in use.\n- [ ] Variant attribution and final export scan checks pass; styles remain inside render and page budgets.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "B02",
+      "stage": "M4",
+      "title": "[B02] Pilot one industry pack with guided onboarding",
+      "dependencies": [
+        "B01",
+        "P03",
+        "P05",
+        "F01"
+      ],
+      "scope": "Choose restaurants or facilities with the owner using pilot evidence. Deliver one pack's constrained templates, plain-language setup and selected link-out integrations; stage contact/digital-card/creator templates alongside shared blocks. Define pilot success metrics.",
+      "acceptance": "A pilot cohort completes the end-to-end pack workflow with measured setup time, scan quality and repeat edits. Pack-specific requirements fit existing code/page objects; any ordering/maintenance engine is a separate decision, not hidden scope.",
+      "number": 22,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/22",
+      "body_template": "<!-- qr-roadmap:B02 -->\n\n## Outcome and scope\nChoose restaurants or facilities with the owner using pilot evidence. Deliver one pack's constrained templates, plain-language setup and selected link-out integrations; stage contact/digital-card/creator templates alongside shared blocks. Define pilot success metrics.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M4 — Pro Brand Studio and first industry pilot\n\n## Acceptance criteria\n- [ ] A pilot cohort completes the end-to-end pack workflow with measured setup time, scan quality and repeat edits.\n- [ ] Pack-specific requirements fit existing code/page objects; any ordering/maintenance engine is a separate decision, not hidden scope.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "B03",
+      "stage": "M4",
+      "title": "[B03] Add scheduling, translation and page-block analytics",
+      "dependencies": [
+        "D04",
+        "P02",
+        "P03"
+      ],
+      "scope": "Implement scheduled content, language variants, per-block events and accessibility checks. Document cache keys/invalidation and time-zone behavior; derive counts from privacy-conscious events and bound range queries.",
+      "acceptance": "Boundary/DST/language tests and cache-isolation checks pass. Scheduled content switches in the approved time window. Block analytics meet query/lag budgets and never introduce personal payloads or synchronous writes into page loads.",
+      "number": 23,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/23",
+      "body_template": "<!-- qr-roadmap:B03 -->\n\n## Outcome and scope\nImplement scheduled content, language variants, per-block events and accessibility checks. Document cache keys/invalidation and time-zone behavior; derive counts from privacy-conscious events and bound range queries.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M4 — Pro Brand Studio and first industry pilot\n\n## Acceptance criteria\n- [ ] Boundary/DST/language tests and cache-isolation checks pass.\n- [ ] Scheduled content switches in the approved time window.\n- [ ] Block analytics meet query/lag budgets and never introduce personal payloads or synchronous writes into page loads.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "B04",
+      "stage": "M4",
+      "title": "[B04] Build reviewed AI page setup from approved inputs",
+      "dependencies": [
+        "P01",
+        "P04",
+        "B02"
+      ],
+      "scope": "Select photo-to-page or permitted profile-link import before implementation. Queue bounded AI/OCR jobs, record provenance/confidence and show mandatory editable drafts. Defend remote fetches, govern provider privacy/cost and treat imported text as untrusted.",
+      "acceptance": "The system cannot publish an AI draft without human confirmation. Price/allergen uncertainty is highlighted with evidence. Cancellation/retry/cost limits work, vendor failures are recoverable and paid data handling is documented; no unsupported social scraping is assumed.",
+      "number": 24,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/24",
+      "body_template": "<!-- qr-roadmap:B04 -->\n\n## Outcome and scope\nSelect photo-to-page or permitted profile-link import before implementation. Queue bounded AI/OCR jobs, record provenance/confidence and show mandatory editable drafts. Defend remote fetches, govern provider privacy/cost and treat imported text as untrusted.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M4 — Pro Brand Studio and first industry pilot\n\n## Acceptance criteria\n- [ ] The system cannot publish an AI draft without human confirmation.\n- [ ] Price/allergen uncertainty is highlighted with evidence.\n- [ ] Cancellation/retry/cost limits work, vendor failures are recoverable and paid data handling is documented; no unsupported social scraping is assumed.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "B05",
+      "stage": "M4",
+      "title": "[B05] Approve pricing and implement paid entitlements",
+      "dependencies": [
+        "D01",
+        "D04",
+        "P05",
+        "F01"
+      ],
+      "scope": "Decide Pro/Business/API pricing and quota dimensions, then implement server-enforced entitlements, metering, checkout link-outs and verified billing webhooks. Make cancellation/downgrade/export behavior preserve printed-link continuity with an approved grace policy.",
+      "acceptance": "Owner-approved tier matrix resolves custom-domain ambiguity. Duplicate/out-of-order billing events do not corrupt access or charges; quota races, upgrade/downgrade and cancellation tests pass. Metering is off-request and reconciles with the event delivery policy.",
+      "number": 25,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/25",
+      "body_template": "<!-- qr-roadmap:B05 -->\n\n## Outcome and scope\nDecide Pro/Business/API pricing and quota dimensions, then implement server-enforced entitlements, metering, checkout link-outs and verified billing webhooks. Make cancellation/downgrade/export behavior preserve printed-link continuity with an approved grace policy.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M4 — Pro Brand Studio and first industry pilot\n\n## Acceptance criteria\n- [ ] Owner-approved tier matrix resolves custom-domain ambiguity.\n- [ ] Duplicate/out-of-order billing events do not corrupt access or charges; quota races, upgrade/downgrade and cancellation tests pass.\n- [ ] Metering is off-request and reconciles with the event delivery policy.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "T01",
+      "stage": "M5",
+      "title": "[T01] Add teams, approvals, audit logs and multi-location templates",
+      "dependencies": [
+        "D01",
+        "D02",
+        "P01",
+        "B01",
+        "B05"
+      ],
+      "scope": "Implement workspace roles, invitations, scoped multi-location code/page templates, brand guardrails and approvals for live changes. Version approved content and audit actor/action/revision; separate draft permission from publish permission.",
+      "acceptance": "A full role/tenant matrix and concurrent approval tests pass. Locked brand rules cannot be bypassed via API. Template updates have explicit per-location rollout/rollback and paginated audit queries meet budgets.",
+      "number": 26,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/26",
+      "body_template": "<!-- qr-roadmap:T01 -->\n\n## Outcome and scope\nImplement workspace roles, invitations, scoped multi-location code/page templates, brand guardrails and approvals for live changes. Version approved content and audit actor/action/revision; separate draft permission from publish permission.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M5 — Business governance and trust\n\n## Acceptance criteria\n- [ ] A full role/tenant matrix and concurrent approval tests pass.\n- [ ] Locked brand rules cannot be bypassed via API.\n- [ ] Template updates have explicit per-location rollout/rollback and paginated audit queries meet budgets.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "T02",
+      "stage": "M5",
+      "title": "[T02] Add verified custom domains and safe domain lifecycle",
+      "dependencies": [
+        "P02",
+        "T01",
+        "B05"
+      ],
+      "scope": "Implement domain ownership challenges, DNS/TLS provisioning, normalized host routing, teardown and reclaim protection for code/page domains. Resolve plan eligibility from the approved pricing matrix. Document renewal/outage/transfer and printed-link continuity.",
+      "acceptance": "Cross-tenant host reuse and subdomain-takeover tests fail safely. Domain changes do not silently orphan printed links. Host-aware cache isolation and TLS renewal runbooks pass in staging; no arbitrary Host header becomes trusted.",
+      "number": 27,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/27",
+      "body_template": "<!-- qr-roadmap:T02 -->\n\n## Outcome and scope\nImplement domain ownership challenges, DNS/TLS provisioning, normalized host routing, teardown and reclaim protection for code/page domains. Resolve plan eligibility from the approved pricing matrix. Document renewal/outage/transfer and printed-link continuity.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M5 — Business governance and trust\n\n## Acceptance criteria\n- [ ] Cross-tenant host reuse and subdomain-takeover tests fail safely.\n- [ ] Domain changes do not silently orphan printed links.\n- [ ] Host-aware cache isolation and TLS renewal runbooks pass in staging; no arbitrary Host header becomes trusted.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "T03",
+      "stage": "M5",
+      "title": "[T03] Add authenticity signatures and cautious anomaly alerts",
+      "dependencies": [
+        "D03",
+        "T01",
+        "F03"
+      ],
+      "scope": "Specify a reviewed standard signing format, canonical payloads, key rotation/revocation and bounded public verification. Add consented scan-anomaly/report alerts and asynchronous destination monitoring; represent tamper signals as possible anomalies, not sticker-overlay proof.",
+      "acceptance": "Golden signature vectors, forged/expired/revoked key tests and public verification quotas pass. Monitoring quarantines unsafe destinations within approved windows. Product copy distinguishes cryptographic authenticity from anomaly detection and makes no prevention guarantee.",
+      "number": 28,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/28",
+      "body_template": "<!-- qr-roadmap:T03 -->\n\n## Outcome and scope\nSpecify a reviewed standard signing format, canonical payloads, key rotation/revocation and bounded public verification. Add consented scan-anomaly/report alerts and asynchronous destination monitoring; represent tamper signals as possible anomalies, not sticker-overlay proof.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M5 — Business governance and trust\n\n## Acceptance criteria\n- [ ] Golden signature vectors, forged/expired/revoked key tests and public verification quotas pass.\n- [ ] Monitoring quarantines unsafe destinations within approved windows.\n- [ ] Product copy distinguishes cryptographic authenticity from anomaly detection and makes no prevention guarantee.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "T04",
+      "stage": "M5",
+      "title": "[T04] Implement Apple and Google wallet pass adapters",
+      "dependencies": [
+        "T01",
+        "T03",
+        "B05"
+      ],
+      "scope": "Validate provider prerequisites and product use cases; issue/update/revoke loyalty, ticket or coupon passes using isolated adapters, scoped credentials and bounded background jobs. Model redemption authorization separately from pass display and analytics.",
+      "acceptance": "Sandbox provider flows, replay/revocation and concurrent redemption tests pass. Secrets/signing keys are protected, retry/cost quotas are bounded and vendor outage/expiry behavior is documented; production activation waits for provider and release requirements.",
+      "number": 29,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/29",
+      "body_template": "<!-- qr-roadmap:T04 -->\n\n## Outcome and scope\nValidate provider prerequisites and product use cases; issue/update/revoke loyalty, ticket or coupon passes using isolated adapters, scoped credentials and bounded background jobs. Model redemption authorization separately from pass display and analytics.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M5 — Business governance and trust\n\n## Acceptance criteria\n- [ ] Sandbox provider flows, replay/revocation and concurrent redemption tests pass.\n- [ ] Secrets/signing keys are protected, retry/cost quotas are bounded and vendor outage/expiry behavior is documented; production activation waits for provider and release requirements.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "T05",
+      "stage": "M5",
+      "title": "[T05] Implement selected no-code business connectors",
+      "dependencies": [
+        "T01",
+        "D04",
+        "B02"
+      ],
+      "scope": "Choose priority POS/commerce, CRM, automation/Sheets, booking and email recipes with pilot evidence; build a reusable OAuth adapter boundary with least privilege, encrypted refresh tokens, disconnect/revoke and signed incoming webhooks. Start with selected connectors, not the whole catalog.",
+      "acceptance": "Provider sandbox contract tests, duplicate/reordered events, refresh races, rate limits and disconnect cleanup pass. A scan cannot silently subscribe or identify a person without an approved consent flow. Provider work and retries stay off scan requests.",
+      "number": 30,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/30",
+      "body_template": "<!-- qr-roadmap:T05 -->\n\n## Outcome and scope\nChoose priority POS/commerce, CRM, automation/Sheets, booking and email recipes with pilot evidence; build a reusable OAuth adapter boundary with least privilege, encrypted refresh tokens, disconnect/revoke and signed incoming webhooks. Start with selected connectors, not the whole catalog.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M5 — Business governance and trust\n\n## Acceptance criteria\n- [ ] Provider sandbox contract tests, duplicate/reordered events, refresh races, rate limits and disconnect cleanup pass.\n- [ ] A scan cannot silently subscribe or identify a person without an approved consent flow.\n- [ ] Provider work and retries stay off scan requests.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "A01",
+      "stage": "M6",
+      "title": "[A01] Publish versioned APIs, scoped keys and developer docs",
+      "dependencies": [
+        "T01",
+        "B05",
+        "P05"
+      ],
+      "scope": "Expose codes/styles/routing/pages/analytics/verification through reviewed versioned OpenAPI contracts, scoped hashed API keys, sandbox quotas and request IDs. Provide curl/JS/Python quickstarts, view-as-API and documented cursor/error/idempotency conventions.",
+      "acceptance": "Contract and scope/tenant isolation tests pass. Key rotate/revoke applies within the approved window. Docs execute against a sandbox and compatibility tests preserve existing short links and internal clients.",
+      "number": 31,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/31",
+      "body_template": "<!-- qr-roadmap:A01 -->\n\n## Outcome and scope\nExpose codes/styles/routing/pages/analytics/verification through reviewed versioned OpenAPI contracts, scoped hashed API keys, sandbox quotas and request IDs. Provide curl/JS/Python quickstarts, view-as-API and documented cursor/error/idempotency conventions.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M6 — Public API and developer platform\n\n## Acceptance criteria\n- [ ] Contract and scope/tenant isolation tests pass.\n- [ ] Key rotate/revoke applies within the approved window.\n- [ ] Docs execute against a sandbox and compatibility tests preserve existing short links and internal clients.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "A02",
+      "stage": "M6",
+      "title": "[A02] Add bounded bulk, render jobs and data exports",
+      "dependencies": [
+        "A01",
+        "Q03",
+        "D04",
+        "F04"
+      ],
+      "scope": "Implement CSV validation and asynchronous thousands-of-codes jobs, PNG/SVG/PDF rendering, progress/cancel and chunked export. Bound rows/bytes/time/memory/concurrency and quotas per tenant; preserve shared style semantics and final-artifact decoding gates.",
+      "acceptance": "Malformed/large CSV, partial retry, idempotency and cancellation tests pass. Render saturation cannot starve redirects, jobs remain within measured resource budgets, and exports retain tenant isolation and safe spreadsheet text handling.",
+      "number": 32,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/32",
+      "body_template": "<!-- qr-roadmap:A02 -->\n\n## Outcome and scope\nImplement CSV validation and asynchronous thousands-of-codes jobs, PNG/SVG/PDF rendering, progress/cancel and chunked export. Bound rows/bytes/time/memory/concurrency and quotas per tenant; preserve shared style semantics and final-artifact decoding gates.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M6 — Public API and developer platform\n\n## Acceptance criteria\n- [ ] Malformed/large CSV, partial retry, idempotency and cancellation tests pass.\n- [ ] Render saturation cannot starve redirects, jobs remain within measured resource budgets, and exports retain tenant isolation and safe spreadsheet text handling.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "A03",
+      "stage": "M6",
+      "title": "[A03] Deliver signed outgoing webhooks with replay controls",
+      "dependencies": [
+        "A01",
+        "D04",
+        "T05"
+      ],
+      "scope": "Send scan/expiry/limit/tamper/page-update events from a bounded dispatcher. Define event schema/version/order semantics, standard signing, timestamp windows, retry jitter, delivery IDs, dead-letter handling and customer replay. Restrict delivery URLs against SSRF.",
+      "acceptance": "Signature examples verify in JS/Python. Duplicate, out-of-order, timeout, 429, DNS/redirect attack and replay cases pass. Queue age, failures and retry cost are observable; slow customer endpoints cannot delay redirects or exhaust global workers.",
+      "number": 33,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/33",
+      "body_template": "<!-- qr-roadmap:A03 -->\n\n## Outcome and scope\nSend scan/expiry/limit/tamper/page-update events from a bounded dispatcher. Define event schema/version/order semantics, standard signing, timestamp windows, retry jitter, delivery IDs, dead-letter handling and customer replay. Restrict delivery URLs against SSRF.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M6 — Public API and developer platform\n\n## Acceptance criteria\n- [ ] Signature examples verify in JS/Python.\n- [ ] Duplicate, out-of-order, timeout, 429, DNS/redirect attack and replay cases pass.\n- [ ] Queue age, failures and retry cost are observable; slow customer endpoints cannot delay redirects or exhaust global workers.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "A04",
+      "stage": "M6",
+      "title": "[A04] Build developer SDKs and a scoped embed designer",
+      "dependencies": [
+        "A01",
+        "A02",
+        "Q02",
+        "P01"
+      ],
+      "scope": "Publish JS/Python clients and a drop-in themed QR designer using the existing style contract. Use explicitly scoped short-lived embed capabilities, origin/CSP controls and bundle budgets; expose user-facing errors without backend secrets.",
+      "acceptance": "Client/contract examples and allowed/disallowed origin tests pass. Embedded users cannot access another tenant or a full administrative key. Output matches contract golden fixtures, keyboard flows work and SDK/widget transfer/interaction budgets pass.",
+      "number": 34,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/34",
+      "body_template": "<!-- qr-roadmap:A04 -->\n\n## Outcome and scope\nPublish JS/Python clients and a drop-in themed QR designer using the existing style contract. Use explicitly scoped short-lived embed capabilities, origin/CSP controls and bundle budgets; expose user-facing errors without backend secrets.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M6 — Public API and developer platform\n\n## Acceptance criteria\n- [ ] Client/contract examples and allowed/disallowed origin tests pass.\n- [ ] Embedded users cannot access another tenant or a full administrative key.\n- [ ] Output matches contract golden fixtures, keyboard flows work and SDK/widget transfer/interaction budgets pass.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "A05",
+      "stage": "M6",
+      "title": "[A05] Prove platform capacity, noisy-neighbor isolation and usage reconciliation",
+      "dependencies": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "F05"
+      ],
+      "scope": "Load mixed redirects/API/page reads/rendering/webhooks across many tenants; measure connection/queue budgets and cost per workload. Add fair admission controls and reconciled usage accounting. Decide further replicas, partitioning, separate Redis roles or data stores only from the measured bottleneck.",
+      "acceptance": "Approved p95/p99, availability/error, lag and cost budgets pass at sustained/peak/soak profiles. One abusive tenant cannot starve others, billed usage reconciles without duplicates and recovery drills meet RPO/RTO. Capacity limits and scaling triggers are documented.",
+      "number": 35,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/35",
+      "body_template": "<!-- qr-roadmap:A05 -->\n\n## Outcome and scope\nLoad mixed redirects/API/page reads/rendering/webhooks across many tenants; measure connection/queue budgets and cost per workload. Add fair admission controls and reconciled usage accounting. Decide further replicas, partitioning, separate Redis roles or data stores only from the measured bottleneck.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M6 — Public API and developer platform\n\n## Acceptance criteria\n- [ ] Approved p95/p99, availability/error, lag and cost budgets pass at sustained/peak/soak profiles.\n- [ ] One abusive tenant cannot starve others, billed usage reconciles without duplicates and recovery drills meet RPO/RTO.\n- [ ] Capacity limits and scaling triggers are documented.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "X01",
+      "stage": "M7",
+      "title": "[X01] Add authenticated text and webhook page updates",
+      "dependencies": [
+        "A03",
+        "T01",
+        "B03"
+      ],
+      "scope": "Select an SMS/messaging provider and approved cost/consent model; map updates to tenant/page/action with actor verification, confirmation and undo. Keep AI interpretations in drafts when intent is ambiguous; rate-limit changes and audit source/revision.",
+      "acceptance": "Spoof/replay/ambiguity and approval tests cannot change a live page without the required authority. Content update rollback works, provider retries are idempotent and cache freshness/cost budgets hold.",
+      "number": 36,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/36",
+      "body_template": "<!-- qr-roadmap:X01 -->\n\n## Outcome and scope\nSelect an SMS/messaging provider and approved cost/consent model; map updates to tenant/page/action with actor verification, confirmation and undo. Keep AI interpretations in drafts when intent is ambiguous; rate-limit changes and audit source/revision.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M7 — Expansion and experimental features\n\n## Acceptance criteria\n- [ ] Spoof/replay/ambiguity and approval tests cannot change a live page without the required authority.\n- [ ] Content update rollback works, provider retries are idempotent and cache freshness/cost budgets hold.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "X02",
+      "stage": "M7",
+      "title": "[X02] Add opt-in offline caching for hosted pages",
+      "dependencies": [
+        "P02",
+        "P04",
+        "T01"
+      ],
+      "scope": "Cache selected public page revisions/assets for repeat visits with explicit stale indicators, content expiry and storage limits. Exclude sensitive/password/admin/private content by default; define sign-out, takedown and revision cleanup behavior.",
+      "acceptance": "Offline tests show the last allowed public revision and clearly identify stale hours/offers. Sensitive responses never enter service-worker caches. Revocation limitations for already-offline clients are documented before enabling this feature.",
+      "number": 37,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/37",
+      "body_template": "<!-- qr-roadmap:X02 -->\n\n## Outcome and scope\nCache selected public page revisions/assets for repeat visits with explicit stale indicators, content expiry and storage limits. Exclude sensitive/password/admin/private content by default; define sign-out, takedown and revision cleanup behavior.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M7 — Expansion and experimental features\n\n## Acceptance criteria\n- [ ] Offline tests show the last allowed public revision and clearly identify stale hours/offers.\n- [ ] Sensitive responses never enter service-worker caches.\n- [ ] Revocation limitations for already-offline clients are documented before enabling this feature.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "X03",
+      "stage": "M7",
+      "title": "[X03] Evaluate artistic, animated and material-specific QR packs",
+      "dependencies": [
+        "Q03",
+        "Q04",
+        "A02"
+      ],
+      "scope": "Extend existing experimental image modes only with measured benefit. Evaluate scene/image blending, animation and material profiles such as etching/embroidery/packaging, with bounded render jobs, print-specific geometry and independent final-artifact checks.",
+      "acceptance": "A preregistered phone/print/material study records failures and supported conditions, including animation frames. Safe exports remain gated, failed modes explain recovery, and image generation cannot exceed approved resource/cost budgets or weaken mandatory QR patterns.",
+      "number": 38,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/38",
+      "body_template": "<!-- qr-roadmap:X03 -->\n\n## Outcome and scope\nExtend existing experimental image modes only with measured benefit. Evaluate scene/image blending, animation and material profiles such as etching/embroidery/packaging, with bounded render jobs, print-specific geometry and independent final-artifact checks.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M7 — Expansion and experimental features\n\n## Acceptance criteria\n- [ ] A preregistered phone/print/material study records failures and supported conditions, including animation frames.\n- [ ] Safe exports remain gated, failed modes explain recovery, and image generation cannot exceed approved resource/cost budgets or weaken mandatory QR patterns.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "X04",
+      "stage": "M7",
+      "title": "[X04] Evaluate community tip blocks and additional industry packs",
+      "dependencies": [
+        "T01",
+        "T05",
+        "P04",
+        "B02"
+      ],
+      "scope": "Use pilot evidence to prioritize retail, hospitality, events, real estate, facilities, logistics, healthcare or agencies. Treat location tip boards as optional constrained blocks with moderation/spam controls; scope intake/feedback/newsletter forms and sensitive data handling separately.",
+      "acceptance": "Each selected pack/board has owner-approved scope, privacy/abuse decisions and measured adoption before build. Healthcare intake or ticket/inventory engines are not implied by templates; any new data class or engine gets a threat model and architecture decision.",
+      "number": 39,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/39",
+      "body_template": "<!-- qr-roadmap:X04 -->\n\n## Outcome and scope\nUse pilot evidence to prioritize retail, hospitality, events, real estate, facilities, logistics, healthcare or agencies. Treat location tip boards as optional constrained blocks with moderation/spam controls; scope intake/feedback/newsletter forms and sensitive data handling separately.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M7 — Expansion and experimental features\n\n## Acceptance criteria\n- [ ] Each selected pack/board has owner-approved scope, privacy/abuse decisions and measured adoption before build.\n- [ ] Healthcare intake or ticket/inventory engines are not implied by templates; any new data class or engine gets a threat model and architecture decision.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    },
+    {
+      "key": "X05",
+      "stage": "M7",
+      "title": "[X05] Decide physical-product fulfillment and deferred engines",
+      "dependencies": [
+        "B02",
+        "X03",
+        "B05"
+      ],
+      "scope": "Investigate print partners versus fulfillment and requirements for stickers/table tents. Revisit built-in ordering, checkout, inventory, scheduling, full website/SEO tooling and a standalone community product only if evidence supports them. Keep external booking/payment link-outs usable.",
+      "acceptance": "Discovery records demand, operations/costs, liability and an explicit build/partner/defer choice. Accepted new work gets separate milestones and testable issues; deferred concepts remain deferred and cannot be smuggled into the MVP.",
+      "number": 40,
+      "url": "https://github.com/Protagonist01/url-shortener/issues/40",
+      "body_template": "<!-- qr-roadmap:X05 -->\n\n## Outcome and scope\nInvestigate print partners versus fulfillment and requirements for stickers/table tents. Revisit built-in ordering, checkout, inventory, scheduling, full website/SEO tooling and a standalone community product only if evidence supports them. Keep external booking/payment link-outs usable.\n\n## Prerequisites\n{{dependencies}}\n\nMilestone: M7 — Expansion and experimental features\n\n## Acceptance criteria\n- [ ] Discovery records demand, operations/costs, liability and an explicit build/partner/defer choice.\n- [ ] Accepted new work gets separate milestones and testable issues; deferred concepts remain deferred and cannot be smuggled into the MVP.\n- [ ] All prerequisite outcomes are verified; implementation PRs are linked and evidence distinguishes passed, failed and unverified checks.\n\n## Performance and verification\n- [ ] Apply F01's approved budgets and docs/PERFORMANCE.md. Capture relevant percentiles, query plans/counts, resource/queue limits and concurrent/failure behavior for this issue's workload.\n- [ ] Record commands, commit, environment, fixtures and results. Discovery work provides reviewed decisions/evidence and explains where benchmarks do not apply; missing infrastructure is not a pass.\n- [ ] Preserve applicable security, privacy, accessibility and printed-link behavior; document migrations, rollback and meaningful decisions.\n\n## References\nAGENTS.md · docs/ROADMAP.md · docs/PERFORMANCE.md · docs/product-scope.md · docs/roadmap/plan.json\n\nScheduling is dependency-driven. No due date or unconfirmed product choice is assumed. If this outcome exceeds a cohesive implementation, split it into linked child issues rather than omitting acceptance criteria."
+    }
+  ]
+}
