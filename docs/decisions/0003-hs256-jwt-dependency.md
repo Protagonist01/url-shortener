@@ -1,6 +1,6 @@
 # ADR0003 — Replace the historical JOSE dependency for HS256 tokens
 
-Status: implementation in progress for [DEP01/#60](https://github.com/Protagonist01/url-shortener/issues/60); verification determines readiness. Date:2026-10-06.
+Status: implemented for [DEP01/#60](https://github.com/Protagonist01/url-shortener/issues/60), verified by actual Linux contract/API/worker and fresh advisory checks in PR63; merge/rollout status is recorded separately. Date:2026-10-06.
 
 The published app uses python-jose3.3.0 solely to issue/verify HS256 access tokens. The actual Linux baseline records advisory IDs in python-jose and its ECDSA dependency, including an ECDSA finding without a listed fix. Static HS256 usage does not waive installed-package findings. See [exact primary-source mapping](../security/dependency-triage.md).
 

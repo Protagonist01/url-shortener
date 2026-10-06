@@ -1,0 +1,27 @@
+{
+  "result": "passed",
+  "recorded_at": "2026-10-06T21:49:58.068555+00:00",
+  "source_head": "1b75eaea56931888c35d4378659f8fd57cd7a5a2",
+  "security_sha256": "03a899d0bf98a4ade3993aeb15f4bf1000a4300e6a216d56d1187bfe4cb616ac",
+  "requirements_sha256": "2c3ad12fd5de5cf2414374daf6479ea7558ea50783908f140d06ba21947fd105",
+  "python": "3.12.14",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "cpu": "x86_64",
+  "pyjwt": "2.15.1",
+  "legacy_api_tests": 18,
+  "api_processes": 1,
+  "tracking_profile": "background_tasks with synthetic GeoIP ZZ",
+  "legacy_current_hs256_interoperability": true,
+  "cold_warm_destination_fragment": true,
+  "malformed_claims_safe": true,
+  "token_decode_microseconds": {
+    "warmup": 200,
+    "count": 2000,
+    "p50": 45.505,
+    "p95": 57.257,
+    "p99": 71.323,
+    "errors": 0,
+    "serial_operations_per_second": 21073.39841487368
+  },
+  "limits": "synthetic serial decode, not load/device/capacity/SLO proof; no DB/query changes; real worker check is separate; unpublished /q prototype excluded"
+}
