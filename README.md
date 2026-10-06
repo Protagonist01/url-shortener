@@ -97,6 +97,10 @@ python -m scripts.verify_configuration --docker
 
 The Docker check builds only a temporary synthetic context with the repository's ignore rules; it never submits this checkout's environment files to Docker. See docs/verification/2026-10-06-configuration-boundaries.md for evidence and limitations.
 
+## Foundation checks
+
+The `Foundation correctness` workflow runs isolated configuration, worker-registration, migration and actual task-delivery checks. Reproduce with `requirements-ci.txt` and the commands in [foundation-ci.md](docs/verification/foundation-ci.md). This scoped job does not establish full application/security/browser/performance readiness; F03 and the milestone gates track remaining coverage.
+
 ## API reference
 
 ### Shorten a URL

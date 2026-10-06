@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+from tempfile import TemporaryDirectory
 
 
 def test_scheduled_tasks_are_registered_at_worker_startup():
@@ -17,6 +18,7 @@ def test_scheduled_tasks_are_registered_at_worker_startup():
         "CELERY_BROKER_URL": "redis://127.0.0.1:9/1",
         "CELERY_RESULT_BACKEND": "redis://127.0.0.1:9/2",
     })
+    env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1])
     code = """
 import json
 from app.worker.celery_app import celery_app
@@ -25,11 +27,12 @@ names = [entry['task'] for entry in celery_app.conf.beat_schedule.values()]
 print(json.dumps({'scheduled': names,
                   'missing': [name for name in names if name not in celery_app.tasks]}))
 """
-    result = subprocess.run(
-        [sys.executable, "-c", code],
-        cwd=Path(__file__).resolve().parents[1], env=env,
-        capture_output=True, text=True, check=True, timeout=20,
-    )
+    # Environment overrides alone do not prevent Pydantic reading .env.
+    with TemporaryDirectory(prefix="qr-worker-registry-") as directory:
+        result = subprocess.run(
+            [sys.executable, "-c", code], cwd=directory, env=env,
+            capture_output=True, text=True, check=True, timeout=20,
+        )
     report = json.loads(result.stdout)
     assert report["scheduled"], "The test must exercise a real periodic task"
     assert report["missing"] == [], f"Worker cannot consume scheduled tasks: {report['missing']}"

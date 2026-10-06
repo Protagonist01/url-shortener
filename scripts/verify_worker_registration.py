@@ -10,6 +10,7 @@ all service operations check the exact ownership label and loopback bindings.
 from __future__ import annotations
 
 import argparse
+from configparser import ConfigParser
 from datetime import datetime, timedelta, timezone
 from importlib.metadata import version
 import hashlib
@@ -19,6 +20,7 @@ from pathlib import Path
 import socket
 import subprocess
 import sys
+from tempfile import TemporaryDirectory
 import time
 from uuid import uuid4
 
@@ -42,6 +44,7 @@ def environment():
         "CELERY_RESULT_BACKEND": "redis://127.0.0.1:26379/2",
         "SHORT_URL_BASE": "http://127.0.0.1:28000",
         "CLICK_TRACKING_BACKEND": "celery",
+        "PYTHONPATH": str(ROOT),
     })
     return env
 
@@ -148,10 +151,22 @@ def verify():
     require_services()
     OUTPUT.mkdir(parents=True, exist_ok=True)
     env = environment()
+    # Descendant temporary directories stay inside this owned run directory;
+    # parent cleanup also removes them after terminating the worker.
+    env.update({key: str(Path.cwd()) for key in ("TMPDIR", "TEMP", "TMP")})
     os.environ.update(env)
+    # Resolve migration paths explicitly while the subprocess stays in an
+    # empty directory. Relative .env loading cannot reach repository secrets.
+    migration_config = ConfigParser()
+    migration_config.read(ROOT / "alembic.ini")
+    migration_config.set("alembic", "script_location", str(ROOT / "alembic"))
+    migration_config.set("alembic", "prepend_sys_path", str(ROOT))
+    migration_path = Path.cwd() / "alembic-check.ini"
+    with migration_path.open("w") as config_file:
+        migration_config.write(config_file)
     with (OUTPUT / "migrations.log").open("w") as log:
-        subprocess.run([sys.executable, "-m", "alembic", "upgrade", "head"],
-                       cwd=ROOT, env=env, stdout=log, stderr=log, check=True, timeout=45)
+        subprocess.run([sys.executable, "-m", "alembic", "-c", str(migration_path), "upgrade", "head"],
+                       cwd=Path.cwd(), env=env, stdout=log, stderr=log, check=True, timeout=45)
     from sqlalchemy import create_engine, select
     from sqlalchemy.orm import Session
     from app.models.models import ClickEvent, DailyStats, ShortURL
@@ -178,7 +193,7 @@ def verify():
         with (OUTPUT / "worker.log").open("w") as log:
             worker = subprocess.Popen(
                 [sys.executable, "-m", "scripts.verify_worker_registration", "worker", "--queue", queue],
-                cwd=ROOT, env=env, stdout=log, stderr=log,
+                cwd=Path.cwd(), env=env, stdout=log, stderr=log,
                 creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
             )
             deadline = time.monotonic() + 30
@@ -215,7 +230,7 @@ def verify():
                 assert observed == {ids[0]: (4, 0, "ZZ"), ids[1]: (2, 0, "ZZ")}, observed
             report = {"result": "passed", "celery": version("celery"),
                       "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-                      "dirty_diff": "registration include plus new test/helper/docs; inspect PR commit for final identity",
+                      "runtime": {"python": sys.version, "platform": sys.platform},
                       "source_sha256": {str(path.relative_to(ROOT)).replace("\\", "/"):
                                          hashlib.sha256(path.read_bytes()).hexdigest()
                                          for path in (ROOT / "app/worker/celery_app.py",
@@ -225,7 +240,7 @@ def verify():
                       "scheduled_messages": 1, "period_seconds_preserved": production_period,
                       "aggregate_rows": len(rows), "click_counts": [4, 2],
                       "task_result": aggregate, "geoip_network": "none; IP absent, synthetic ZZ fixtures",
-                      "limitations": "local correctness check, not Linux prefork/load/retry/idempotency proof"}
+                      "limitations": "correctness check, not prefork/load/retry/idempotency proof"}
             (OUTPUT / "evidence.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
             print(json.dumps(report, indent=2))
     finally:
@@ -238,7 +253,7 @@ def verify():
         engine.dispose()
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=("up", "verify", "down", "worker"))
     parser.add_argument("--queue")
@@ -258,3 +273,16 @@ if __name__ == "__main__":
             "--hostname=registration@" + args.queue, "--queues=" + args.queue,
             "--without-gossip", "--without-mingle",
         ])
+
+
+if __name__ == "__main__":
+    # Tests need no local dotenv file. Keep all application/migration/worker
+    # imports in an empty cwd, including descendant subprocesses.
+    previous_directory = Path.cwd()
+    with TemporaryDirectory(prefix="qr-worker-delivery-") as directory:
+        try:
+            os.chdir(directory)
+            main()
+        finally:
+            # Windows cannot remove the process's current directory.
+            os.chdir(previous_directory)

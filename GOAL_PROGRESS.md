@@ -27,6 +27,9 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 - [PR #52](https://github.com/Protagonist01/url-shortener/pull/52) merged as `0f316c69f88374a177ce5d4abb58c153d8e249d3`. Fetched main contains the exact worker commit; child #51 is closed. This supersedes the earlier awaiting-review status. Parent #45 remains open.
 - [AUD02a / #53](https://github.com/Protagonist01/url-shortener/issues/53) is attached to parent #43. Private configuration is removed only from the isolated branch's index, with Git/Docker boundaries and a public fake template. Before checker failed on tracked .env; final Git/template/synthetic actual Docker checks pass. See docs/verification/2026-10-06-configuration-boundaries.md. Child awaits its implementation PR; no historical cleanup, rotation or parent completion is claimed.
 
+- [PR #54](https://github.com/Protagonist01/url-shortener/pull/54) merged as `e3a97a84a2040a89976d87c0787a7d2c3e010e0e`; GitHub closed child #53. This supersedes its awaiting-review status; parent #43 remains open.
+- [F03a / #55](https://github.com/Protagonist01/url-shortener/issues/55) is attached to parent #3 for isolated foundation correctness CI. It reuses verified checks without choosing hosting/service budgets. The full parent remains gated by F01 and broader coverage. Actual GitHub execution is pending; do not mark CI successful from YAML/local results.
+
 
 | Milestone | Status / next dependency |
 |---|---|
