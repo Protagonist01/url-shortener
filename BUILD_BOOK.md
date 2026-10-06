@@ -19,6 +19,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 15 — Keeping local configuration out of Git and Docker](#entry-15--keeping-local-configuration-out-of-git-and-docker)
 - [Entry 16 — Turning local foundation checks into isolated CI](#entry-16--turning-local-foundation-checks-into-isolated-ci)
 - [Entry 17 — Auditing dependencies before choosing upgrades](#entry-17--auditing-dependencies-before-choosing-upgrades)
+- [Entry 18 — Removing unused JWT crypto without breaking existing tokens](#entry-18--removing-unused-jwt-crypto-without-breaking-existing-tokens)
 
 ---
 
@@ -1146,3 +1147,19 @@ The second unchanged scanner installation succeeded, including filelock4.0.12. A
 All18 canonical PyPA source links returned200 and contained the expected identifier. Created/verified M0 children60/61/62 of3 mapping all packages. The Windows run eventually ended with PermissionError during temporary cleanup and no completed baseline, so do not infer Windows results from Linux. Pipes/descendants can outlive a directly killed scanner: replace capture_output with a file log, Popen.wait with a finite timeout and psutil cleanup scoped to that Popen tree. Pin psutil7.2.2 in tool requirements, keep child temporary files inside the owned run directory, verify its resolved boundary, and record operational failure class separately. No global process kill or application environment change is used.
 
 Local real process cleanup test passed once in2.105s; Linux head50f6bc0 passed advisory37527373512 and correctness37527373523, including the added process test. The revised Windows scan ended with a logged PyPI ReadTimeout and separate RuntimeError failure JSON, so its coverage is incomplete and recorded as such. Stop retrying unchanged network failures in this step; actual Linux evidence remains authoritative for the Linux baseline. All findings map to verified open children60/61/62, with parent3/security43 and release gates still open.
+
+PR59 final head91123c8 passed actual Linux advisory37532103550 and foundation37532103585, then merged as e0ad487ecc0e0501d104e6a03fc01ede66220f4c. This completes discovery58; all remediation/release gates remain open. A transient GitHub DNS failure delayed the documentation push; retry succeeded without recreating the PR or discarding the saved commit.
+
+## Entry 18 — Removing unused JWT crypto without breaking existing tokens
+**Files touched:** security helper, runtime pin, isolated historical fixture/tests, ADR0003 and verification tooling.
+
+### Context and options
+Issue60 targets the actual JOSE/ECDSA advisory chain. Our observed app only signs/verifies HS256. Upgrade JOSE or use a focused JWT implementation: the former retains its unused ECDSA chain with an unfixed finding, so choose PyJWT2.15.1 without crypto extras. A library swap must preserve existing valid app-issued tokens; changing keys/TTL/session policy in the same repair would hide whether interoperability works.
+
+### How to build it
+Replace the runtime pin/import, keep encode claims sub/exp and the fixed HS256 decode allow-list. Treat non-string subjects and malformed numeric expiry safely, keeping the existing optional-exp contract rather than silently selecting a new session policy. Create a separate historical interpreter from requirements-legacy-jwt.txt; never install it into the app environment. Pass synthetic key/claims through captured stdin/stdout, generate an old token accepted by the new helper, then verify a new app token with the old verifier. Store assertions/results, not token bytes. Load application settings in an empty cwd before importing app modules so tests cannot read local dotenv values. Then run isolated real API/PostgreSQL/Redis, worker and fresh resolution/advisory checks.
+
+### In progress and failures
+Runtime library choice is documented; results are pending. GitHub reads/push briefly failed with DNS errors, recovered, and the reviewed evidence PR merged. The existing Python3.12 app interpreter lacks pip, so a first isolated-target PyJWT installation command failed without changing it; use the already isolated audit tool's pip to populate ignored output/jwt-dependency/vendor for local tests. This does not remove the old library from the original owner's environment or prove a clean application install.
+
+Eight cross-library/negative contract tests passed with that isolated PyJWT target. Fresh app virtualenv installation is running separately. The first owned PostgreSQL/Redis startup timed out during a5s readiness subprocess and removed both fixtures; the sequential retry succeeded. Do not increase production connection budgets to fix a local Docker startup fluctuation. Extend the existing read-only CI with a separately isolated legacy interpreter, new contract tests and guarded real HTTP checks. Add a targeted fresh-audit gate requiring no python-jose/ecdsa in app resolution and no known PyJWT findings, while leaving framework/test-tool findings visible. A historical fixture being intentionally vulnerable does not make it a runtime dependency or release exception.

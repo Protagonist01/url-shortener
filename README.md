@@ -103,6 +103,8 @@ The `Foundation correctness` workflow runs isolated configuration, worker-regist
 
 Dependency advisories are collected separately with pinned `requirements-audit.txt` tooling. See [reproduction and scope](docs/verification/dependency-advisories.md) and [known finding mappings](docs/security/dependency-triage.md). The evidence workflow does not approve vulnerable packages for release; F03 tracks repairs and enforcement.
 
+HS256 token dependency repair and historical-token/real-service checks are documented in [JWT verification](docs/verification/jwt-dependency-remediation.md). `requirements-legacy-jwt.txt` is an intentionally historical compatibility fixture for a separate test environment; never include it in an application deployment.
+
 ## API reference
 
 ### Shorten a URL

@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 
 import bcrypt
-from jose import JWTError, jwt
+import jwt
 
 from app.core.config import settings
 
@@ -37,8 +37,13 @@ def create_access_token(subject: str) -> str:
 
 
 def decode_access_token(token: str) -> str | None:
+    if not isinstance(token, str):
+        return None
     try:
+        # The application chooses the algorithm, never the untrusted JWT header.
+        # Preserve existing issuer claims/key/TTL and optional-auth semantics.
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[ALGORITHM])
-        return payload.get("sub")
-    except JWTError:
+        subject = payload.get("sub")
+        return subject if isinstance(subject, str) else None
+    except (jwt.InvalidTokenError, TypeError, ValueError, OverflowError):
         return None
