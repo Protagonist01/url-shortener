@@ -18,6 +18,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 14 — Registering the task that beat already publishes](#entry-14--registering-the-task-that-beat-already-publishes)
 - [Entry 15 — Keeping local configuration out of Git and Docker](#entry-15--keeping-local-configuration-out-of-git-and-docker)
 - [Entry 16 — Turning local foundation checks into isolated CI](#entry-16--turning-local-foundation-checks-into-isolated-ci)
+- [Entry 17 — Auditing dependencies before choosing upgrades](#entry-17--auditing-dependencies-before-choosing-upgrades)
 
 ---
 
@@ -1121,3 +1122,27 @@ The first local unit run used the system Python3.13/pytest9.1.1 and passed once,
 The sequential rerun passed: Python3.12.13/pytest8.3.4 one registration test (10.46s), Git/template/actual synthetic Docker boundaries, migrations and one real Celery5.4.0 scheduler/solo worker delivery. Counts4/2 and period3600 match the earlier fixture. Descendant temporary directories are kept inside the parent's owned directory so termination does not leak separate worker temp folders. The actual Linux CI result is still pending at this point.
 
 PR56 head840d643 then passed actual GitHub run37521244163, job112466887529. Queried the run/job/artifact APIs: every check, owned cleanup and upload step succeeded, with a foundation-verification artifact. Reviewed/merged exact head as bad860b57261b5225eaf9a033b40a5a4ae1ac08e; child55 closed, parent3 remains open. This is now Linux solo correctness evidence, not prefork or capacity proof. Original76 source hashes still match. Older audit draft49 was closed as superseded after proving its exact head is already in main through owner PR50; roadmap PR41 was already marked merged.
+
+## Entry 17 — Auditing dependencies before choosing upgrades
+**Files touched:** advisory evidence/tooling and execution docs on an isolated branch from main ddddc5175e3dbd9c3bac8ac73b13a8eaa1f53c50. Application dependency upgrades are not part of the evidence step.
+
+### Context and choice
+F03 requires actual advisory checks before upgrades; existing correctness CI cannot certify dependency security. Scan the public requirements with PyPA's pip-audit, rather than treating a green test run as an advisory result or blindly applying all suggested upgrades. A separate tool environment keeps the scanner's dependencies out of the application environment. Scanning public package names/versions does not require production credentials or F01 provider/budget decisions.
+
+### How to build the evidence
+Create an ignored tool virtualenv with the existing Python3.12 interpreter and install a pinned pip-audit2.10.1 from public PyPI. Disable user/system pip configuration with PIP_CONFIG_FILE=os.devnull and remove inherited PIP_* settings so private package indexes cannot enter the experiment. Use explicit public index/service, bounded requests and JSON without long descriptions. Resolve the requirements including transitives; record OS/Python/tool/commit and exact versions. Do not use --fix, ignored findings or a zero return code as the only evidence; validate the resulting dependency list and distinguish findings from resolver/service failures.
+
+Map findings to primary advisory/maintainer sources and linked remediation. Record application reachability as static evidence or unverified, not an exploitability guarantee. A Windows scan omits Linux-only distributions, so record that coverage gap until an actual Linux counterpart runs. Hosted frontend/unpublished prototype dependencies remain separate scope. Parent security/release gates stay open when advisories exist.
+
+### In progress
+The first child-issue synchronization timed out during a read-only API request; refresh/dedupe before retrying. Virtualenv creation has a live command handle and remains pending, so do not restart it merely because output is quiet. No scan result or clean-security claim exists yet.
+
+Child58 was created and attached to3 after the read-only retry; the same marker prevented duplicates. The tool virtualenv completed, but scanner installation failed: pip reported a CacheControl/filelock resolution error after PyPI read timeouts. This is a tooling/resolution failure, not an application advisory finding. Do not loosen app requirements in response to it. Investigate the specific public dependency/index and run an actual Linux counterpart; record failures distinctly. No application scan has completed at this point.
+
+PR59 head5db24d0 ran actual Linux advisory collection37525390386/job112480968985 and correctness37525390328/job112480983369. Retrieved the expected three-file advisory artifact with account authentication kept only in memory; confirmed run/head and allowed filenames before extraction. The Linux report resolves61 packages and records35 advisory records in5 packages. Grouping by package/id gives18 unique advisory IDs; duplicate IDs/aliases mean neither35 nor18 is a verified count of distinct exploitable vulnerabilities. Preserve raw records and report unique IDs separately.
+
+The second unchanged scanner installation succeeded, including filelock4.0.12. A too-early local audit had returned PackageNotFoundError before installation completed; repeat only after its handle is terminal. The actual Windows scan is now running. The Linux result is known_vulnerabilities with scanner exit1, not clean security, even though the evidence-collection job succeeds. Linked remediation will cover JOSE/ECDSA, compatible framework/parsers and test tooling; every package remains a release follow-up. No app pins were loosened to fix installation.
+
+All18 canonical PyPA source links returned200 and contained the expected identifier. Created/verified M0 children60/61/62 of3 mapping all packages. The Windows run eventually ended with PermissionError during temporary cleanup and no completed baseline, so do not infer Windows results from Linux. Pipes/descendants can outlive a directly killed scanner: replace capture_output with a file log, Popen.wait with a finite timeout and psutil cleanup scoped to that Popen tree. Pin psutil7.2.2 in tool requirements, keep child temporary files inside the owned run directory, verify its resolved boundary, and record operational failure class separately. No global process kill or application environment change is used.
+
+Local real process cleanup test passed once in2.105s; Linux head50f6bc0 passed advisory37527373512 and correctness37527373523, including the added process test. The revised Windows scan ended with a logged PyPI ReadTimeout and separate RuntimeError failure JSON, so its coverage is incomplete and recorded as such. Stop retrying unchanged network failures in this step; actual Linux evidence remains authoritative for the Linux baseline. All findings map to verified open children60/61/62, with parent3/security43 and release gates still open.

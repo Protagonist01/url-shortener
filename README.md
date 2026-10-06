@@ -101,6 +101,8 @@ The Docker check builds only a temporary synthetic context with the repository's
 
 The `Foundation correctness` workflow runs isolated configuration, worker-registration, migration and actual task-delivery checks. Reproduce with `requirements-ci.txt` and the commands in [foundation-ci.md](docs/verification/foundation-ci.md). This scoped job does not establish full application/security/browser/performance readiness; F03 and the milestone gates track remaining coverage.
 
+Dependency advisories are collected separately with pinned `requirements-audit.txt` tooling. See [reproduction and scope](docs/verification/dependency-advisories.md) and [known finding mappings](docs/security/dependency-triage.md). The evidence workflow does not approve vulnerable packages for release; F03 tracks repairs and enforcement.
+
 ## API reference
 
 ### Shorten a URL
