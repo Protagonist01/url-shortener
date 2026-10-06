@@ -1,6 +1,6 @@
 # URL Shortener with Analytics
 
-A production-grade URL shortener built with FastAPI, PostgreSQL, Redis, and Celery. Shorten URLs, cache redirects in Redis, track clicks asynchronously via a Celery worker, and view analytics with geographic breakdown.
+A URL shortener being hardened for production, built with FastAPI, PostgreSQL, Redis, and Celery. Shorten URLs, cache redirects in Redis, track clicks via background work, and view analytics with geographic breakdown. The foundation audit records unresolved release gates in docs/audits/2026-10-03-foundation.md.
 
 ## Architecture
 
@@ -65,19 +65,37 @@ Client → GET /{short_code}
 ## Quick start
 
 ```bash
-# 1. Start the full stack
+# 1. Prepare local configuration, preserving an existing local file
+# PowerShell: if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+cp -n .env.example .env
+# Replace SECRET_KEY and POSTGRES_PASSWORD with unique generated local values.
+# Update the password in DATABASE_URL to match POSTGRES_PASSWORD.
+# Do not overwrite an existing .env; keep it local and untracked.
+
+# 2. Start the development stack
 docker compose up -d
 
-# 2. Run database migrations
+# 3. Run database migrations
 docker compose exec api alembic upgrade head
 
-# 3. Verify
+# 4. Verify
 curl http://localhost:8000/health
 # → {"status":"ok","env":"development"}
 
-# 4. Open Swagger UI
+# 5. Open Swagger UI
 # http://localhost:8000/docs
 ```
+
+`.env.example` is a public development template; its placeholders must be replaced before running services. Generate URL-safe random local values with `python -c "import secrets; print(secrets.token_urlsafe(48))"`, then edit the local file. Production secrets belong in the selected deployment provider's secret store. `.env` and variants are excluded from Git and Docker build contexts. Untracking them does not remove old Git history or rotate previously exposed credentials; exposure/rotation remains tracked in INPUT_REQUIRED.md (IN10).
+
+Verify configuration boundaries without reading real local environment values:
+
+```bash
+python -m scripts.verify_configuration
+python -m scripts.verify_configuration --docker
+```
+
+The Docker check builds only a temporary synthetic context with the repository's ignore rules; it never submits this checkout's environment files to Docker. See docs/verification/2026-10-06-configuration-boundaries.md for evidence and limitations.
 
 ## API reference
 

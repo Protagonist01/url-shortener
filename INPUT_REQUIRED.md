@@ -2,7 +2,7 @@
 
 Updated: 2026-10-06. The owner asked agents to keep questions here and continue independent work without interrupting. **An unanswered item is not approval.** Enter answers under the stable IDs; agents must reconcile answers with ADRs, issues and this register before dependent work.
 
-Confirmed: FastAPI, PostgreSQL, Next.js; small initial launch with growth; Cloudflare is a hosting candidate. Continuous work through all eight milestones is authorized. This does not select pricing, providers, privacy policy or authorize production deployment/PR merging.
+Confirmed: FastAPI, PostgreSQL, Next.js; small initial launch with growth; Cloudflare is a hosting candidate. Continuous work through all eight milestones is authorized. The owner authorized merging PRs on 2026-10-06. This does not select pricing, providers, privacy policy or authorize manual production deployment.
 
 ## Foundation decisions — F01 / issue #1
 
@@ -21,7 +21,7 @@ Confirmed: FastAPI, PostgreSQL, Next.js; small initial launch with growth; Cloud
 |---|---|---|---|---|
 | IN07 | How should ownerless legacy links be managed or claimed? Are any analytics intentionally public? | Existing anonymous creation/deletion/analytics need an explicit ownership policy. A public code must not become a management credential | AUD01 / #42 legacy management semantics | Pending |
 | IN08 | Which existing uncommitted prototype changes should be reviewed/published as the baseline? | Main now contains the roadmap/audit via merge #50, but the original checkout still has uncommitted QR source, migration, frontend and Build Book changes. Agents preserve them and use an isolated checkout | Clean-clone QR reproduction and migration of the experimental UI; no wholesale publication | Pending |
-| IN09 | May reviewed implementation PRs be merged automatically, or should they remain for owner review? | Current AGENTS.md requires applicable merge/deploy authorization. Broad issue execution does not explicitly authorize merge/deployment | Merging; verified code can still be developed/tested/published in PRs | Pending |
+| IN09 | May reviewed implementation PRs be merged automatically, or should they remain for owner review? | Merge only after applicable checks/review and scope verification; manual deployment remains separate | Resolved: merge verified PRs and close only their completed outcomes | Approved by owner: “Also, you can merge the PRs” — 2026-10-06 |
 | IN10 | Have any active secrets in tracked .env/history been rotated, and who owns rotation? | Tracked file is confirmed; values/activity were not inspected or published. Answers must not include secrets | Verified exposure remediation/rotation, not safe local untracking work | Pending |
 
 ## Later-stage choices — record now, request only when relevant

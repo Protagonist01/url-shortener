@@ -16,6 +16,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 12 — Free-tier fallback: BackgroundTasks when Celery is too expensive](#entry-12--free-tier-fallback-backgroundtasks-when-celery-is-too-expensive)
 - [Entry 13 — UI redesign: the "paper & ink" theme and why every interaction got a state](#entry-13--ui-redesign-the-paper--ink-theme-and-why-every-interaction-got-a-state)
 - [Entry 14 — Registering the task that beat already publishes](#entry-14--registering-the-task-that-beat-already-publishes)
+- [Entry 15 — Keeping local configuration out of Git and Docker](#entry-15--keeping-local-configuration-out-of-git-and-docker)
 
 ---
 
@@ -1075,3 +1076,25 @@ The regression reproduced the missing task (one failing test). Docker Desktop wa
 The engine became available (29.7.2). The first fixture setup correctly stopped on an inspect error; Docker's absent-container message uses lowercase, so match the specific no-such-object text case-insensitively while still refusing other errors. Repeated setup created only labeled loopback fixtures. One solo worker consumed record_click and the scheduler's aggregate_daily_stats through Redis; PostgreSQL contained two daily rows with counts4 and2. The production hourly interval stayed3600. Unit regression passed; cleanup removed only those fixtures and the spawned worker. This proves local task delivery, not pooling, idempotency, Linux prefork support or capacity.
 
 The first sub-issue attachment used issue_id; GitHub required sub_issue_id and rejected it. Re-read the existing marker before retrying so no duplicate child was created. A transient DNS failure also interrupted metadata synchronization; refreshed state before retrying. GitHub's current PR response did not include merge_commit_sha, so verify the merged flag/head commit and actual ancestry in fetched origin/main rather than assuming that field exists.
+
+## Entry 15 — Keeping local configuration out of Git and Docker
+**Files touched:** `.gitignore`, `.dockerignore`, `.env.example`, `README.md`, `scripts/verify_configuration.py`, verification notes. `.env` is removed from the branch index, not from the local filesystem.
+
+### Context
+AUD02 confirmed a tracked .env. Its values and active exposure are unknown; credential rotation remains an owner decision. The Dockerfile uses COPY . ., so Git ignore rules alone would not prevent environment files entering build context/layers. Supersedes the implicit configuration distribution in earlier quick-start instructions; do not rewrite Git history or rotate production credentials in this fix.
+
+### Why and how to build it
+Keep local credentials where they are, remove only their index entry with git rm --cached -- .env, ignore .env variants, and explicitly allow .env.example in Git. Docker has independent ignore rules: exclude root/nested dotenv files plus Git, virtualenv and output directories. Publish only fake placeholders that match current required settings; retain existing service defaults rather than choosing new launch budgets.
+
+Verify before changing anything: git ls-files reports .env and the configuration boundary checker fails. After staging the scoped change, use git metadata/check-ignore to prove private names are excluded and the public example remains tracked. The helper reads only the public template and forces its synthetic values before app config import, so it does not load real local credentials for validation. It opens no DB/broker connections.
+
+To prove actual Docker semantics, copy only .dockerignore into a temporary owned directory containing synthetic .env variants, nested private markers, Git/venv/output markers and an allowed application fixture. Build FROM scratch with COPY . /context and the local exporter. The allowed fixture must exist, and every private marker must be absent. Do not build this test from the actual repository context. Remove only that temporary directory after verifying its resolved path stays inside output/.
+
+### Verification in progress
+The pre-change checker failed because .env remained tracked. The after-change Git/template/Docker checks will be recorded once run. No real credential was displayed, no history was rewritten and no production value was changed. Existing local files and the original dirty checkout remain intact.
+
+The first Docker assertion incorrectly searched absolute path components for output; every exported fixture lives under the test's own output directory, so even the allowed application file was flagged. The actual copied names contained no dotenv/Git/venv files. Fix the verifier to inspect paths relative to the exported context, then rerun the actual Docker check rather than treating the false assertion as a pass.
+
+Review caught a second detail: Pydantic reads dotenv even when environment values override its settings. To avoid reading the local file at all, run the subprocess from an empty temporary working directory and put the repository on PYTHONPATH. The final Git/template/actual Docker checks passed with this revised helper on Docker29.7.2. No application connections were opened. Full reproduction and limits are in docs/verification/2026-10-06-configuration-boundaries.md.
+
+The owner authorized merging PRs on2026-10-06. Reviewed worker PR52 merged as0f316c69f88374a177ce5d4abb58c153d8e249d3; GitHub closed child51. Parent45 remains open. Numerical, deployment and privacy decisions remain pending; merge authority does not supply them.
