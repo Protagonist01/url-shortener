@@ -14,6 +14,22 @@ The GitHub `Dependency advisory evidence` workflow runs a clean Linux/Python3.12
 
 Base source: ddddc5175e3dbd9c3bac8ac73b13a8eaa1f53c50. Local tooling setup initially failed with a CacheControl/filelock resolution error after public PyPI read timeouts. This is an incomplete scan, not a vulnerability verdict. An actual Windows/Linux result and primary-source mapping will be recorded after their commands complete.
 
+### Verified Linux baseline
+
+PR59 head5db24d0015bcd2838b6f7e34c7760f4271e6fbe3 passed [actual advisory collection run37525390386/job112480968985](https://github.com/Protagonist01/url-shortener/actions/runs/37525390386/job/112480968985) and [foundation correctness run37525390328/job112480983369](https://github.com/Protagonist01/url-shortener/actions/runs/37525390328/job/112480983369). The advisory artifact reports Python3.12.14/Linux, pip-audit2.10.1,61 resolved packages with no skips,5 vulnerable packages and35 raw records, with scanner exit1/result known_vulnerabilities. Its source_head73bd7e5 is the PR merge checkout, not the branch head; metadata preserves both identities through the run/PR references.
+
+The [sanitized exact resolved baseline](../security/dependency-baseline-linux.json), [metadata](../security/dependency-baseline-linux-metadata.json) and [18 unique package/advisory-ID mappings](../security/dependency-triage.md) preserve aliases/candidate fixes. Duplicates were not hidden;35 records and18 unique IDs are not a verified count of distinct exploitable bugs. The successful job means evidence collection worked while known vulnerabilities remain.
+
+| Packages | Linked remediation | Static applicability / limits |
+|---|---|---|
+| python-jose3.3.0 and ecdsa0.19.2 | [DEP01 / #60](https://github.com/Protagonist01/url-shortener/issues/60) | Current code uses HS256, not JWE/ECDSA; no finding waiver or exploitability certification |
+| Starlette0.41.3 and python-multipart0.0.20 | [DEP02 / #61](https://github.com/Protagonist01/url-shortener/issues/61) | Static delivery exists; clean-main and future published upload/parser contracts require regression evidence |
+| pytest8.3.4 | [DEP03 / #62](https://github.com/Protagonist01/url-shortener/issues/62) | Test tool currently appears in production requirements; both scopes need repair |
+
+No fix candidate is adopted by this evidence PR. Every recorded finding maps to these issues; parent3 and release gates remain open. Local scanner installation succeeded unchanged on retry. A too-early local command failed before installation completed; the ordered Windows scan is still pending, so no Windows coverage claim is made yet.
+
+The first ordered Windows scan ended with temporary-directory PermissionError and no valid baseline. The revised runner logs directly to an owned file, waits at most300 seconds, stops only its own Popen descendants with pinned psutil7.2.2, and keeps descendant temporary files inside the verified owned directory. Operational failures return2 and write a separate failure JSON. A real process-tree test checks that a separate sentinel survives; it runs in Linux CI too. The next Windows scan uses this revised runner; coverage remains incomplete until its actual result is read. All18 canonical PyPA links returned200 and contained their expected IDs at verification.
+
 Tool behavior: [PyPA pip-audit](https://github.com/pypa/pip-audit); configuration isolation: [official pip configuration](https://pip.pypa.io/en/stable/topics/configuration/).
 
 ## Limits and performance
