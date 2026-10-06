@@ -4,6 +4,8 @@ Goal: work through **all issues and all eight milestones**, recording owner ques
 
 ## Latest authoritative state — 2026-10-06
 
+Latest implementation checkpoint: reviewed PRs52 (worker discovery),54 (Git/Docker private configuration boundaries) and56 (isolated correctness CI) are merged. Main is `bad860b57261b5225eaf9a033b40a5a4ae1ac08e`; original dirty checkout remains on its original branch. Child issues51/53/55 and audit2 are closed; security43, analytics45, full CI3 and all milestones remain open. [Actual Linux PR CI](https://github.com/Protagonist01/url-shortener/actions/runs/37521244163/job/112466887529) passed all steps and uploaded evidence. These updates supersede awaiting-review/pending statements below.
+
 - Refreshed GitHub issues and fetched origin/main: `779206989c0d0e8377e5c7cf3b1e706927e9717f`, owner merge PR #50 of the roadmap/audit commits.
 - Forty initial roadmap issues and seven remediation issues were open at initial refresh; all eight milestones remain incomplete. PR #49 is still open/draft although its commits reached main through #50. Subsequent closure/child task evidence is recorded below.
 - Existing local prototype changes remain in the original checkout; an attached managed worktree starts from origin/main for scoped implementation. No source is discarded or published wholesale.
@@ -29,6 +31,8 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 - [PR #54](https://github.com/Protagonist01/url-shortener/pull/54) merged as `e3a97a84a2040a89976d87c0787a7d2c3e010e0e`; GitHub closed child #53. This supersedes its awaiting-review status; parent #43 remains open.
 - [F03a / #55](https://github.com/Protagonist01/url-shortener/issues/55) is attached to parent #3 for isolated foundation correctness CI. It reuses verified checks without choosing hosting/service budgets. The full parent remains gated by F01 and broader coverage. Actual GitHub execution is pending; do not mark CI successful from YAML/local results.
+
+- PR56 is merged and child55 closed after actual Linux check success; details and exact run are in docs/verification/foundation-ci.md. Local fixtures/worker were cleaned. Original source comparison:76 files, zero changes. Draft49 is closed as superseded by already-merged50; PR41 was already merged. No milestone is complete.
 
 
 | Milestone | Status / next dependency |
