@@ -15,6 +15,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 11 — Production deployment: Render, DATABASE_URL normalization, and the Dockerfile split](#entry-11--production-deployment-render-database_url-normalization-and-the-dockerfile-split)
 - [Entry 12 — Free-tier fallback: BackgroundTasks when Celery is too expensive](#entry-12--free-tier-fallback-backgroundtasks-when-celery-is-too-expensive)
 - [Entry 13 — UI redesign: the "paper & ink" theme and why every interaction got a state](#entry-13--ui-redesign-the-paper--ink-theme-and-why-every-interaction-got-a-state)
+- [Entry 14 — Registering the task that beat already publishes](#entry-14--registering-the-task-that-beat-already-publishes)
 
 ---
 
@@ -1048,3 +1049,29 @@ Three reasons this direction wins:
 
 ### What went wrong
 Two self-inflicted bugs during the rewrite. First, the `esc()` helper was written with `.replace(/"/g:'&quot;'` - colon instead of comma - which `node --check` caught immediately; lesson: always syntax-check template-heavy inline JS rather than eyeballing it. Second, the result panel's entrance animation only plays when `display` toggles, so re-snipping another link within the same page life wouldn't replay it; fixed by forcing a reflow between hide and show (`el.style.display='none'; void el.offsetWidth; el.style.display='block'`) - the standard trick for restarting a CSS animation.
+
+## Entry 14 — Registering the task that beat already publishes
+**Files touched:** `app/worker/celery_app.py`, `tests/test_worker_registration.py`, `scripts/verify_worker_registration.py`, execution/input documents.
+
+### Context
+Main now contains the owner-merged foundation audit (PR50), but not the original checkout's uncommitted QR prototype or later journal entries. This entry is appended to the tracked journal in an isolated worktree; that original journal remains intact. AUD04 identified that beat publishes aggregate_daily_stats while a new worker never imports its definition.
+
+### Before you read on
+The scheduler sends a task name, not its implementation. How do you prove the worker can find that function without a test accidentally importing it first?
+
+### Options considered and why
+Import beat_tasks eagerly at the bottom of celery_app, or declare it in Celery's include list. The module already imports celery_app to decorate its function; choose the loader include to avoid a circular eager dependency. It changes startup discovery, not task timing, queries, retention or pool budgets. Those still belong to the broader parent issue and owner decisions.
+
+### How to build it
+1. In a regression test start a fresh Python interpreter with synthetic configuration pointing to unused ports. Call celery_app.loader.init_worker(), collect beat_schedule task names, and report names absent from celery_app.tasks. Do not import beat_tasks in the test itself. Before the fix the assertion fails with aggregate_daily_stats missing.
+2. Add include=["app.worker.beat_tasks"] to the Celery constructor. The loader imports it during worker initialization, after the app exists. Repeat the same test; an empty missing list demonstrates that discovery works without a broker or DB.
+3. Add a separate isolated real-service check that starts one real worker, has one Celery scheduler publish a due rollup, and checks PostgreSQL for the expected fixture counts. Verify the child task's behavior before marking it done; registration alone cannot prove delivery.
+4. Keep raw test logs under ignored output/. Record versions, fixture setup, commands and failures in the execution ledger. Preserve existing hourly production scheduling. No latency/load result follows from this startup fix.
+
+### What went wrong so far
+The regression reproduced the missing task (one failing test). Docker Desktop was stopped; its start command returned a starting message but the Linux engine endpoint was still absent on the first check. Continue to inspect the live startup state rather than treating the message as proof of readiness. Real delivery remains unverified until the service experiment finishes.
+
+### Verified outcome
+The engine became available (29.7.2). The first fixture setup correctly stopped on an inspect error; Docker's absent-container message uses lowercase, so match the specific no-such-object text case-insensitively while still refusing other errors. Repeated setup created only labeled loopback fixtures. One solo worker consumed record_click and the scheduler's aggregate_daily_stats through Redis; PostgreSQL contained two daily rows with counts4 and2. The production hourly interval stayed3600. Unit regression passed; cleanup removed only those fixtures and the spawned worker. This proves local task delivery, not pooling, idempotency, Linux prefork support or capacity.
+
+The first sub-issue attachment used issue_id; GitHub required sub_issue_id and rejected it. Re-read the existing marker before retrying so no duplicate child was created. A transient DNS failure also interrupted metadata synchronization; refreshed state before retrying. GitHub's current PR response did not include merge_commit_sha, so verify the merged flag/head commit and actual ancestry in fetched origin/main rather than assuming that field exists.

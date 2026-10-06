@@ -12,3 +12,4 @@ env/
 celerybeat-schedule
 celerybeat-schedule.db
 *.pid
+output/

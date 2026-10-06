@@ -7,6 +7,7 @@ Build the attached QR platform scope as production software. Performance in the 
 - Do not silently choose hosting, launch capacity, pricing, quotas, retention, industry pack or service budgets. Resolve these through F01 and relevant discovery issues.
 - Read this file, README.md, the Build Book index/latest entries, docs/ROADMAP.md and docs/PERFORMANCE.md before work. Read more specific directory instructions if present.
 - No agent delegation unless the owner or applicable instructions explicitly request it.
+- The owner requested uninterrupted roadmap execution on 2026-10-06: record questions and affected dependencies in INPUT_REQUIRED.md, and keep progress in GOAL_PROGRESS.md. Pending answers are not approval; continue independent work without repeatedly asking in chat.
 
 ## Product invariants
 - Static offline QR payloads and uploaded logos are processed locally in the browser. No account, upload, content telemetry or hidden persistence for these flows. After application assets load, generation must work offline.

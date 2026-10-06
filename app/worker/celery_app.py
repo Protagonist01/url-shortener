@@ -18,6 +18,9 @@ celery_app = Celery(
     "url_shortener",
     broker=settings.CELERY_BROKER_URL,
     backend=settings.CELERY_RESULT_BACKEND,
+    # Workers must load the module defining the task named by beat_schedule.
+    # Keeping this in Celery's loader avoids a circular eager import.
+    include=["app.worker.beat_tasks"],
 )
 
 celery_app.conf.update(
