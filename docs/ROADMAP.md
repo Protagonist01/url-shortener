@@ -158,6 +158,8 @@ F01 resolves hosting/provider, regions, peak/sustained load, representative data
 No decision above prevents writing requirements or running the existing-code audit. It does prevent dependent implementation from silently inventing requirements.
 
 ## Maintaining the roadmap
+
+Dependency discovery58 is complete through merged PR59. Remediation60's PR63 verifies historical HS256 tokens and removes JOSE/ECDSA from the fresh Linux resolution; remaining framework/parser/test-tool findings are tracked in61/62. See [JWT evidence and limits](verification/jwt-dependency-remediation.md). No parent/milestone release gate is complete from this scoped repair.
 GitHub holds live status; docs/roadmap/plan.json preserves the initial definitions and stable F/Q/D/P/B/T/A/X keys. Add justified child issues when scope exceeds a cohesive change and link them to the parent/milestone. Do not mark parent outcomes complete while required children remain open. Update this document when milestone scope changes.
 
 The PowerShell publisher is scoped to this repository, reads existing GitHub Git credentials only in memory and saves progress after each successful write:

@@ -1,0 +1,15 @@
+# ADR0003 — Replace the historical JOSE dependency for HS256 tokens
+
+Status: implemented for [DEP01/#60](https://github.com/Protagonist01/url-shortener/issues/60), verified by actual Linux contract/API/worker and fresh advisory checks in PR63; merge/rollout status is recorded separately. Date:2026-10-06.
+
+The published app uses python-jose3.3.0 solely to issue/verify HS256 access tokens. The actual Linux baseline records advisory IDs in python-jose and its ECDSA dependency, including an ECDSA finding without a listed fix. Static HS256 usage does not waive installed-package findings. See [exact primary-source mapping](../security/dependency-triage.md).
+
+Choose pinned PyJWT2.15.1 without optional crypto extras. Its supported Python range includes our3.12 runtime and HS256 needs no asymmetric crypto/ECDSA dependency. Updating python-jose alone would retain unnecessary algorithm/JWE surface and its ECDSA chain; removing that chain is the smaller change for the observed workload. Use the official [PyJWT API](https://pyjwt.readthedocs.io/en/stable/api.html) and [package metadata](https://pypi.org/project/PyJWT/2.15.1/); do not derive accepted algorithms from the token header.
+
+Keep HS256, the configured signing key, subject, expiration duration and JSON bearer-token response. No schema/data/printed URL changes. Existing valid app-issued tokens have sub/exp and must pass both old/new implementations without signing-key rotation. Keep the historical optional-exp behavior here: exp is validated when present, missing sub fails, and non-string subjects cannot enter the email query. Tightening mandatory claims, session storage, CSRF/key rotation and bcrypt admission remain parent43 work and must not be inferred from this dependency change. Malformed claim types must fail safely rather than cause500s.
+
+Historical interoperability tests run python-jose only in a dedicated fixture environment using synthetic keys/claims over captured stdin/stdout. This intentionally old environment is not part of application resolution or deployment. Fresh app environments are required: installing PyJWT into an old environment does not remove leftover jose/ecdsa distributions. Scan the new clean resolution; keep other findings under61/62 and parent3.
+
+Roll out by building a fresh environment/image from updated requirements and retaining the same key/TTL. Run contract, real service and advisory checks before merging. No manual deployment is authorized. Rollback code is wire-compatible because old/new issuers use HS256/sub/exp, but redeploying the historical vulnerable dependencies reintroduces findings; use a forward repair where possible. Do not claim a destructive dependency rollback improves security.
+
+Performance: measure synthetic token decode tails/errors and real API/printed-link checks. No database/cache query changes occur in this helper; no approved capacity/budget is inferred. Large/header admission bounds, event-loop bcrypt and concurrency budgets remain separate remediation.

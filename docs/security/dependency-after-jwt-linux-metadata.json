@@ -1,0 +1,17 @@
+{
+  "scanned_at": "2026-10-06T21:49:33.603628+00:00",
+  "source_head": "1b75eaea56931888c35d4378659f8fd57cd7a5a2",
+  "requirements_sha256": "2c3ad12fd5de5cf2414374daf6479ea7558ea50783908f140d06ba21947fd105",
+  "python": "3.12.14",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "scanner": "pip-audit",
+  "scanner_version": "2.10.1",
+  "service": "PyPI Python Packaging Advisory Database",
+  "dependency_count": 55,
+  "vulnerable_packages": 3,
+  "advisory_records": 28,
+  "scanner_exit": 1,
+  "unique_package_advisory_ids": 14,
+  "result": "known_vulnerabilities",
+  "limitations": "OS-specific resolver; no exploitability, unpublished prototype, frontend or full-security proof"
+}

@@ -1,0 +1,7 @@
+# Compatibility fixture ONLY: intentionally historical, isolated from app/tooling.
+# Never include this file in requirements.txt or deploy this environment.
+python-jose==3.3.0
+ecdsa==0.19.2
+rsa==4.9.1
+pyasn1==0.6.4
+six==1.17.0

@@ -38,6 +38,8 @@ jobs:
           fi
       - name: Verify owned process cleanup
         run: python -m unittest tests.test_dependency_audit_processes
+      - name: Enforce the targeted JWT dependency repair
+        run: python -m scripts.verify_dependency_remediation
       - name: Publish advisory evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
