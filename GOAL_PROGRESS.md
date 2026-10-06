@@ -4,7 +4,7 @@ Goal: work through **all issues and all eight milestones**, recording owner ques
 
 ## Latest authoritative state — 2026-10-06
 
-Latest implementation checkpoint: reviewed PRs52 (worker discovery),54 (Git/Docker private configuration boundaries) and56 (isolated correctness CI) are merged. Main is `bad860b57261b5225eaf9a033b40a5a4ae1ac08e`; original dirty checkout remains on its original branch. Child issues51/53/55 and audit2 are closed; security43, analytics45, full CI3 and all milestones remain open. [Actual Linux PR CI](https://github.com/Protagonist01/url-shortener/actions/runs/37521244163/job/112466887529) passed all steps and uploaded evidence. These updates supersede awaiting-review/pending statements below.
+Latest implementation checkpoint: main is `43efdc66d1d2aefbf98fd1e259cc53548b6eac77`, including reviewed worker52, configuration54, correctness56, dependency evidence59 and JWT repair63. Audit2 and children51/53/55/58/60 are closed; security43, analytics45, full CI3, dependency repairs61/62 and all8 milestones remain open. Final JWT headcf33361 passed actual Linux foundation37538150154 and advisory37538150166. Published reports preserve8 JWT contracts,18 HTTP regressions, real token/anchor/worker checks and55-package fresh resolution without JOSE/ECDSA. These updates supersede pending states below; original owner source/index remain preserved.
 
 - Refreshed GitHub issues and fetched origin/main: `779206989c0d0e8377e5c7cf3b1e706927e9717f`, owner merge PR #50 of the roadmap/audit commits.
 - Forty initial roadmap issues and seven remediation issues were open at initial refresh; all eight milestones remain incomplete. PR #49 is still open/draft although its commits reached main through #50. Subsequent closure/child task evidence is recorded below.
@@ -14,6 +14,8 @@ Latest implementation checkpoint: reviewed PRs52 (worker discovery),54 (Git/Dock
 - F02 / #2 is now closed after verifying its evidence deliverables on owner-merged main via PR #50. This closes the audit, not the remediation. AUD04a/#51 is a real child of AUD04/#45 in M0; no milestone is complete.
 
 ## Current work
+
+PR63 merged as43efdc66d1d2aefbf98fd1e259cc53548b6eac77 and GitHub closed60. Windows clean install/worker failures remain unverified limitations, not passes; final inspection confirms both owned local containers absent. All76 original saved source/config/readme/ignore hashes are unchanged. Next independent repairs are61 (framework/parsers) and62 (test tools); unknown owner choices remain in INPUT_REQUIRED.md. No production deployment or full-roadmap completion.
 
 DEP01/60 implementation PR63 passed actual Linux foundation37536532072 and advisory37536532081 on headeae7f8f. Retrieved reports:18 HTTP API tests plus historical/current-token/ownership/anchor checks passed, actual worker delivery passed, clean resolved55 packages exclude JOSE/ECDSA with no known PyJWT findings. Remaining3 packages/28 records/14 unique IDs stay under61/62. Ordinary serial token decode p99 was71.323us with zero errors; this is not HTTP/load/capacity evidence. Verified reports are in docs/verification/jwt-dependency-remediation.md. Original Windows clean installs timed out twice, worker readiness failed, and owned cleanup required a retry; Linux results do not prove Windows readiness. Merge still requires the final reviewed head's checks. All8 milestones and parent3/43 remain open.
 
