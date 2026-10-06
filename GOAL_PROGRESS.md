@@ -21,6 +21,13 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 ## Full scope and gates
 
+### Subsequent verified progress
+
+- Owner authorized merging PRs on2026-10-06; INPUT_REQUIRED.md IN09 records approval. Manual deployment is a separate decision.
+- [PR #52](https://github.com/Protagonist01/url-shortener/pull/52) merged as `0f316c69f88374a177ce5d4abb58c153d8e249d3`. Fetched main contains the exact worker commit; child #51 is closed. This supersedes the earlier awaiting-review status. Parent #45 remains open.
+- [AUD02a / #53](https://github.com/Protagonist01/url-shortener/issues/53) is attached to parent #43. Private configuration is removed only from the isolated branch's index, with Git/Docker boundaries and a public fake template. Before checker failed on tracked .env; final Git/template/synthetic actual Docker checks pass. See docs/verification/2026-10-06-configuration-boundaries.md. Child awaits its implementation PR; no historical cleanup, rotation or parent completion is claimed.
+
+
 | Milestone | Status / next dependency |
 |---|---|
 | M0 foundation/performance | Audit published; independent correctness fixes can progress. F01 decisions, CI, tenant migrations and measured recovery/performance gates remain |
