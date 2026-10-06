@@ -17,6 +17,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 13 — UI redesign: the "paper & ink" theme and why every interaction got a state](#entry-13--ui-redesign-the-paper--ink-theme-and-why-every-interaction-got-a-state)
 - [Entry 14 — Registering the task that beat already publishes](#entry-14--registering-the-task-that-beat-already-publishes)
 - [Entry 15 — Keeping local configuration out of Git and Docker](#entry-15--keeping-local-configuration-out-of-git-and-docker)
+- [Entry 16 — Turning local foundation checks into isolated CI](#entry-16--turning-local-foundation-checks-into-isolated-ci)
 
 ---
 
@@ -1098,3 +1099,23 @@ The first Docker assertion incorrectly searched absolute path components for out
 Review caught a second detail: Pydantic reads dotenv even when environment values override its settings. To avoid reading the local file at all, run the subprocess from an empty temporary working directory and put the repository on PYTHONPATH. The final Git/template/actual Docker checks passed with this revised helper on Docker29.7.2. No application connections were opened. Full reproduction and limits are in docs/verification/2026-10-06-configuration-boundaries.md.
 
 The owner authorized merging PRs on2026-10-06. Reviewed worker PR52 merged as0f316c69f88374a177ce5d4abb58c153d8e249d3; GitHub closed child51. Parent45 remains open. Numerical, deployment and privacy decisions remain pending; merge authority does not supply them.
+
+## Entry 16 — Turning local foundation checks into isolated CI
+**Files touched:** `.github/workflows/foundation-checks.yml`, `requirements-ci.txt`, worker test/harness, CI documentation and execution ledger.
+
+### Context and options
+Child F03a/#55 covers deterministic foundation correctness; parent F03 still needs approved architecture/budgets, complete API/QR/frontend checks and actual security scanning. Reuse the already verified service harness or create a separate workflow-only integration runner. Reuse keeps local and Linux evidence comparable and retains the existing container label/port guard. The existing API suite clears broad Redis namespaces and defaults to a local API; do not run it against an unspecified service in this child.
+
+### How to build it
+1. Pin official checkout/setup-python/upload-artifact actions to full commit SHAs obtained from their upstream tag refs. Use contents:read, no persisted checkout credentials, pull_request rather than privileged pull_request_target, and a bounded GitHub-hosted Linux job. No deployment credentials or production endpoints are used.
+2. Install existing pinned direct requirements plus psutil7.2.2, which the harness already needs to clean only its spawned process tree. No extra production dependency is added. Transitive hashes/advisory checks remain parent work.
+3. Run configuration boundaries and the fresh-interpreter worker test, then create the harness's owned disposable services. Run its migration/real-delivery check and clean only those fixtures in an always step. Upload only synthetic logs/evidence from its output directory, with a short artifact lifetime.
+4. Apply the empty-directory isolation found in Entry15 to worker imports too. Put the repository on PYTHONPATH; resolve Alembic script paths through a temporary ini file. Start descendants in the empty cwd so no relative dotenv lookup reads the real local file. Production settings remain unchanged.
+5. Verify locally, push a scoped PR, then inspect the actual GitHub job for this head before merging/closing the child. Writing valid YAML is not proof the Linux job works. Record a failed job and repair it if the run exposes a missing dependency or platform difference.
+
+### Verification in progress
+Configuration child53 closed after reviewed PR54 merged as e3a97a84a2040a89976d87c0787a7d2c3e010e0e. Worker51 is also closed. Neither parent nor milestone is complete. CI is unverified until the local and actual GitHub runs finish.
+
+The first local unit run used the system Python3.13/pytest9.1.1 and passed once, but that is not the declared baseline. Use the existing Python3.12.13 environment with pytest8.3.4/Celery5.4.0 for the next local run; CI installs its own declared requirements. A prematurely started verify command correctly refused services not yet created. Startup then created its owned containers, but failed leaving an empty cwd on Windows: TemporaryDirectory cannot delete the process's current directory. Add a finally that restores the previous cwd before cleanup, remove only the owned fixtures, and repeat startup/verification sequentially. Record the failure rather than treating container creation as a successful run.
+
+The sequential rerun passed: Python3.12.13/pytest8.3.4 one registration test (10.46s), Git/template/actual synthetic Docker boundaries, migrations and one real Celery5.4.0 scheduler/solo worker delivery. Counts4/2 and period3600 match the earlier fixture. Descendant temporary directories are kept inside the parent's owned directory so termination does not leak separate worker temp folders. The actual Linux CI result is still pending at this point.
