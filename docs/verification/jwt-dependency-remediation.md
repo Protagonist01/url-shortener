@@ -29,6 +29,8 @@ Local synthetic JWT contracts:8 unittest tests passed using Python3.12.13/PyJWT2
 
 The first disposable service startup failed on a5s PostgreSQL readiness subprocess timeout and cleaned its own two containers. This was a failed check; a sequential retry is required. No shared containers or Redis state were touched. Existing app interpreter lacks pip, so local PyJWT testing initially used an isolated ignored target installed with the audit tool's pip; that pass alone is not clean-environment evidence.
 
+The next startup succeeded, but the worker verification failed to become ready within its30s limit and terminated its own process. The separately created local application virtualenv install exceeded its300s limit while resolving/download metadata; it is incomplete. Actual clean Linux CI/advisory checks remain required. Record these limitations instead of raising production budgets or counting partially started services as a pass.
+
 ## Limits and performance
 
 Record source/requirements hashes, runtime, raw synthetic decode durations and p50/p95/p99/errors/serial throughput under ignored output/authentication-verification. This serial experiment measures ordinary synthetic HS256 tokens, not HTTP throughput, large/adversarial headers, CPU saturation, approved capacity or F01/F05 SLOs. No SQL/cache query changes occur. Parent43 retains optional-exp/session/key/CSRF/bcrypt/header bounds; valid-issued-token compatibility does not resolve those policies. Unpublished /q QR prototype and its checks await IN08 and are excluded from clean-main evidence. No manual deployment or security approval is implied.
