@@ -30,6 +30,12 @@ No fix candidate is adopted by this evidence PR. Every recorded finding maps to 
 
 The first ordered Windows scan ended with temporary-directory PermissionError and no valid baseline. The revised runner logs directly to an owned file, waits at most300 seconds, stops only its own Popen descendants with pinned psutil7.2.2, and keeps descendant temporary files inside the verified owned directory. Operational failures return2 and write a separate failure JSON. A real process-tree test checks that a separate sentinel survives; it runs in Linux CI too. The next Windows scan uses this revised runner; coverage remains incomplete until its actual result is read. All18 canonical PyPA links returned200 and contained their expected IDs at verification.
 
+### Final runner verification
+
+On head `50f6bc0e2e630bf942e676ca77b763ded657f1a0`, actual [Linux advisory run37527373512/job112487687740](https://github.com/Protagonist01/url-shortener/actions/runs/37527373512/job/112487687740) and [correctness run37527373523/job112487687993](https://github.com/Protagonist01/url-shortener/actions/runs/37527373523/job/112487687993) succeeded. The revised real process-tree check also passed locally (one unittest,2.105s): its descendant was stopped and a separate sentinel survived.
+
+The ordered Windows rerun terminated as an incomplete audit: its ignored scanner log records a real PyPI HTTPS ReadTimeout (15s), and failure JSON reports RuntimeError at2026-10-06T20:37:10Z. There is no valid Windows baseline. The operational failure stayed separate from known findings; no repeated unbounded network retries or fabricated coverage. Rerun `output/dependency-audit/tools/Scripts/python.exe -m scripts.audit_dependencies` from the checkout when PyPI connectivity improves, after installing requirements-audit.txt. Actual Linux evidence and the canonical mapping meet this discovery child's scope; Windows/full-security/production install coverage is not inferred.
+
 Tool behavior: [PyPA pip-audit](https://github.com/pypa/pip-audit); configuration isolation: [official pip configuration](https://pip.pypa.io/en/stable/topics/configuration/).
 
 ## Limits and performance
