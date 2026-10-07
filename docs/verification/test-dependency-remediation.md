@@ -62,4 +62,16 @@ To roll back dependency separation, revert this reviewed commit and rebuild from
 
 ## Verification status
 
-Candidate syntax/import checks and actual Linux jobs are pending until their recorded results are published here. Local Docker daemon is unavailable at this checkpoint; that is not a passing image check. Parent3, issue61 and all milestone/security gates remain open.
+Outcome: **fixed for the scoped pytest dependency/boundary**, subject to final-head merge checks. Broader production/security readiness is incomplete.
+
+Ordered gates for implementation head `c5eac2309cf7a072a8787e1791ce0268fc82df39`:
+
+1. Syntax/import/diff: compileall and git diff --check passed; five local scanner/process unittests passed. Linux installs passed pip check, and the actual Docker image passed API imports/health, task discovery, CLI and absent-tool checks.
+2. Security trigger/alternate: pytest8.3.4 reproduced direct and chained symlink acceptance in the isolated historical environment. Pytest9.1.1 rejected both with unchanged target sentinel/mode. Ordinary private roots still worked. The reviewer identified compact include aliases omitting child hashes; the parent reproduced that gap before correction. Compact requirement/constraint downgrade regressions now pass locally and in Linux.
+3. Legitimate compatibility:8 token contracts,18 HTTP tests (zero errors/failures/skips;6.145s), historical/current bearer interoperability, malformed claims, cold/warm printed fragments, migrations and worker delivery/counts4/2 passed. The separate monitoring command and pip check passed. Owned fixtures were removed.
+
+Actual [foundation37694595696/job113043066577](https://github.com/Protagonist01/url-shortener/actions/runs/37694595696/job/113043066577) and [advisory37694595813/job113043066593](https://github.com/Protagonist01/url-shortener/actions/runs/37694595813/job/113043066593) succeeded for this branch head. Artifacts name PR merge checkout `aaf4c2c845effcebf37207e1aaa1df49b9e5940c`, distinct from branch head. Python3.12.15/Linux, pip-audit2.10.1. [Retained verification evidence](test-dependency-linux-evidence.json) preserves both identities and exact results.
+
+Fresh scopes contain47 runtime,53 test and51 operations packages. Pytest/plugin have no recorded findings; runtime contains no pytest/plugin/Flower/psutil/scanner. Each scope retains26 raw records in Starlette/python-multipart,13 unique package/advisory IDs. Exact [runtime](../security/dependency-after-test-runtime-linux.json), [test](../security/dependency-after-test-test-linux.json) and [operations](../security/dependency-after-test-operations-linux.json) reports have matching metadata files. Counts are not distinct exploitable-vulnerability counts or full-security approval.
+
+One read-only review cycle is complete; its confirmed scanner alias finding was corrected and relevant checks rerun. No runtime request/schema/index change occurs. Local Docker remained unavailable despite a background startup attempt; required Linux checks passed. No Windows image, physical QR/unpublished prototype, cross-UID exploit, external Flower image audit, prefork/load, full lock, SLO or release-readiness proof exists. Parent3, issue61 and all milestone/security gates remain open.
