@@ -4,6 +4,11 @@ Child [F03a / #55](https://github.com/Protagonist01/url-shortener/issues/55) add
 
 ## Local reproduction
 
+DEP03 adds the real UNIX pytest before/after probe, actual runtime-image package/CLI
+checks and a separate monitoring environment. The full sequence is in
+[test-tool verification](test-dependency-remediation.md). Tests use pytest9.1.1 and
+pytest-asyncio1.4.0 after that repair; historical results below retain their original versions.
+
 Use a clean checkout and a virtual environment with Docker available:
 
 ```powershell
