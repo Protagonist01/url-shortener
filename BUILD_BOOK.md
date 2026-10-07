@@ -1307,3 +1307,15 @@ This is library evidence, not a clean installation or real-service pass. HTTPX
 TestClient fallback emits the upstream deprecation; record it explicitly.
 Local Docker remains unavailable from the previous owned check. Actual Linux CI
 must provide fresh resolution, runtime image, real-service and resource proof.
+
+Candidate6c8d42e passed actual Linux foundation37702814273 and
+advisory37702814261. Actual artifacts/source0989ae3c match the fetched PR merge
+checkout and current manifest hashes. Runtime49/test55/operations53 resolve
+with zero known records;12 library/8 token/18 real API checks, migrations,
+worker4/2, runtime image/monitoring and owned cleanup pass. The small mixed
+experiment has zero errors/timeouts and continued loop progress; its duration
+is below a second, so do not infer improved throughput or capacity from it.
+Review found the floor quantile index understates high quantiles for the four
+file samples; use empirical nearest rank and record actual host CPU/memory
+before retaining final resource evidence. This measurement-only correction
+needs a fresh actual CI run, not a changed product budget. Issue61 remains open.

@@ -81,7 +81,10 @@ max_part_size does not impose a maximum uploaded file size.
 
 Artifacts output/framework-dependency/evidence.json and mixed-workload-raw.json
 record source/runtime/pins/profile, p50/p95/p99/max latency/loop lag/RSS/CPU,
-throughput, errors/timeouts and raw samples. A short compatibility experiment is
+actual host CPU/memory, throughput, errors/timeouts and raw samples. Quantiles
+use empirical nearest rank; four file samples cannot estimate stable tails.
+These are finite closed-loop requests without dedicated warmup;10ms sampling
+can miss short resource spikes. A short compatibility experiment is
 not saturation, sustained capacity, queue delivery, zero-DB-read or a production
 SLO pass. Worker delivery is checked separately. No new DB query/index exists to
 EXPLAIN; existing analytics/pools/redirect dispatch require later issue gates.

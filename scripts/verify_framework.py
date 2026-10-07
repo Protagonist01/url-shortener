@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import hashlib
 from importlib.metadata import version
 import json
+import math
 from pathlib import Path
 import platform
 import subprocess
@@ -55,9 +56,9 @@ def summary(samples):
     if not samples:
         raise RuntimeError("Measurement had no samples")
     values = sorted(samples)
-    return {"count": len(values), "p50": values[int((len(values)-1)*.50)],
-            "p95": values[int((len(values)-1)*.95)],
-            "p99": values[int((len(values)-1)*.99)], "max": values[-1]}
+    return {"count": len(values), "p50": values[math.ceil(len(values)*.50)-1],
+            "p95": values[math.ceil(len(values)*.95)-1],
+            "p99": values[math.ceil(len(values)*.99)-1], "max": values[-1]}
 
 
 async def measure(base, identity, api_process, code, target, mixed):
@@ -146,6 +147,7 @@ async def measure(base, identity, api_process, code, target, mixed):
 
 def verify_owned_api(base, identity, api_process, code, target):
     import httpx
+    import psutil
     require_services()
     expected = (ROOT / "app/static/index.html").read_bytes()
     with httpx.Client(base_url=base, timeout=10, follow_redirects=False) as client:
@@ -190,6 +192,9 @@ def verify_owned_api(base, identity, api_process, code, target):
               "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
               "requirements_sha256": hashlib.sha256((ROOT / "requirements.txt").read_bytes()).hexdigest(),
               "python": platform.python_version(), "platform": platform.platform(),
+              "hardware": {"cpu": platform.processor(), "logical_cpus": psutil.cpu_count(),
+                           "physical_cpus": psutil.cpu_count(logical=False), "host_memory_bytes": psutil.virtual_memory().total},
+              "quantiles": "Empirical nearest rank; small sample counts do not establish stable production tails",
               "packages": {n: version(n) for n in ("fastapi", "starlette", "python-multipart", "prometheus-fastapi-instrumentator")},
               "profile": "One owned loopback API, actual disposable PostgreSQL/Redis; synthetic GeoIP; BackgroundTasks tracking;4 redirect lanes;8 HTTP connections;10ms resource/loop sampling",
               "static_sha256": hashlib.sha256(expected).hexdigest(), "measurements": results,
