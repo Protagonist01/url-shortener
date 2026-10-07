@@ -7,6 +7,19 @@ from scripts.dependency_scopes import manifest_hashes
 
 
 class ManifestInputsTest(unittest.TestCase):
+    def test_pip_include_aliases_cannot_hide_changed_child(self):
+        for option in ("-r", "--requirement=", "-c", "--constraint="):
+            with self.subTest(option=option), TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / "requirements-ci.txt").write_text(option + "child.txt\n")
+                child = root / "child.txt"
+                child.write_text("pytest==9.1.1\n")
+                before = manifest_hashes("test", root)
+                child.write_text("pytest==8.3.4\n")
+                after = manifest_hashes("test", root)
+                self.assertIn("child.txt", after)
+                self.assertNotEqual(before, after)
+
     def test_included_manifest_edit_changes_evidence_without_changing_entry(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
