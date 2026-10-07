@@ -6,7 +6,9 @@ choices. A sprint is one issue outcome, not a promised number of days.
 
 ## Advancement rule
 
-Work in progress is **one issue**. The first active issue is [61](https://github.com/Protagonist01/url-shortener/issues/61).
+Work in progress is **one issue**. Initial issue [61](https://github.com/Protagonist01/url-shortener/issues/61)
+has completed its scoped gates. Current [Sprint2/issue1](02-issue-1.md) is held
+at G0 for recorded owner inputs.
 Read its live body, prerequisites, milestone gate and code before implementation.
 The full47-issue order is in [sequence.json](sequence.json); the original
 [roadmap](../ROADMAP.md) remains the product/dependency reference.
@@ -89,5 +91,7 @@ input IDs visible. Link the PR, checked head, merge/fetched commit and verified
 GitHub closure. Record milestone exit evidence separately at the boundary.
 Update sequence.json and GOAL_PROGRESS.md only from those verified states.
 
-Active record: [01 — issue61](01-issue-61.md). No sprint completion is claimed
-by creating this plan.
+Completed record: [01 — issue61](01-issue-61.md). Current active record:
+[02 — issue1](02-issue-1.md), held at G0. Completion of61 is supported by actual
+evidence, guarded PR67 merge/fetched target and verified GitHub closure;
+creating a plan or an input record alone completes no issue.

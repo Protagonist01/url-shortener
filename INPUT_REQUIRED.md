@@ -42,8 +42,8 @@ Confirmed: FastAPI, PostgreSQL, Next.js; small initial launch with growth; Cloud
 ### Sequential sprint holds — 2026-10-08
 
 The owner now requires completion gates before the next step. Sprint1/issue61
-has no new owner decision prerequisite for its scoped repair. Sprint2/issue1
-will be held at G0 until IN01–IN06 are answered and its ADR/budgets are approved.
+passed its scoped gates and merged via PR67. Sprint2/issue1 is now active and
+held at G0 until IN01–IN06 are answered and its ADR/budgets are approved.
 Later inputs still hold their own issue gates. Do not bypass them to start
 another implementation issue; useful investigation within the active issue can
 continue. Answers, decisions and approvals must be explicit evidence.

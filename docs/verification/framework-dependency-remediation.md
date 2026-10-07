@@ -1,8 +1,11 @@
 # Compatible framework/parser repair — issue61
 
-Status: implementation d31107d verified on actual Linux/Python3.12; final
-documentation-head checks and integration remain pending. Do not advance
-Sprint1 until checked-head merge, fetched target and GitHub closure pass.
+Status: complete for issue61's scoped repair. Implementation d31107d is verified
+on actual Linux/Python3.12. Final documentation headc7d6a4c passed both jobs,
+PR67 merged with that head guard asf6e5e2c08d3a38753a806fddbecd1be641351cfc,
+fetched main contains the checked commit/merge, and GitHub61 is closed with all
+five acceptance items checked. [Sprint1 exit](../sprints/01-issue-61.md) records
+final run links and scope limits. F01/F05/full release gates remain open.
 
 ## Actual evidence
 

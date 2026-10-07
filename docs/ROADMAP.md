@@ -10,8 +10,9 @@ Status: **8 GitHub milestones and 40 issues published and verified.** No impleme
 ## Delivery strategy
 
 The owner adopted [sequential sprints with completion gates](sprints/SEQUENTIAL.md)
-on2026-10-08. [The full current queue](sprints/sequence.json) covers47 open
-issues, beginning61 then1. One issue is active; a held gate cannot be skipped.
+on2026-10-08. [The adopted47-issue queue](sprints/sequence.json) begins61 then1;
+61 is now completed and46 remain open. [Sprint2/1](sprints/02-issue-1.md) is
+active and held for IN01–IN06. One issue is active; a held gate cannot be skipped.
 Live GitHub acceptance/prerequisites and milestone exit evidence govern
 advancement. This supersedes concurrent/unrelated implementation scheduling,
 without changing the roadmap's product scope or claiming any issue complete.

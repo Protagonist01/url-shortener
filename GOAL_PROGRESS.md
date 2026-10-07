@@ -58,6 +58,23 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 ## Continuation rules
 
+### Current — Sprint2 held after verified Sprint1 completion —2026-10-08
+
+PR67 final headc7d6a4c0f59fffc12d521294e67ea4345c1f19f2 passed foundation
+37703812297/advisory37703812319 and merged with that guard as
+f6e5e2c08d3a38753a806fddbecd1be641351cfc. Fetched main has the merge and its
+checked parent; live61 closed completed through67 with all five checks verified.
+This supersedes the pending Sprint1 checkpoints below. G0–G5 passed for61's
+scoped repair; its exact source/reports/resources and release limits are retained.
+
+sequence.json now has completed step1/61, sole active step2/1 and45 queued
+steps. Live refresh2026-10-07T23:46:08Z:46 open issues, all8 milestones open;
+M0 eight completed/11 open; later stages five open each. Issue1 is held at
+G0/G3 for IN01–IN06; docs/sprints/02-issue-1.md maps the decisions and live
+acceptance. Do not skip to42. No architecture/price/privacy/launch budget is
+inferred, and the full roadmap objective remains incomplete. Manual execution
+continues only inside1 where independent; IN19 still records the goal controller.
+
 ### Sprint1 checkpoint —2026-10-08
 
 Sequential rules PR66 merged as b19c9afe3ee4d38b079fd1558f93c5209068c98d after
