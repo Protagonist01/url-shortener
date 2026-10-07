@@ -66,4 +66,10 @@ Implementation c5eac2309cf7a072a8787e1791ce0268fc82df39 passed actual foundation
 
 PR65 merge waits for final documentation-head checks;62 remains open until then. Parent3/43/45 and all eight milestones remain incomplete. Next independent task is61 compatible framework/parser repair. Owner choices remain in INPUT_REQUIRED.md; the full roadmap goal stays active.
 
+PR65 final head5fb8f9cf132aa4254dd340b53cdcd213624dfc8e passed foundation37695071938/advisory37695072149 and merged with that head guard asdc815b5d7610fb8772d23705ba2e345d057706a1. Main ancestry and closed62/all acceptance checks are verified. This supersedes the pending-merge sentence. Original76 saved app/test/config/readme/ignore hashes remain unchanged.
+
+Current branch codex/framework-parser-dependencies starts from that fetched main. Issue61's primary metadata investigation found instrumentator7.0.0 requires Starlette below1.0;8.1.0 admits1.x. Latest FastAPI0.142.4 introduces base OpenTelemetry, while0.141.1 metadata has no such base dependency and admits Starlette1.x/Pydantic2.10.4. These are candidates, not installed/verified pins or a policy choice. Inspect all thirteen framework/parser advisory boundaries and actual compatibility/resource behavior before adopting any candidate.
+
+Authoritative refresh2026-10-07T22:24:33Z:47 open issues excluding PRs; all8 milestones open. M0 has7 completed/12 open; later stages each have5 open. No goal or milestone completion is claimed.
+
 Use GitHub as live status. Add each result with commit/PR, relevant tests, observed failures and next available safe task. Do not infer approval from a pending answer. End a turn with the full goal active unless requirement-by-requirement evidence proves completion or the specified repeated-blocker threshold is met. No dates, guarantees, quotas or approval decisions are invented.
