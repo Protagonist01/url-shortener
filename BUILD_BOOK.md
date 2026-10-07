@@ -23,6 +23,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 19 — Separating test tools without making the scanner blind](#entry-19--separating-test-tools-without-making-the-scanner-blind)
 - [Entry 20 — Framework repair includes the metrics dependency](#entry-20--framework-repair-includes-the-metrics-dependency)
 - [Entry 21 — Sequential sprints advance on evidence](#entry-21--sequential-sprints-advance-on-evidence)
+- [Entry 22 — Trace parser fixes before choosing the compatible stack](#entry-22--trace-parser-fixes-before-choosing-the-compatible-stack)
 
 ---
 
@@ -1252,3 +1253,82 @@ Git diff --check passed. Live2/58/62 are completed and65 is merged. This is a
 documentation change with no runtime/query/resource effect; load tests do not
 apply. Reviewed publication/current-head CI remain pending at this checkpoint.
 No61 implementation/acceptance result is invented.
+
+PR66 final head aa7416c275f3607db2dd1aff720a83d70dcebe3f passed foundation
+37700792188 and advisory37700792145. Reviewed and merged under that exact
+head guard as b19c9afe3ee4d38b079fd1558f93c5209068c98d; fetched main contains
+the plan. No product issue was closed. Issue61 remains the single active sprint.
+
+## Entry 22 — Trace parser fixes before choosing the compatible stack
+**Files touched:** dependency pins, targeted advisory gate; verification pending.
+
+### Source review and choice
+Read all thirteen canonical OSV/PyPA advisory records retained under ignored
+output/framework-dependency/sources. Seven Starlette records concern Host/path
+URL reconstruction, arbitrary HTTPEndpoint method dispatch, Windows UNC static
+lookup, file rollover on the event loop, Range CPU work and urlencoded limits.
+Six multipart records concern configured upload filename traversal, querystring
+CPU/separator differences, multipart preamble/epilogue CPU, part-header limits
+and negative Content-Length in the separate parse_form convenience API.
+Actual app routes use JSON and serve static files; there is no request.form,
+Form or UploadFile consumer. Do not turn library probes into an upload exposure
+claim or include unpublished owner QR changes.
+
+Primary PyPI metadata and hash-verified wheel source admit FastAPI0.141.1,
+Starlette1.7.0, multipart0.0.32 and instrumentator8.1.0 together with the current
+Pydantic/Prometheus pins. Old instrumentator7.0.0 requires Starlette below1,
+so upgrading only FastAPI would still fail resolution. Choose the jointly
+supported four-pin candidate;0.141.1 is the latest pre-OpenTelemetry branch,
+while current0.142.4 adds an API dependency. This narrow repair does not approve
+telemetry or claim the old framework branch receives future maintenance.
+Fresh resolution/advisories and actual compatibility decide whether to keep it.
+
+### Reproducible implementation
+Pin Starlette explicitly rather than forcing a dependency override. Extend the
+existing fresh scanner gate to require all four exact pins without findings in
+runtime, test and operations, while preserving unrelated findings and coverage.
+Add library boundary controls for each advisory and real published static/range/
+metrics/JSON contracts inside the guarded PostgreSQL/Redis API fixture. Exercise
+the parser only in a synthetic fixture route with explicit test-only bounds;
+measure concurrent redirect, parser, static, process resource and loop progress.
+No production upload quota or F01 numerical release budget is selected here.
+
+### In progress
+Pins are candidates until actual Linux/Python3.12 resolution, three-scope fresh
+reports, image/worker/API/library checks and resource evidence pass. No issue61
+acceptance item or completion gate is passed by this edit.
+
+The first local boundary run passed10/12 tests; two parser-limit assertions used
+an ASGI scope without app, which makes Starlette raise its internal parser
+exception rather than the HTTP400 wrapper. Add the synthetic app marker instead
+of loosening expected failures. All12 then pass on Python3.12.13 with isolated
+hash-verified candidate wheel paths and existing owner dependencies read-only.
+This is library evidence, not a clean installation or real-service pass. HTTPX
+TestClient fallback emits the upstream deprecation; record it explicitly.
+Local Docker remains unavailable from the previous owned check. Actual Linux CI
+must provide fresh resolution, runtime image, real-service and resource proof.
+
+Candidate6c8d42e passed actual Linux foundation37702814273 and
+advisory37702814261. Actual artifacts/source0989ae3c match the fetched PR merge
+checkout and current manifest hashes. Runtime49/test55/operations53 resolve
+with zero known records;12 library/8 token/18 real API checks, migrations,
+worker4/2, runtime image/monitoring and owned cleanup pass. The small mixed
+experiment has zero errors/timeouts and continued loop progress; its duration
+is below a second, so do not infer improved throughput or capacity from it.
+Review found the floor quantile index understates high quantiles for the four
+file samples; use empirical nearest rank and record actual host CPU/memory
+before retaining final resource evidence. This measurement-only correction
+needs a fresh actual CI run, not a changed product budget. Issue61 remains open.
+
+Corrected d31107d passed foundation37703357620/job113071812870 and
+advisory37703357420/job113071812401. A new dedicated PR merge ref verifies source
+6144325c4a5b199b435d5a393e21ee2f447dc5ae; the old synthetic merge ref is not its
+ancestor, so ordinary fetch correctly rejected replacing it. No source branch
+was forced/reset. Validated all recursive manifests, exact pins/scopes, raw
+nearest-rank/resource summaries,18 API zero failures/skips and all13 advisory
+IDs before retaining exact reports plus source review/resource data in docs.
+All49/55/53 scopes have zero known findings, not full-security approval.
+Final parent diff review finds fixture routes only in the owned test server,
+no runtime psutil dependency, compatible existing JSON client headers and no
+production route/schema/quota/telemetry change. G1–G3 pass only this scoped61
+repair; G4 final documentation-head CI and G5 checked integration remain held.

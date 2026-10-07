@@ -51,6 +51,8 @@ def serve(identity):
     # Legacy static paths are relative; settings already loaded without dotenv.
     os.chdir(ROOT)
     from app.main import app
+    from scripts.verify_framework import install_fixture_routes
+    install_fixture_routes(app)
     @app.middleware("http")
     async def fixture_identity(request, call_next):
         response = await call_next(request)
@@ -170,6 +172,8 @@ def run():
                 forbidden = client.delete("/api/urls/" + str(created.json()["id"]))
                 if forbidden.status_code != 403:
                     raise RuntimeError("Owned deletion must reject anonymous access")
+                from scripts.verify_framework import verify_owned_api
+                verify_owned_api(BASE, identity, process, code, target)
                 deleted = client.delete("/api/urls/" + str(created.json()["id"]),
                                         headers={"Authorization": "Bearer " + current})
                 if deleted.status_code != 204:

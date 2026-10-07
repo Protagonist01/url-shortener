@@ -40,7 +40,7 @@ jobs:
           done
       - name: Verify owned process cleanup
         run: python -m unittest tests.test_dependency_audit_processes tests.test_dependency_scopes
-      - name: Enforce targeted JWT/test repairs and install boundaries
+      - name: Enforce targeted JWT/framework/parser/test repairs and install boundaries
         run: python -m scripts.verify_dependency_remediation
       - name: Publish advisory evidence
         if: always()

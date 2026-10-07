@@ -1,5 +1,10 @@
 # Advisory identifier mapping — 2026-10-06
 
+[Framework/parser review](../verification/framework-dependency-remediation.md)
+maps all thirteen remaining canonical IDs to maintainer fixes and meaningful
+regressions. Candidate pins do not supersede historical evidence until a fresh
+actual scan and Sprint1 gates pass. No baseline or finding is removed here.
+
 Historical baseline below remains unchanged. [DEP03 verification](../verification/test-dependency-remediation.md) now records separate runtime/test/operations resolutions: pytest is updated and excluded from production; Starlette/multipart findings stay under61. Use those scoped reports for the post-repair installation. No global security approval is implied.
 
 Actual Linux/Python3.12.14 scan:61 resolved packages,5 with findings,35 raw records and18 unique package/advisory IDs. Raw records/aliases are preserved; these counts are not a distinct exploitability count. Fix versions are scanner candidates that need compatibility/current-source review. No ignored finding or release exception is granted.

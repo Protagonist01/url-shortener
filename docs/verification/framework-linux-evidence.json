@@ -1,0 +1,463 @@
+{
+  "result": "passed",
+  "branch_head": "d31107d489cf79b6d40b13573f2508e5cc82f9cc",
+  "ci_merge_checkout": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+  "checks": [
+    {
+      "jobs": [
+        {
+          "id": 113071812401,
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Protagonist01/url-shortener/actions/runs/37703357420/job/113071812401",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T23:37:58Z",
+              "completed_at": "2026-10-07T23:37:59Z"
+            },
+            {
+              "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T23:37:59Z",
+              "completed_at": "2026-10-07T23:38:01Z"
+            },
+            {
+              "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T23:38:01Z",
+              "completed_at": "2026-10-07T23:38:01Z"
+            },
+            {
+              "name": "Install isolated scanner",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T23:38:01Z",
+              "completed_at": "2026-10-07T23:38:04Z"
+            },
+            {
+              "name": "Resolve and collect real advisory evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T23:38:04Z",
+              "completed_at": "2026-10-07T23:38:21Z"
+            },
+            {
+              "name": "Verify owned process cleanup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T23:38:21Z",
+              "completed_at": "2026-10-07T23:38:21Z"
+            },
+            {
+              "name": "Enforce targeted JWT/framework/parser/test repairs and install boundaries",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-10-07T23:38:21Z",
+              "completed_at": "2026-10-07T23:38:21Z"
+            },
+            {
+              "name": "Publish advisory evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T23:38:21Z",
+              "completed_at": "2026-10-07T23:38:22Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-10-07T23:38:22Z",
+              "completed_at": "2026-10-07T23:38:22Z"
+            },
+            {
+              "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16,
+              "started_at": "2026-10-07T23:38:22Z",
+              "completed_at": "2026-10-07T23:38:22Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17,
+              "started_at": "2026-10-07T23:38:22Z",
+              "completed_at": "2026-10-07T23:38:22Z"
+            }
+          ]
+        }
+      ],
+      "name": "Dependency advisory evidence",
+      "head_sha": "d31107d489cf79b6d40b13573f2508e5cc82f9cc",
+      "url": "https://github.com/Protagonist01/url-shortener/actions/runs/37703357420",
+      "status": "completed",
+      "id": 37703357420,
+      "event": "pull_request",
+      "conclusion": "success"
+    },
+    {
+      "jobs": [
+        {
+          "id": 113071812870,
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/Protagonist01/url-shortener/actions/runs/37703357620/job/113071812870",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-07T23:37:58Z",
+              "completed_at": "2026-10-07T23:37:59Z"
+            },
+            {
+              "name": "Check out this revision",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-07T23:37:59Z",
+              "completed_at": "2026-10-07T23:38:00Z"
+            },
+            {
+              "name": "Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-07T23:38:00Z",
+              "completed_at": "2026-10-07T23:38:00Z"
+            },
+            {
+              "name": "Install pinned direct requirements",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-07T23:38:00Z",
+              "completed_at": "2026-10-07T23:38:12Z"
+            },
+            {
+              "name": "Reproduce historical pytest boundary in an isolated fixture",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-07T23:38:12Z",
+              "completed_at": "2026-10-07T23:38:16Z"
+            },
+            {
+              "name": "Verify fixed pytest boundary and ordinary temporary roots",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-07T23:38:16Z",
+              "completed_at": "2026-10-07T23:38:16Z"
+            },
+            {
+              "name": "Verify the actual production image and entrypoints",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-10-07T23:38:16Z",
+              "completed_at": "2026-10-07T23:38:48Z"
+            },
+            {
+              "name": "Verify separately installed monitoring command",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-10-07T23:38:48Z",
+              "completed_at": "2026-10-07T23:38:59Z"
+            },
+            {
+              "name": "Prepare isolated historical JWT fixture",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-07T23:38:59Z",
+              "completed_at": "2026-10-07T23:39:02Z"
+            },
+            {
+              "name": "Verify JWT contracts and historical interoperability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-10-07T23:39:02Z",
+              "completed_at": "2026-10-07T23:39:03Z"
+            },
+            {
+              "name": "Verify framework and parser library boundaries",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-07T23:39:03Z",
+              "completed_at": "2026-10-07T23:39:03Z"
+            },
+            {
+              "name": "Verify configuration boundaries",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-10-07T23:39:03Z",
+              "completed_at": "2026-10-07T23:39:04Z"
+            },
+            {
+              "name": "Verify task registration",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-07T23:39:04Z",
+              "completed_at": "2026-10-07T23:39:05Z"
+            },
+            {
+              "name": "Start owned disposable services",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14,
+              "started_at": "2026-10-07T23:39:05Z",
+              "completed_at": "2026-10-07T23:39:11Z"
+            },
+            {
+              "name": "Verify migrations and real worker delivery",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-10-07T23:39:11Z",
+              "completed_at": "2026-10-07T23:39:14Z"
+            },
+            {
+              "name": "Verify real authentication and printed URL compatibility",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16,
+              "started_at": "2026-10-07T23:39:14Z",
+              "completed_at": "2026-10-07T23:39:24Z"
+            },
+            {
+              "name": "Remove only owned fixtures",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17,
+              "started_at": "2026-10-07T23:39:24Z",
+              "completed_at": "2026-10-07T23:39:24Z"
+            },
+            {
+              "name": "Publish synthetic verification artifacts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18,
+              "started_at": "2026-10-07T23:39:24Z",
+              "completed_at": "2026-10-07T23:39:26Z"
+            },
+            {
+              "name": "Post Set up Python",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35,
+              "started_at": "2026-10-07T23:39:26Z",
+              "completed_at": "2026-10-07T23:39:26Z"
+            },
+            {
+              "name": "Post Check out this revision",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 36,
+              "started_at": "2026-10-07T23:39:26Z",
+              "completed_at": "2026-10-07T23:39:26Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 37,
+              "started_at": "2026-10-07T23:39:26Z",
+              "completed_at": "2026-10-07T23:39:26Z"
+            }
+          ]
+        }
+      ],
+      "name": "Foundation correctness",
+      "head_sha": "d31107d489cf79b6d40b13573f2508e5cc82f9cc",
+      "url": "https://github.com/Protagonist01/url-shortener/actions/runs/37703357620",
+      "status": "completed",
+      "id": 37703357620,
+      "event": "pull_request",
+      "conclusion": "success"
+    }
+  ],
+  "scope_metadata": {
+    "runtime": {
+      "scanned_at": "2026-10-07T23:38:11.345175+00:00",
+      "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+      "requirements_sha256": "64b98d65cc5283856ced19df85c0a3011077a3198d60826f522f0583af1a474c",
+      "scope": "runtime",
+      "requirements_files_sha256": {
+        "requirements.txt": "64b98d65cc5283856ced19df85c0a3011077a3198d60826f522f0583af1a474c"
+      },
+      "python": "3.12.15",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "scanner": "pip-audit",
+      "scanner_version": "2.10.1",
+      "service": "PyPI Python Packaging Advisory Database",
+      "dependency_count": 49,
+      "vulnerable_packages": 0,
+      "advisory_records": 0,
+      "scanner_exit": 0,
+      "unique_package_advisory_ids": 0,
+      "result": "no_known_findings_in_scanned_set",
+      "limitations": "OS-specific resolver; no exploitability, unpublished prototype, frontend or full-security proof"
+    },
+    "test": {
+      "scanned_at": "2026-10-07T23:38:16.377225+00:00",
+      "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+      "requirements_sha256": "d5880800237f34a23ddc28373d730b1526ae9bc40b906561c68bf9332b74fd4c",
+      "scope": "test",
+      "requirements_files_sha256": {
+        "requirements-ci.txt": "d5880800237f34a23ddc28373d730b1526ae9bc40b906561c68bf9332b74fd4c",
+        "requirements-test.txt": "f5973d6bbcf63002658fea3d59e366366a8c3755177a2b663332c80db6772d41",
+        "requirements.txt": "64b98d65cc5283856ced19df85c0a3011077a3198d60826f522f0583af1a474c"
+      },
+      "python": "3.12.15",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "scanner": "pip-audit",
+      "scanner_version": "2.10.1",
+      "service": "PyPI Python Packaging Advisory Database",
+      "dependency_count": 55,
+      "vulnerable_packages": 0,
+      "advisory_records": 0,
+      "scanner_exit": 0,
+      "unique_package_advisory_ids": 0,
+      "result": "no_known_findings_in_scanned_set",
+      "limitations": "OS-specific resolver; no exploitability, unpublished prototype, frontend or full-security proof"
+    },
+    "operations": {
+      "scanned_at": "2026-10-07T23:38:21.332161+00:00",
+      "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+      "requirements_sha256": "d743cd0a02080978e2346f4fd9d3acc2b68197068a638fdff8dc988e43e1e8c6",
+      "scope": "operations",
+      "requirements_files_sha256": {
+        "requirements-ops.txt": "d743cd0a02080978e2346f4fd9d3acc2b68197068a638fdff8dc988e43e1e8c6",
+        "requirements.txt": "64b98d65cc5283856ced19df85c0a3011077a3198d60826f522f0583af1a474c"
+      },
+      "python": "3.12.15",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "scanner": "pip-audit",
+      "scanner_version": "2.10.1",
+      "service": "PyPI Python Packaging Advisory Database",
+      "dependency_count": 53,
+      "vulnerable_packages": 0,
+      "advisory_records": 0,
+      "scanner_exit": 0,
+      "unique_package_advisory_ids": 0,
+      "result": "no_known_findings_in_scanned_set",
+      "limitations": "OS-specific resolver; no exploitability, unpublished prototype, frontend or full-security proof"
+    }
+  },
+  "real_api_junit": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "18",
+    "time": "6.152",
+    "timestamp": "2026-10-07T23:39:16.751818+00:00",
+    "hostname": "runnervmmprz5"
+  },
+  "service_results": {
+    "authentication-verification/evidence.json": {
+      "result": "passed",
+      "recorded_at": "2026-10-07T23:39:24.110143+00:00",
+      "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+      "security_sha256": "03a899d0bf98a4ade3993aeb15f4bf1000a4300e6a216d56d1187bfe4cb616ac",
+      "requirements_sha256": "64b98d65cc5283856ced19df85c0a3011077a3198d60826f522f0583af1a474c",
+      "python": "3.12.15",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "cpu": "x86_64",
+      "pyjwt": "2.15.1",
+      "legacy_api_tests": 18,
+      "api_processes": 1,
+      "tracking_profile": "background_tasks with synthetic GeoIP ZZ",
+      "legacy_current_hs256_interoperability": true,
+      "cold_warm_destination_fragment": true,
+      "malformed_claims_safe": true,
+      "token_decode_microseconds": {
+        "warmup": 200,
+        "count": 2000,
+        "p50": 40.87,
+        "p95": 44.483,
+        "p99": 59.685,
+        "errors": 0,
+        "serial_operations_per_second": 23891.518077451477
+      },
+      "limits": "synthetic serial decode, not load/device/capacity/SLO proof; no DB/query changes; real worker check is separate; unpublished /q prototype excluded"
+    },
+    "worker-registration/evidence.json": {
+      "result": "passed",
+      "celery": "5.4.0",
+      "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+      "runtime": {
+        "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+        "platform": "linux"
+      },
+      "source_sha256": {
+        "app/worker/celery_app.py": "0dabd24e03c51cb582056a597673b680276e7478428e859ca8366315475cd365",
+        "app/worker/beat_tasks.py": "40e7c21fe8cbef784de5f8949e20eb3ad36af432102f9bbb51ac8d09e8b2ec62",
+        "app/models/models.py": "7355ae9c79cfad0559e4801e18b6f88f6db9d0206e9a5a4e8993cab7ec59f891"
+      },
+      "worker_pool": "solo",
+      "worker_count": 1,
+      "scheduler_count": 1,
+      "scheduled_messages": 1,
+      "period_seconds_preserved": 3600,
+      "aggregate_rows": 2,
+      "click_counts": [
+        4,
+        2
+      ],
+      "task_result": {
+        "rows_upserted": 2,
+        "window": "2026-09-30 00:00:00+00:00 to 2026-10-07 23:39:13.528394+00:00"
+      },
+      "geoip_network": "none; IP absent, synthetic ZZ fixtures",
+      "limitations": "correctness check, not prefork/load/retry/idempotency proof"
+    },
+    "test-dependency/runtime.json": {
+      "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+      "result": "passed",
+      "checks": [
+        "-m pip check",
+        "API health/imports",
+        "-m alembic --help",
+        "-m uvicorn --help",
+        "-m celery -A app.worker.celery_app worker --help",
+        "-m celery -A app.worker.celery_app beat --help"
+      ],
+      "network": "none",
+      "limitations": "Entrypoint availability and in-process health; real migrations/worker/API are separate guarded checks. No size/time improvement claim."
+    }
+  },
+  "retained_sha256": {
+    "docs/security/dependency-after-framework-runtime-linux.json": "068cc8ee39ffdf7b522fe62d94141713bd802d1bd41601134dfdc3205af65d32",
+    "docs/security/dependency-after-framework-runtime-linux-metadata.json": "22fa5d3e4b75c88b281191fdc2feac12b11ffa828ef6706e99323bf685a2a44b",
+    "docs/security/dependency-after-framework-test-linux.json": "ea736a84515eb490eb1ed57368c511ad6f2a973eea270f2f86ae31cc5b8a8908",
+    "docs/security/dependency-after-framework-test-linux-metadata.json": "5db3b3dbaac0d44efb20178571a75e8e21e6193caec65cbbabde992641eb5b78",
+    "docs/security/dependency-after-framework-operations-linux.json": "e338a52ae19e0366f1f66c4c7991c3525f3c92d3ee03ab64dde17db80f1fc3a3",
+    "docs/security/dependency-after-framework-operations-linux-metadata.json": "79d1a3125052a4c6d521c55a1e0c79a80f2e793c64ca5c13c0d4be98615c9b82",
+    "docs/verification/framework-linux-resource-evidence.json": "c4a965896dc78296435447dd9001703fda37f546927778f6a139532cb0b3e91f",
+    "docs/verification/framework-linux-resource-raw.json": "5c06214f76c7cc5d470e3e018bf84e344b1f751b207e69efed0e01b03ad0607b"
+  },
+  "limits": "Scoped library/API/resource/advisory proof; not production SLO/capacity, full security, browser, Windows deployment or unpublished QR proof"
+}
