@@ -1,4 +1,4 @@
-"""Enforce targeted JWT and test-tool repairs in each fresh audited scope."""
+"""Enforce targeted JWT, framework/parser and test-tool repairs in fresh scopes."""
 import hashlib
 import json
 from pathlib import Path
@@ -54,9 +54,17 @@ def main():
         raise RuntimeError("Test/scanner tooling entered operations")
     if operations.get("flower", {}).get("version") != "2.0.1":
         raise RuntimeError("Operations Flower pin missing")
+    for dependencies in (by_name, tests, operations):
+        for name, pin in (("fastapi", "0.141.1"), ("starlette", "1.7.0"),
+                          ("python-multipart", "0.0.32"),
+                          ("prometheus-fastapi-instrumentator", "8.1.0")):
+            require_pin(dependencies, name, pin)
+        if "opentelemetry-api" in dependencies:
+            raise RuntimeError("Unreviewed telemetry dependency entered the scoped stack")
     print("Verified current resolved app requirements: no JOSE/ECDSA; PyJWT2.15.1 has no recorded findings.")
     print("Other findings remain visible; this is not full security approval.")
     print("Verified runtime/test/operations manifests; fixed pytest and plugin have no recorded findings.")
+    print("Verified compatible framework/parser pins without known findings in all three scopes.")
 
 
 if __name__ == "__main__":

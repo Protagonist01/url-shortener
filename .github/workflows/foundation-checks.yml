@@ -54,6 +54,8 @@ jobs:
           echo "LEGACY_JWT_PYTHON=$PWD/output/legacy-jwt/bin/python" >> "$GITHUB_ENV"
       - name: Verify JWT contracts and historical interoperability
         run: python -m unittest tests.test_security_tokens -v
+      - name: Verify framework and parser library boundaries
+        run: python -m unittest tests.test_framework_boundaries -v
       - name: Verify configuration boundaries
         run: python -m scripts.verify_configuration --docker
       - name: Verify task registration
@@ -76,5 +78,7 @@ jobs:
             output/worker-registration/
             output/authentication-verification/
             output/test-dependency/
+            output/framework-dependency/evidence.json
+            output/framework-dependency/mixed-workload-raw.json
           if-no-files-found: warn
           retention-days: 7

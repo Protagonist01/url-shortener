@@ -58,6 +58,16 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 ## Continuation rules
 
+### Sprint1 checkpoint —2026-10-08
+
+Sequential rules PR66 merged as b19c9afe3ee4d38b079fd1558f93c5209068c98d after
+current-head foundation37700792188/advisory37700792145 passed. Main contains
+the merge; no product issue closed. Sprint1/61 now has a jointly compatible
+four-pin candidate, thirteen-advisory source map, twelve local passing library
+regressions, all-scope targeted gate and guarded real HTTP/resource fixture.
+Actual clean Linux/image/service/advisory/resource checks remain pending.
+G1–G5 remain open; do not advance to1 or another implementation issue yet.
+
 ### Sequential execution — owner instruction2026-10-08
 
 docs/sprints/SEQUENTIAL.md defines one active issue and G0–G5 entry/behavior/

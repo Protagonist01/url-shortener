@@ -1,6 +1,6 @@
 # Sprint 1 — issue61: compatible framework/parser repair
 
-Status: **active — investigation; no acceptance item complete**.
+Status: **active — candidate implementation; actual Linux gates pending**.
 Issue: https://github.com/Protagonist01/url-shortener/issues/61
 Entry checked2026-10-08; implementation base main dc815b5d7610fb8772d23705ba2e345d057706a1.
 Issue2 audit and58 advisory discovery are verified closed from live GitHub
@@ -15,7 +15,7 @@ and linked evidence. Existing issue62 fix is merged via65.
 | G2 | pending | Run actual parser/static/range controls and full relevant isolated compatibility suite |
 | G3 | pending | Measure parser/static CPU/RSS/event-loop effects alongside redirects; keep F01 production thresholds unapproved |
 | G4 | pending | Final diff review/current-head CI, migration/client compatibility and rollback documentation |
-| G5 | pending | No implementation PR, merge or closed61 exists |
+| G5 | pending | No implementation merge or closed61 exists |
 
 ## Acceptance-to-evidence map
 
@@ -36,10 +36,14 @@ package/advisory IDs. Counts do not prove distinct exploitable bugs.
 FastAPI0.115.6 and instrumentator7.0.0 constrain old Starlette. Primary metadata
 investigation found instrumentator8.1.0 admits Starlette1.x; current framework
 and parser candidates still need release/source/compatibility checks.
-No candidate pin is adopted, installed or verified yet. Existing runtime
-imports/static behavior must guide the patch; unknown upload quotas stay
-unapproved. IN08 concerns unpublished prototype publication, not permission
-to claim its tests passed.
+Candidate FastAPI0.141.1/Starlette1.7.0/multipart0.0.32/instrumentator8.1.0 pins
+are implemented with a targeted fresh-scan gate in all scopes. All13 source
+boundaries are mapped in [repair verification](../verification/framework-dependency-remediation.md).
+Twelve meaningful local library tests pass using isolated hash-verified wheel
+paths and the unchanged owner's Python3.12.13 dependencies. This is not a clean
+install/real-service pass. Actual Linux/Python3.12 install/image/worker/API and
+resource evidence remain pending. Unknown upload quotas stay unapproved.
+IN08 concerns unpublished prototype publication, not permission to claim coverage.
 
 ## Exit
 
