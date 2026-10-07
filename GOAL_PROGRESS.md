@@ -72,4 +72,6 @@ Current branch codex/framework-parser-dependencies starts from that fetched main
 
 Authoritative refresh2026-10-07T22:24:33Z:47 open issues excluding PRs; all8 milestones open. M0 has7 completed/12 open; later stages each have5 open. No goal or milestone completion is claimed.
 
+Execution-control correction: get_goal currently reports blocked despite authorized continuation and this turn's verified progress. No blocked/completed update was issued in this turn. The API cannot resume goals; INPUT_REQUIRED.md IN19 records the UI control issue. The full objective remains incomplete and manual work proceeds on61; earlier “active” wording is not a claim about the current controller status.
+
 Use GitHub as live status. Add each result with commit/PR, relevant tests, observed failures and next available safe task. Do not infer approval from a pending answer. End a turn with the full goal active unless requirement-by-requirement evidence proves completion or the specified repeated-blocker threshold is met. No dates, guarantees, quotas or approval decisions are invented.

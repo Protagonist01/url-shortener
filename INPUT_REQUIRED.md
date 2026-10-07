@@ -39,6 +39,10 @@ Confirmed: FastAPI, PostgreSQL, Next.js; small initial launch with growth; Cloud
 
 ## How agents proceed
 
+### Execution control — 2026-10-07
+
+IN19: after the owner's “continue” request and verified PR65 progress, get_goal still reports blocked. The available goal API cannot resume it. Manual authorized roadmap work continues; the owner may need to use the app's goal resume control for automatic continuations. This is not a software/product blocker, approval request or completion claim.
+
 - Refresh GitHub and the current worktree before picking work. Read actual acceptance criteria and prerequisites.
 - Implement independent correctness fixes and prepare reusable interfaces/tests. Record proposed values as proposals. Do not bypass unmet prerequisites merely to advance a milestone.
 - Keep parent issues open while mandatory outcomes/child tasks or decisions remain incomplete. Distinguish verified implementation from merged/released behavior.
