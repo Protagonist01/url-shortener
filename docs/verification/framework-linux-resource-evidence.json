@@ -1,0 +1,141 @@
+{
+  "result": "passed",
+  "recorded_at": "2026-10-07T23:39:23.994723+00:00",
+  "source_head": "6144325c4a5b199b435d5a393e21ee2f447dc5ae",
+  "requirements_sha256": "64b98d65cc5283856ced19df85c0a3011077a3198d60826f522f0583af1a474c",
+  "python": "3.12.15",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "hardware": {
+    "cpu": "x86_64",
+    "logical_cpus": 4,
+    "physical_cpus": 2,
+    "host_memory_bytes": 16765378560
+  },
+  "quantiles": "Empirical nearest rank; small sample counts do not establish stable production tails",
+  "packages": {
+    "fastapi": "0.141.1",
+    "starlette": "1.7.0",
+    "python-multipart": "0.0.32",
+    "prometheus-fastapi-instrumentator": "8.1.0"
+  },
+  "profile": "One owned loopback API, actual disposable PostgreSQL/Redis; synthetic GeoIP; BackgroundTasks tracking;4 redirect lanes;8 HTTP connections;10ms resource/loop sampling",
+  "static_sha256": "198e2f1eea645dc3b36a3c64719453b96d2753526d4245246368104db4237ba1",
+  "measurements": [
+    {
+      "profile": "redirect-only",
+      "duration_seconds": 0.24358193300000153,
+      "redirects_per_second": 164.21579181736664,
+      "total_operations_per_second": 164.21579181736664,
+      "errors": 0,
+      "timeouts": 0,
+      "latency_ms": {
+        "redirect_ms": {
+          "count": 40,
+          "p50": 11.468059999998559,
+          "p95": 95.62314499999047,
+          "p99": 96.04117599999995,
+          "max": 96.04117599999995
+        }
+      },
+      "event_loop_lag_ms": {
+        "count": 15,
+        "p50": 1.62633100000221,
+        "p95": 36.825684999987516,
+        "p99": 36.825684999987516,
+        "max": 36.825684999987516
+      },
+      "rss_bytes": {
+        "count": 22,
+        "p50": 95244288,
+        "p95": 95358976,
+        "p99": 95358976,
+        "max": 95358976
+      },
+      "cpu_one_core_percent": {
+        "count": 22,
+        "p50": 95.2,
+        "p95": 97.2,
+        "p99": 182.7,
+        "max": 182.7
+      },
+      "process_threads": {
+        "count": 22,
+        "p50": 6,
+        "p95": 6,
+        "p99": 6,
+        "max": 6
+      },
+      "cpu_seconds": 0.2200000000000002,
+      "average_cpu_one_core_percent": 90.31868549955173
+    },
+    {
+      "profile": "mixed",
+      "duration_seconds": 0.20695842000000653,
+      "redirects_per_second": 193.2755381491545,
+      "total_operations_per_second": 405.87863011322446,
+      "errors": 0,
+      "timeouts": 0,
+      "latency_ms": {
+        "redirect_ms": {
+          "count": 40,
+          "p50": 12.260421999997106,
+          "p95": 19.40159800000174,
+          "p99": 22.760411999996677,
+          "max": 22.760411999996677
+        },
+        "static_ms": {
+          "count": 24,
+          "p50": 3.2110039999793116,
+          "p95": 33.663816999990104,
+          "p99": 43.016139999991765,
+          "max": 43.016139999991765
+        },
+        "parser_ms": {
+          "count": 16,
+          "p50": 11.215784000000895,
+          "p95": 22.781038999994507,
+          "p99": 22.781038999994507,
+          "max": 22.781038999994507
+        },
+        "file_ms": {
+          "count": 4,
+          "p50": 15.019950000009885,
+          "p95": 130.30691099999103,
+          "p99": 130.30691099999103,
+          "max": 130.30691099999103
+        }
+      },
+      "event_loop_lag_ms": {
+        "count": 19,
+        "p50": 0.844756000011557,
+        "p95": 2.698900000003732,
+        "p99": 2.698900000003732,
+        "max": 2.698900000003732
+      },
+      "rss_bytes": {
+        "count": 18,
+        "p50": 97447936,
+        "p95": 98791424,
+        "p99": 98791424,
+        "max": 98791424
+      },
+      "cpu_one_core_percent": {
+        "count": 18,
+        "p50": 90.7,
+        "p95": 182.4,
+        "p99": 182.4,
+        "max": 182.4
+      },
+      "process_threads": {
+        "count": 18,
+        "p50": 7,
+        "p95": 8,
+        "p99": 8,
+        "max": 8
+      },
+      "cpu_seconds": 0.1900000000000004,
+      "average_cpu_one_core_percent": 91.80588062084857
+    }
+  ],
+  "limits": "Small bounded compatibility experiment, not saturation/soak/device/SLO or zero-DB-read proof; parser route/limits are fixture-only; no published upload or /q prototype coverage; F01/F05 and parent release gates stay open"
+}

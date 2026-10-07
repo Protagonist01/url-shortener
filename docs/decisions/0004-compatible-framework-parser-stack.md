@@ -1,6 +1,7 @@
 # ADR0004 — Upgrade framework, parser and metrics together
 
-Status: candidate implementation; actual evidence pending in Sprint1/issue61.
+Status: implemented and actual Linux compatibility verified; final integration
+pending in Sprint1/issue61.
 Date:2026-10-08. Scope: dependency repair, not deployment/product policy.
 
 ## Problem and decision

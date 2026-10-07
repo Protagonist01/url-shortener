@@ -68,6 +68,13 @@ regressions, all-scope targeted gate and guarded real HTTP/resource fixture.
 Actual clean Linux/image/service/advisory/resource checks remain pending.
 G1–G5 remain open; do not advance to1 or another implementation issue yet.
 
+Implementation d31107d now passes actual Linux foundation37703357620 and
+advisory37703357420. Source6144325c is independently fetched; recursive
+manifests/pins/raw summaries verified. Runtime49/test55/operations53 have zero
+known findings.12 library/8 JWT/18 HTTP, image/monitoring, migrations, worker4/2
+and resource fixtures pass. G1–G3 passed for61's scope; final G4 CI and G5
+merge/fetched target/closure remain held. No numerical launch budget is approved.
+
 ### Sequential execution — owner instruction2026-10-08
 
 docs/sprints/SEQUENTIAL.md defines one active issue and G0–G5 entry/behavior/

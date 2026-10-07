@@ -1,6 +1,6 @@
 # Sprint 1 — issue61: compatible framework/parser repair
 
-Status: **active — candidate implementation; actual Linux gates pending**.
+Status: **active — scoped implementation verified; final review/integration pending**.
 Issue: https://github.com/Protagonist01/url-shortener/issues/61
 Entry checked2026-10-08; implementation base main dc815b5d7610fb8772d23705ba2e345d057706a1.
 Issue2 audit and58 advisory discovery are verified closed from live GitHub
@@ -11,21 +11,21 @@ and linked evidence. Existing issue62 fix is merged via65.
 | Gate | State | Evidence / remaining work |
 |---|---|---|
 | G0 | passed for scoped repair | Audit/discovery complete; live61 explicitly permits dependency repair without F01 hosting/quotas/privacy choices; excludes unpublished QR uploads |
-| G1 | pending | All five acceptance items below remain incomplete |
-| G2 | pending | Run actual parser/static/range controls and full relevant isolated compatibility suite |
-| G3 | pending | Measure parser/static CPU/RSS/event-loop effects alongside redirects; keep F01 production thresholds unapproved |
-| G4 | pending | Final diff review/current-head CI, migration/client compatibility and rollback documentation |
+| G1 | passed for scoped repair | All13 sources mapped; exact supported stack resolves; fresh scans clear targets; published contracts and documented rollback verified |
+| G2 | passed for scoped repair | Linux12 library/8 token/18 guarded real API checks, image/monitoring, migrations, real worker and cleanup pass |
+| G3 | passed for issue61 scope | Raw bounded parser/static/redirect CPU/RSS/thread/lag profiles validated; rollover write isolated from loop; no issue-specific production target was selected; F01/F05 budgets still held |
+| G4 | pending final head | Parent final diff/source/fixture review complete; implementation CI passes; final evidence documentation-head checks pending |
 | G5 | pending | No implementation merge or closed61 exists |
 
 ## Acceptance-to-evidence map
 
 | Live acceptance item | Evidence required | State |
 |---|---|---|
-| Review every advisory; choose supported pins; clean Linux/Python3.12 resolution | All13 canonical package/advisory IDs traced to maintainers/fixes; actual joint resolution/install and pip check | unverified |
-| Remove targeted findings without suppression | Actual fresh runtime/test/operations reports; explicit targeted gate and visible remaining findings | unverified |
-| Real API/static/parser/range compatibility | Guarded auth/management/analytics/redirect/fragment/metrics suite, static bytes/ranges, malicious/malformed parser inputs, legitimate controls | unverified |
-| Resource bounds and event-loop isolation | Bounded synthetic parser/static workload concurrent with redirects; CPU/RSS/lag/error results; no unpublished QR coverage claim | unverified |
-| Compatibility/rollout/performance documentation and actual CI | Exact pins/profile/commands/results, reviewed deployment/rollback guidance; current-head actual Linux checks | unverified |
+| Review every advisory; choose supported pins; clean Linux/Python3.12 resolution | All13 source records/ranges reviewed; actual fresh resolution/install/pip check; exact pins/manifest hashes in retained evidence | passed |
+| Remove targeted findings without suppression | Fresh49 runtime/55 test/53 operations reports, zero known findings/no skips/no ignored IDs; targeted gate passes | passed |
+| Real API/static/parser/range compatibility | Linux12 library/18 real HTTP regressions plus guarded static/metrics/JSON and cold/warm printed-anchor controls | passed |
+| Resource bounds and event-loop isolation | Exact raw40 redirect-only/40 mixed redirect+24 static/16 parser/4 file measurements; zero errors/timeouts; actual thread-isolated rollover control; unpublished QR excluded | passed for scoped repair |
+| Compatibility/rollout/performance documentation and actual CI | ADR0004/repair reproduction/rollback; implementation foundation37703357620/advisory37703357420 pass; final documentation-head/integration pending | passed implementation; final G4/G5 held |
 
 ## Existing observations, not completion
 
@@ -44,6 +44,15 @@ paths and the unchanged owner's Python3.12.13 dependencies. This is not a clean
 install/real-service pass. Actual Linux/Python3.12 install/image/worker/API and
 resource evidence remain pending. Unknown upload quotas stay unapproved.
 IN08 concerns unpublished prototype publication, not permission to claim coverage.
+
+This earlier candidate checkpoint is superseded by actual d31107d evidence:
+[validated summary](../verification/framework-linux-evidence.json),
+[resource results](../verification/framework-linux-resource-evidence.json),
+[source/reproduction/limits](../verification/framework-dependency-remediation.md).
+PR: https://github.com/Protagonist01/url-shortener/pull/67.
+Verified CI source6144325c4a5b199b435d5a393e21ee2f447dc5ae differs from branch
+d31107d489cf79b6d40b13573f2508e5cc82f9cc. Manifest/static hashes and raw
+nearest-rank quantiles match. G3 does not approve F01 numerical release budgets.
 
 ## Exit
 

@@ -1319,3 +1319,16 @@ Review found the floor quantile index understates high quantiles for the four
 file samples; use empirical nearest rank and record actual host CPU/memory
 before retaining final resource evidence. This measurement-only correction
 needs a fresh actual CI run, not a changed product budget. Issue61 remains open.
+
+Corrected d31107d passed foundation37703357620/job113071812870 and
+advisory37703357420/job113071812401. A new dedicated PR merge ref verifies source
+6144325c4a5b199b435d5a393e21ee2f447dc5ae; the old synthetic merge ref is not its
+ancestor, so ordinary fetch correctly rejected replacing it. No source branch
+was forced/reset. Validated all recursive manifests, exact pins/scopes, raw
+nearest-rank/resource summaries,18 API zero failures/skips and all13 advisory
+IDs before retaining exact reports plus source review/resource data in docs.
+All49/55/53 scopes have zero known findings, not full-security approval.
+Final parent diff review finds fixture routes only in the owned test server,
+no runtime psutil dependency, compatible existing JSON client headers and no
+production route/schema/quota/telemetry change. G1–G3 pass only this scoped61
+repair; G4 final documentation-head CI and G5 checked integration remain held.

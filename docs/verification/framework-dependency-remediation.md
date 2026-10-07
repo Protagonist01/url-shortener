@@ -1,7 +1,34 @@
 # Compatible framework/parser repair — issue61
 
-Status: candidate implementation; actual Linux resolution/HTTP/resource evidence
-is pending. Do not close61 or advance Sprint1 from this document alone.
+Status: implementation d31107d verified on actual Linux/Python3.12; final
+documentation-head checks and integration remain pending. Do not advance
+Sprint1 until checked-head merge, fetched target and GitHub closure pass.
+
+## Actual evidence
+
+[Foundation37703357620](https://github.com/Protagonist01/url-shortener/actions/runs/37703357620/job/113071812870)
+and [advisory37703357420](https://github.com/Protagonist01/url-shortener/actions/runs/37703357420/job/113071812401)
+passed for branch d31107d489cf79b6d40b13573f2508e5cc82f9cc. Source
+6144325c4a5b199b435d5a393e21ee2f447dc5ae is the fetched CI merge checkout,
+not the branch head. [Validated evidence](framework-linux-evidence.json)
+records actual successful steps, exact recursive requirement hashes and
+18 HTTP tests with zero errors/failures/skips. Twelve framework/parser library
+and eight token checks, real migrations/worker4/2, production image/entrypoints,
+separate monitoring and owned cleanup pass. Published HTML's POSTs already set
+application/json; the stricter missing-header rejection is tested and documented.
+
+Fresh reports resolve49 runtime/55 test/53 operations packages with zero known
+findings and no skipped dependency/ignored ID. Retained exact reports/metadata
+are dependency-after-framework-*-linux*.json under docs/security; historical
+baselines remain intact. [All13 canonical source records](../security/framework-advisory-source-review.json)
+preserve affected ranges, aliases, maintainer references and download hashes.
+The clean scan is limited to these installations and recorded advisories.
+
+[Resource results](framework-linux-resource-evidence.json) and
+[raw samples](framework-linux-resource-raw.json) retain the actual small,
+bounded before-mixed/with-mixed profiles. Source/profile/hardware/quantiles and
+errors are explicit. This comparison is not an old-library benchmark, stable
+tail estimate or improved capacity claim. F01/F05/parent release gates remain.
 
 ## Compatible pins and scope
 
