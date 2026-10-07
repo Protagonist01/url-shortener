@@ -2,7 +2,7 @@
   "schema_version": 1,
   "adopted": "2026-10-08",
   "authority": "Owner requested sequential sprints; completion gates govern advancement.",
-  "scope": "All47 currently open issues and all8 milestones; earlier verified closed outcomes remain prerequisite evidence.",
+  "scope": "47-issue queue adopted2026-10-08 and all8 milestones;61 is completed and46 remain open. Earlier verified closed outcomes remain prerequisite evidence.",
   "policy": {
     "work_in_progress": 1,
     "skip_blocked_step": false,
@@ -16,7 +16,7 @@
     ],
     "advance_when": "All live acceptance/prerequisite checks have evidence; reviewed PR merged at checked head; issue closure and fetched target commit verified; relevant milestone exit gate also passes before next stage."
   },
-  "active_step": 1,
+  "active_step": 2,
   "steps": [
     {
       "step": 1,
@@ -27,7 +27,11 @@
       "declared_prerequisites": [
         2
       ],
-      "status": "active",
+      "status": "completed",
+      "gate_record": "docs/sprints/01-issue-61.md",
+      "merged_pr": "https://github.com/Protagonist01/url-shortener/pull/67",
+      "checked_head": "c7d6a4c0f59fffc12d521294e67ea4345c1f19f2",
+      "merge_commit": "f6e5e2c08d3a38753a806fddbecd1be641351cfc",
       "evidence_prerequisites": [
         58
       ],
@@ -42,7 +46,9 @@
       "milestone": "M0",
       "url": "https://github.com/Protagonist01/url-shortener/issues/1",
       "declared_prerequisites": [],
-      "status": "queued",
+      "status": "active",
+      "gate_state": "input_required",
+      "gate_record": "docs/sprints/02-issue-1.md",
       "additional_entry_requirements": [
         "IN01",
         "IN02",

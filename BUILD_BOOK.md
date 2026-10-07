@@ -24,6 +24,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 20 — Framework repair includes the metrics dependency](#entry-20--framework-repair-includes-the-metrics-dependency)
 - [Entry 21 — Sequential sprints advance on evidence](#entry-21--sequential-sprints-advance-on-evidence)
 - [Entry 22 — Trace parser fixes before choosing the compatible stack](#entry-22--trace-parser-fixes-before-choosing-the-compatible-stack)
+- [Entry 23 — Close the first sprint before entering the decision gate](#entry-23--close-the-first-sprint-before-entering-the-decision-gate)
 
 ---
 
@@ -1332,3 +1333,42 @@ Final parent diff review finds fixture routes only in the owned test server,
 no runtime psutil dependency, compatible existing JSON client headers and no
 production route/schema/quota/telemetry change. G1–G3 pass only this scoped61
 repair; G4 final documentation-head CI and G5 checked integration remain held.
+
+Final documentation headc7d6a4c0f59fffc12d521294e67ea4345c1f19f2 passed
+foundation37703812297/job113073313265 and advisory37703812319/job113073313254.
+Reviewed PR67 merged with that exact head guard as
+f6e5e2c08d3a38753a806fddbecd1be641351cfc. Main is fetched; the merge's parents
+include the checked PR head. GitHub61 closed through67; all five acceptance
+checks are verified. The read API omits merge_commit_sha, so an initial strict
+closure helper stopped without mutation. Verify the actual merge tool's returned
+SHA against fetched ancestry/parents plus merged=true/exact head and successful
+final runs; do not invent a replacement field or repeat the merge. The guarded
+issue metadata update then succeeds. All76 original saved source/config/readme/
+ignore hashes still match; original index and unpublished QR changes are untouched.
+
+## Entry 23 — Close the first sprint before entering the decision gate
+**Files touched:** sprint records/queue, input/progress/roadmap and decision status.
+
+### How and why
+First verify61's actual source/library/API/resource/advisory evidence, reviewed
+current-head jobs, checked-head merge, fetched target and GitHub closure. Only
+then set step1 completed and step2/1 the single active issue in sequence.json.
+Retain all47 original queue entries;46 open remain. Refresh all eight milestones:
+M0 now has eight completed/11 open and later stages five open each. No milestone
+exit passes from a scoped library repair.
+
+Read live F01 acceptance: owner-approved architecture/budgets/cost model and
+measurement boundaries are mandatory. IN01–IN06 remain unanswered; the existing
+Cloudflare/CPython proposal and small synthetic workload are not approval.
+Create02-issue-1.md with G0/G3 input_required, concrete decision references and
+remaining gates. Record only confirmed FastAPI/PostgreSQL/Next.js/small launch/
+Cloudflare candidate; do not infer region from timezone or invent numerical
+availability/retention/revocation budgets. Hold before42 instead of using an
+unrelated issue to bypass the owner's sequential instruction.
+
+### Verification and limits
+Documentation has no runtime/query/resource effect; a new load run is not
+needed. Validate47 unique/consecutive dependency-ordered steps, completed61,
+sole active1,45 queued, all8 stages and git diff --check. Publish this gate
+checkpoint in its own reviewed documentation PR without closing F01 or any
+milestone. The full goal remains incomplete; owner choices are in the register.
