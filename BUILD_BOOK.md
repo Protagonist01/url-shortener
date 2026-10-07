@@ -20,6 +20,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 16 — Turning local foundation checks into isolated CI](#entry-16--turning-local-foundation-checks-into-isolated-ci)
 - [Entry 17 — Auditing dependencies before choosing upgrades](#entry-17--auditing-dependencies-before-choosing-upgrades)
 - [Entry 18 — Removing unused JWT crypto without breaking existing tokens](#entry-18--removing-unused-jwt-crypto-without-breaking-existing-tokens)
+- [Entry 19 — Separating test tools without making the scanner blind](#entry-19--separating-test-tools-without-making-the-scanner-blind)
 
 ---
 
@@ -1171,3 +1172,25 @@ The repeated Windows install also timed out; stop repeating unchanged setup fail
 The serial2,000-token decode experiment after200 warmups recorded p50/p95/p99 of45.505/57.257/71.323us with zero errors. This measures ordinary helper cost on one Linux runner, not HTTP throughput, large tokens, saturation or an approved capacity budget. Reports carry the merge-checkout source1b75eaea and exact requirement/security hashes; link the PR branch headeae7f8f separately so readers can reproduce the identity distinction. The dependency change has no data/schema/index/cache work to explain-plan; full load and policy gaps remain parent work.
 
 Final documentation headcf33361991ffcf23400634060813d51e5668ae81 passed foundation37538150154/job112524279883 and advisory37538150166/job112524279751. Reviewed/merged PR63 with that head guard as43efdc66d1d2aefbf98fd1e259cc53548b6eac77; GitHub closed60. Fetched main contains the implementation. Local cleanup initially timed out removing its labeled Redis container; guarded retry completed, and final inspection confirms both owned containers absent. All76 original source/config/readme/ignore hashes still match; the original index is untouched. Keep parent3/43/45, remaining dependencies61/62 and all milestone gates open.
+
+## Entry 19 — Separating test tools without making the scanner blind
+**Files touched:** requirements manifests, pytest configuration, advisory/verification scripts and CI.
+
+### Context and choice
+Issue62 concerns pytest's UNIX temporary-root symlink handling. The installed8.3.4 predates the9.0.3 security fix. Merely moving pytest out of runtime would make our existing runtime-only audit omit the vulnerable test installation. Merely upgrading pytest while retaining pytest-asyncio0.25.2 creates an actual resolver conflict: that plugin requires pytest below9.
+
+Choose pytest9.1.1 and pytest-asyncio1.4.0, whose primary metadata admits Python3.12 and pytest9. Preserve auto mode and explicitly use function-scoped test/fixture loops. Extract ordinary tests and optional Flower into manifests which include runtime; CI includes tests plus its process-cleanup helper. Keep Alembic (start.sh runs it), Celery, HTTPX and both PostgreSQL drivers in runtime. Compose already uses an external Flower image, so no new service/image architecture is needed.
+
+### How to build it
+First inspect the Dockerfile, Compose commands, startup script and actual app imports; do not classify a dependency from its name. Add runtime/test/operations scanner scopes, retaining the old default runtime filenames. Record hashes of each manifest reached through -r includes, so changing a child manifest cannot reuse a stale report. Enforce test-tool absence in fresh runtime resolution and the fixed pins without known findings in test resolution. Preserve other findings.
+
+Exercise the real installed TempPathFactory inside an owned TemporaryDirectory with a synthetic username and PYTEST_DEBUG_TEMPROOT. Check a normal0700 root, then direct and chained symlink roots pointing at another owned directory with a sentinel. The old isolated dependency must accept the symlink; the fixed one must reject it without changing target permissions/content. This is a focused same-owner substitute, not proof of a cross-user privilege escalation or remote API exploit. Run the existing guarded18 async HTTP tests and worker checks with the new plugin. Build the actual runtime Dockerfile from a tracked-file-only temporary context and verify API/Alembic/worker/beat imports and CLIs without installing test tooling there.
+
+### In progress
+The read-only boundary investigation agrees with the parent trace. Manifests and the focused probe are written; verification is pending. Docker Desktop is stopped, so local test setup starts the installed desktop application in the background. No production deploy or settings change is requested. No SQL/request changes exist; image size, startup or latency improvements remain unmeasured.
+
+Candidate2a95113 passed actual Linux foundation37693481792/job113039193207 and three-scope advisory37693481813/job113039192849. The owned before probe reproduces both direct/chained symlink acceptance on8.3.4;9.1.1 rejects both and preserves the ordinary root and target sentinel/mode. Actual runtime image, monitoring CLI,8 token contracts,18 async HTTP checks and worker counts4/2 pass. Scopes resolve47/53/51 packages; each retains26 raw framework/parser records13 unique package/advisory IDs. None is a clean-security result.
+
+The separate read-only reviewer found an actual scanner freshness gap: pip accepts -rFILE and --requirement=FILE, but the first hash walker recognized only spaced includes. A focused parent probe confirmed both aliases hide changed child bytes with unchanged HEAD. Extend include parsing to both aliases and local constraints, reject unsupported continuation syntax, and add a downgrade regression for all four compact forms. Rerun local checks and actual Linux CI after this confirmed correction. A literal plus from a JavaScript string continuation had also reached the initial probe with statement; inspection caught and corrected it before the passing candidate commit.
+
+Correction headc5eac2309cf7a072a8787e1791ce0268fc82df39 passed foundation37694595696/job113043066577 and advisory37694595813/job113043066593. Downloaded14-file foundation and9-file advisory artifacts after run/head/conclusion and allowed filename/size validation. Recursive manifest hashes match current files; source merge checkout aaf4c2c845effcebf37207e1aaa1df49b9e5940c is distinct from branch head. Retained six exact advisory JSON/metadata files and test-dependency-linux-evidence.json;18 API tests have zero errors/failures/skips in6.145s. Runtime47/test53/operations51 retain26 raw framework/parser records13 unique IDs. The package boundary/focused pytest invariant are repaired;61/full locks/release gates stay open. Final documentation-head CI and authorized merge remain pending at this checkpoint.

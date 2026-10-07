@@ -25,7 +25,7 @@ Runtime: Python3.12.13, Celery5.4.0, SQLAlchemy2.0.36, Docker29.7.2, cached post
 
 ## Reproduce
 
-Use an environment containing requirements.txt dependencies. From the reviewed checkout root:
+Use a separate environment containing requirements-ci.txt dependencies (runtime alone no longer installs pytest). From the reviewed checkout root:
 
 ```powershell
 python -m pytest tests/test_worker_registration.py -q

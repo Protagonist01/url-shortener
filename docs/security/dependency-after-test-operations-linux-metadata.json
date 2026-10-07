@@ -1,0 +1,22 @@
+{
+  "scanned_at": "2026-10-07T22:12:27.083586+00:00",
+  "source_head": "aaf4c2c845effcebf37207e1aaa1df49b9e5940c",
+  "requirements_sha256": "d743cd0a02080978e2346f4fd9d3acc2b68197068a638fdff8dc988e43e1e8c6",
+  "scope": "operations",
+  "requirements_files_sha256": {
+    "requirements-ops.txt": "d743cd0a02080978e2346f4fd9d3acc2b68197068a638fdff8dc988e43e1e8c6",
+    "requirements.txt": "0995056216b468b97314a012f357b83ee4483f6ab45f7b8ae0be75e591f2df65"
+  },
+  "python": "3.12.15",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "scanner": "pip-audit",
+  "scanner_version": "2.10.1",
+  "service": "PyPI Python Packaging Advisory Database",
+  "dependency_count": 51,
+  "vulnerable_packages": 2,
+  "advisory_records": 26,
+  "scanner_exit": 1,
+  "unique_package_advisory_ids": 13,
+  "result": "known_vulnerabilities",
+  "limitations": "OS-specific resolver; no exploitability, unpublished prototype, frontend or full-security proof"
+}

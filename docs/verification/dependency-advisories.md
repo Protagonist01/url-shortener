@@ -4,6 +4,14 @@ Scope: [F03b / #58](https://github.com/Protagonist01/url-shortener/issues/58), a
 
 ## Reproduce
 
+DEP03 extends collection to runtime/test/operations. In the separate scanner environment, run
+`python -m scripts.audit_dependencies --scope runtime`, repeat with `--scope test`
+and `--scope operations`, then `python -m scripts.verify_dependency_remediation`.
+Runtime keeps the original filenames; other scopes add their scope name.
+Metadata hashes every included manifest and the gate checks current HEAD.
+See [install boundaries and before/after verification](test-dependency-remediation.md).
+The original baseline below remains historical evidence of the old full manifest.
+
 Create a separate Python3.12 virtualenv, install requirements-audit.txt from public PyPI, and run `python -m scripts.audit_dependencies` from the checkout with that environment's interpreter. Disable pip configuration with PIP_CONFIG_FILE=os.devnull when installing isolated tooling; the helper itself strips PIP_* settings and disables pip configuration before resolution. It imports no application configuration and reads no local dotenv files.
 
 The helper writes platform-specific baseline JSON, metadata and scanner log under ignored output/dependency-audit. It resolves application requirements, including platform-selected transitives, with the real PyPI advisory service. There is no --fix or ignored finding. Return0 means no known findings in that scanned set;1 means known vulnerabilities were recorded;2 means the audit failed or coverage is incomplete. Empty/skipped reports and exit/report disagreement are errors.

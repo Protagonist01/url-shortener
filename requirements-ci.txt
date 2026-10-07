@@ -1,3 +1,2 @@
--r requirements.txt
-# Process-tree cleanup for the owned worker integration harness only.
-psutil==7.2.2
+-r requirements-test.txt
+# Alias for the full isolated foundation test installation.

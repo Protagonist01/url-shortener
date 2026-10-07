@@ -9,6 +9,8 @@ Status: **8 GitHub milestones and 40 issues published and verified.** No impleme
 
 ## Delivery strategy
 
+[Test-tool repair evidence](verification/test-dependency-remediation.md) records separate runtime/test/operations scopes, actual UNIX before/after proof and Linux compatibility checks in PR65. Check GitHub for current merge/issue state; scoped repair does not complete parent3 or any milestone.
+
 Continuous execution is tracked in [GOAL_PROGRESS.md](../GOAL_PROGRESS.md); unresolved owner decisions are in [INPUT_REQUIRED.md](../INPUT_REQUIRED.md). Foundation remediation is split into scoped child issues: [worker registration #51](https://github.com/Protagonist01/url-shortener/issues/51), [configuration boundaries #53](https://github.com/Protagonist01/url-shortener/issues/53), and [isolated correctness CI #55](https://github.com/Protagonist01/url-shortener/issues/55). Their completion does not close the parent security/analytics/CI outcomes or a milestone. Check GitHub for live state.
 M0 establishes evidence and decisions. M1–M3 deliver the free offline tools, dynamic code service and hosted-page MVP. M4–M6 add paid/pilot/business/developer capabilities after validated demand. M7 is gated expansion; discovery issues do not authorize building every concept.
 

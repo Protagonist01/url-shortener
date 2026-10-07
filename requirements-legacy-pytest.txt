@@ -1,0 +1,3 @@
+# Intentionally vulnerable, isolated before-fix reproduction only.
+# Never include this file in application, ordinary test, or operations installs.
+pytest==8.3.4

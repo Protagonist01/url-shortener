@@ -1,0 +1,3 @@
+-r requirements.txt
+# Optional monitoring environment, separate from API/worker/beat.
+flower==2.0.1

@@ -1,4 +1,5 @@
 """Resolve public application requirements and record actual advisory evidence."""
+import argparse
 from datetime import datetime, timezone
 import hashlib
 from importlib.metadata import version
@@ -9,6 +10,8 @@ import platform
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+
+from scripts.dependency_scopes import SCOPES, manifest_hashes, suffix
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "output" / "dependency-audit"
@@ -37,15 +40,17 @@ def stop_owned_process(process):
     process.wait(timeout=5)
 
 
-def main():
-    requirements = ROOT / "requirements.txt"
+def main(scope="runtime"):
+    requirements = ROOT / SCOPES[scope]
+    input_hashes = manifest_hashes(scope, root=ROOT)
+    tag = suffix(scope, sys.platform)
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    report_path = OUTPUT / ("baseline-" + sys.platform + ".json")
-    metadata_path = OUTPUT / ("metadata-" + sys.platform + ".json")
+    report_path = OUTPUT / ("baseline-" + tag + ".json")
+    metadata_path = OUTPUT / ("metadata-" + tag + ".json")
     # Avoid confusing an earlier report with the current failed attempt.
     report_path.unlink(missing_ok=True)
     metadata_path.unlink(missing_ok=True)
-    (OUTPUT / ("failure-" + sys.platform + ".json")).unlink(missing_ok=True)
+    (OUTPUT / ("failure-" + tag + ".json")).unlink(missing_ok=True)
     if version("pip-audit") != SCANNER_VERSION:
         raise RuntimeError("Use the isolated pinned requirements-audit.txt environment")
     env = {key: value for key, value in os.environ.items()
@@ -55,7 +60,7 @@ def main():
                "--index-url", "https://pypi.org/simple", "--strict", "--timeout", "15",
                "--format", "json", "--desc", "off", "--progress-spinner", "off",
                "--output", str(report_path)]
-    log_path = OUTPUT / ("scanner-" + sys.platform + ".log")
+    log_path = OUTPUT / ("scanner-" + tag + ".log")
     with TemporaryDirectory(prefix="resolver-", dir=OUTPUT) as directory:
         Path(directory).resolve().relative_to(OUTPUT.resolve())
         env.update({key: directory for key in ("TMPDIR", "TEMP", "TMP")})
@@ -83,6 +88,7 @@ def main():
         "scanned_at": datetime.now(timezone.utc).isoformat(),
         "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "requirements_sha256": hashlib.sha256(requirements.read_bytes()).hexdigest(),
+        "scope": scope, "requirements_files_sha256": input_hashes,
         "python": platform.python_version(), "platform": platform.platform(),
         "scanner": "pip-audit", "scanner_version": SCANNER_VERSION,
         "service": "PyPI Python Packaging Advisory Database",
@@ -102,12 +108,15 @@ def main():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--scope", choices=SCOPES, default="runtime")
+    args = parser.parse_args()
     try:
-        exit_code = main()
+        exit_code = main(args.scope)
     except Exception as error:
         print("Dependency audit incomplete:", type(error).__name__, file=sys.stderr)
         OUTPUT.mkdir(parents=True, exist_ok=True)
-        (OUTPUT / ("failure-" + sys.platform + ".json")).write_text(
+        (OUTPUT / ("failure-" + suffix(args.scope, sys.platform) + ".json")).write_text(
             json.dumps({"result": "incomplete", "error_type": type(error).__name__,
                         "recorded_at": datetime.now(timezone.utc).isoformat()}, indent=2) + "\n")
         exit_code = 2  # Operational failure, not the known-findings code1.

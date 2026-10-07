@@ -58,4 +58,12 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 ## Continuation rules
 
+### Latest checkpoint — 2026-10-07
+
+PRs59/63/64 are merged; dependency evidence58 and JWT repair60 are closed. [PR65](https://github.com/Protagonist01/url-shortener/pull/65) implements62 with pytest9.1.1/plugin1.4.0 and separate runtime/test/operations installs. Review found compact includes omitted child hashes; a confirmed correction adds downgrade regressions.
+
+Implementation c5eac2309cf7a072a8787e1791ce0268fc82df39 passed actual foundation37694595696/advisory37694595813. Old/fixed direct/chained symlink checks, ordinary root, production image package/CLI/health, monitoring,8 token contracts,18 HTTP checks, migrations and worker delivery pass. Retained exact evidence lives in docs/verification/test-dependency-remediation.md. Runtime47/test53/operations51 still contain26 raw Starlette/multipart records13 unique IDs under open61. Windows daemon remains unavailable; no Windows/load/full-lock/security/milestone proof.
+
+PR65 merge waits for final documentation-head checks;62 remains open until then. Parent3/43/45 and all eight milestones remain incomplete. Next independent task is61 compatible framework/parser repair. Owner choices remain in INPUT_REQUIRED.md; the full roadmap goal stays active.
+
 Use GitHub as live status. Add each result with commit/PR, relevant tests, observed failures and next available safe task. Do not infer approval from a pending answer. End a turn with the full goal active unless requirement-by-requirement evidence proves completion or the specified repeated-blocker threshold is met. No dates, guarantees, quotas or approval decisions are invented.

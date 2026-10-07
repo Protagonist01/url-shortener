@@ -167,14 +167,22 @@ GET /metrics  # Prometheus format
 
 ## Running tests
 
+Use a separate Python3.12 virtual environment. The API image intentionally
+installs only requirements.txt; tests and optional monitoring have separate manifests.
+
 ```bash
-docker compose exec api pytest -q
-# → 17 passed
+python -m pip install -r requirements-ci.txt
+python -m pip check
+python -m pytest tests/test_worker_registration.py -c pytest.ini -q
 ```
 
-Tests cover: health, metrics, URL shortening, redirect, cache warming, custom codes,
-code collisions, analytics, auth (register/login/duplicate/wrong-password/invalid-token),
-and rate limiting (429 enforcement + scope independence).
+Run the HTTP suite only through the labeled disposable-service harness in
+[foundation-ci.md](docs/verification/foundation-ci.md) and
+[JWT verification](docs/verification/jwt-dependency-remediation.md).
+Its cache cleanup must never target shared Redis. The suite covers health,
+metrics, shortening, redirects, analytics, authentication and rate limits.
+See [test dependency repair](docs/verification/test-dependency-remediation.md)
+for install scopes, the before/after UNIX check and rollback.
 
 ## Tech stack
 

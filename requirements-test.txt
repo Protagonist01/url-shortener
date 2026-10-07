@@ -1,0 +1,6 @@
+-r requirements.txt
+# pytest-asyncio 0.25.x cannot resolve with pytest 9.
+pytest==9.1.1
+pytest-asyncio==1.4.0
+# Owned subprocess cleanup in test/harness checks.
+psutil==7.2.2

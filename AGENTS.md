@@ -84,6 +84,7 @@ A change is done when:
 
 ## Existing verification commands
 Run from the repository root; consult CI/README for updates. Never load production credentials for tests.
+- Install tests in a separate Python3.12 environment from requirements-ci.txt (includes requirements-test.txt). Runtime requirements.txt excludes pytest/plugin/Flower/psutil/scanner; optional monitoring uses requirements-ops.txt. Historical JWT/pytest fixtures stay in separate interpreters. See docs/verification/test-dependency-remediation.md for all-scope audits and Linux before/after checks.
 - Focused existing QR/URL checks: python -m pytest tests/test_qart.py tests/test_qr.py tests/test_qr_api.py tests/test_qr_review.py tests/test_qr_destination.py tests/test_redirect_alias.py tests/test_url_service.py -q
 - Real service checks: tests/test_api.py requires the isolated API/PostgreSQL/Redis stack. Inspect its configuration and namespace first: its fixture deletes matching cache/rate-limit keys.
 - Migrations: alembic upgrade head against a disposable database; test the documented rollback/forward compatibility.
