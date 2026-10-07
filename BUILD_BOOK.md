@@ -22,6 +22,7 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 18 — Removing unused JWT crypto without breaking existing tokens](#entry-18--removing-unused-jwt-crypto-without-breaking-existing-tokens)
 - [Entry 19 — Separating test tools without making the scanner blind](#entry-19--separating-test-tools-without-making-the-scanner-blind)
 - [Entry 20 — Framework repair includes the metrics dependency](#entry-20--framework-repair-includes-the-metrics-dependency)
+- [Entry 21 — Sequential sprints advance on evidence](#entry-21--sequential-sprints-advance-on-evidence)
 
 ---
 
@@ -1210,3 +1211,44 @@ Compare the smallest jointly compatible security repair with the latest framewor
 
 ### In progress and limits
 Metadata investigation exposed the metrics constraint; no framework pins have changed. GitHub read polling had DNS/timeouts, but a separate completed current-head read verified both PR65 jobs before merge. Do not restart CI or create duplicate PRs on an observation failure. New branch codex/framework-parser-dependencies starts from verified merge dc815b5. Owner choices/full roadmap remain pending.
+
+## Entry 21 — Sequential sprints advance on evidence
+**Files touched:** AGENTS, roadmap, sprint sequence/records, PR template and input/progress ledgers.
+
+### Why
+On2026-10-08 the owner requested sequential sprints with completion gates before
+the next step. Earlier instructions allowed unrelated implementation while
+waiting; that permission now yields to one active issue. A closed child or a
+green narrow test cannot pass its parent's entire release gate.
+
+### How to build the sequence
+Refresh all47 open GitHub issues and read the declared prerequisites for the
+original40 roadmap issues plus audit/dependency additions. Put ready independent
+repair61 first, then F01/1 before policy-dependent foundation work. Keep all
+remaining M0 issues and stagesM1–M7 exactly once; verify every declared open
+prerequisite precedes its consumer. Closed audit2/discovery58 remain prerequisite
+evidence, not tasks to redo. No date/duration is promised.
+
+Create docs/sprints/sequence.json with one active step, issue links, declared
+prerequisites and additional input IDs. Write G0 readiness, G1 behavior,
+G2 compatibility, G3 performance/resources, G4 review/operations and G5 merged
+integration requirements in SEQUENTIAL.md. Start01-issue-61.md with a concrete
+acceptance-to-evidence table; only its entry gate is passed. Require actual
+current-head CI/review and fetched merged implementation/issue closure before
+advancement. Require the whole milestone's exit evidence before the next stage.
+Update AGENTS and the PR template so future agents/reviewers use the same gate.
+
+If a gate needs an answer, record it with the issue in INPUT_REQUIRED.md and
+hold the step. Investigate independent aspects of that issue; do not skip to
+another implementation. After61, F01 is presently held by IN01–IN06.
+Later legacy-management/prototype/rotation decisions still require their own
+answers. This changes sequencing, not the full eight-milestone objective.
+
+### Verification and current limits
+The actual live list has47 open issues, all8 milestones open; M0 has7 closed/12
+open. A Python validation of sequence.json passed47 unique issues, exactly one
+active/consecutive step order, prerequisite ordering and eight retained stages.
+Git diff --check passed. Live2/58/62 are completed and65 is merged. This is a
+documentation change with no runtime/query/resource effect; load tests do not
+apply. Reviewed publication/current-head CI remain pending at this checkpoint.
+No61 implementation/acceptance result is invented.

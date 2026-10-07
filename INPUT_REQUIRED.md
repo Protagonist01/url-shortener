@@ -39,12 +39,21 @@ Confirmed: FastAPI, PostgreSQL, Next.js; small initial launch with growth; Cloud
 
 ## How agents proceed
 
+### Sequential sprint holds — 2026-10-08
+
+The owner now requires completion gates before the next step. Sprint1/issue61
+has no new owner decision prerequisite for its scoped repair. Sprint2/issue1
+will be held at G0 until IN01–IN06 are answered and its ADR/budgets are approved.
+Later inputs still hold their own issue gates. Do not bypass them to start
+another implementation issue; useful investigation within the active issue can
+continue. Answers, decisions and approvals must be explicit evidence.
+
 ### Execution control — 2026-10-07
 
 IN19: after the owner's “continue” request and verified PR65 progress, get_goal still reports blocked. The available goal API cannot resume it. Manual authorized roadmap work continues; the owner may need to use the app's goal resume control for automatic continuations. This is not a software/product blocker, approval request or completion claim.
 
 - Refresh GitHub and the current worktree before picking work. Read actual acceptance criteria and prerequisites.
-- Implement independent correctness fixes and prepare reusable interfaces/tests. Record proposed values as proposals. Do not bypass unmet prerequisites merely to advance a milestone.
+- Implement independent work inside the active sprint and prepare its interfaces/tests. Record proposed values as proposals. Do not bypass unmet prerequisites or a held sprint gate.
 - Keep parent issues open while mandatory outcomes/child tasks or decisions remain incomplete. Distinguish verified implementation from merged/released behavior.
 - Put newly discovered questions here with a stable ID and affected issue. Do not repeatedly ask the same question in chat.
 - Never paste credentials, customer records, raw medical payloads or secret values into this file.

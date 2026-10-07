@@ -58,6 +58,17 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 ## Continuation rules
 
+### Sequential execution — owner instruction2026-10-08
+
+docs/sprints/SEQUENTIAL.md defines one active issue and G0–G5 entry/behavior/
+quality/performance/review/integration gates. sequence.json covers all47 live
+open issues exactly once in dependency order; milestone exit gates prevent
+advancing to the next stage. Current: Sprint1/61 investigation. No61 acceptance
+item is passed. Next: Sprint2/1, held for IN01–IN06 until explicit approval.
+The sequential instruction supersedes starting unrelated implementation issues
+while waiting; questions remain in INPUT_REQUIRED.md. Full eight-stage objective
+is unchanged. Execution-rule publication is setup, not product completion.
+
 ### Latest checkpoint — 2026-10-07
 
 PRs59/63/64 are merged; dependency evidence58 and JWT repair60 are closed. [PR65](https://github.com/Protagonist01/url-shortener/pull/65) implements62 with pytest9.1.1/plugin1.4.0 and separate runtime/test/operations installs. Review found compact includes omitted child hashes; a confirmed correction adds downgrade regressions.

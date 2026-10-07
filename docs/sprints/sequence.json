@@ -1,0 +1,745 @@
+{
+  "schema_version": 1,
+  "adopted": "2026-10-08",
+  "authority": "Owner requested sequential sprints; completion gates govern advancement.",
+  "scope": "All47 currently open issues and all8 milestones; earlier verified closed outcomes remain prerequisite evidence.",
+  "policy": {
+    "work_in_progress": 1,
+    "skip_blocked_step": false,
+    "dates_or_duration": "Not committed",
+    "gate_states": [
+      "pending",
+      "passed",
+      "failed",
+      "unverified",
+      "input_required"
+    ],
+    "advance_when": "All live acceptance/prerequisite checks have evidence; reviewed PR merged at checked head; issue closure and fetched target commit verified; relevant milestone exit gate also passes before next stage."
+  },
+  "active_step": 1,
+  "steps": [
+    {
+      "step": 1,
+      "issue": 61,
+      "title": "[DEP02] Upgrade the compatible framework and multipart parser stack",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/61",
+      "declared_prerequisites": [
+        2
+      ],
+      "status": "active",
+      "evidence_prerequisites": [
+        58
+      ],
+      "completion_gate": "- [ ] Review every baseline advisory and current maintainer release/compatibility metadata; pin a jointly supported dependency set and resolve cleanly on Linux/Python3.12.\n- [ ] Fresh actual scan shows all targeted parser/framework findings removed without ignored IDs or unrelated vulnerable packages being hidden.\n- [ ] Isolated real-service API tests cover auth, URL management, analytics, legacy redirect/fragment and static/metrics contracts; relevant parser/static/range regressions and malformed inputs fail safely.\n- [ ] Verify resource-bound parser behavior and event-loop isolation; preserve upload/QR scan gates for any published prototype. Do not claim uncommitted prototype coverage from clean-main tests.\n- [ ] Document migration/client/library compatibility, rollout/rollback, performance evidence and remaining F01/input/release gates; actual CI passes.",
+      "additional_entry_requirements": [],
+      "predecessor_step": null
+    },
+    {
+      "step": 2,
+      "issue": 1,
+      "title": "[F01] Approve architecture, deployment profile and performance budgets",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/1",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN01",
+        "IN02",
+        "IN03",
+        "IN04",
+        "IN05",
+        "IN06"
+      ],
+      "predecessor_step": 1
+    },
+    {
+      "step": 3,
+      "issue": 42,
+      "title": "[AUD01] Enforce ownership for analytics and anonymous-link management",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/42",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN07"
+      ],
+      "predecessor_step": 2
+    },
+    {
+      "step": 4,
+      "issue": 43,
+      "title": "[AUD02] Remove tracked secret configuration and harden password/session handling",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/43",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN10"
+      ],
+      "predecessor_step": 3
+    },
+    {
+      "step": 5,
+      "issue": 46,
+      "title": "[AUD05] Configure trusted proxies and minimize scan IP/GeoIP data",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/46",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN01",
+        "IN05"
+      ],
+      "predecessor_step": 4
+    },
+    {
+      "step": 6,
+      "issue": 4,
+      "title": "[F04] Design the tenant-aware data model and safe migration strategy",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/4",
+      "declared_prerequisites": [
+        1,
+        2
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 5
+    },
+    {
+      "step": 7,
+      "issue": 44,
+      "title": "[AUD03] Make redirect cache and analytics dispatch failures bounded and safe",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/44",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 6
+    },
+    {
+      "step": 8,
+      "issue": 45,
+      "title": "[AUD04] Register scheduled analytics jobs and make ingestion/rollups efficient",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/45",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 7
+    },
+    {
+      "step": 9,
+      "issue": 47,
+      "title": "[AUD06] Bound API ranges and design scalable pagination and analytics queries",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/47",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 8
+    },
+    {
+      "step": 10,
+      "issue": 48,
+      "title": "[AUD07] Diagnose off-white split-logo regression without relaxing scan validation",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/48",
+      "declared_prerequisites": [],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN08"
+      ],
+      "predecessor_step": 9
+    },
+    {
+      "step": 11,
+      "issue": 3,
+      "title": "[F03] Establish reproducible CI and security checks",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/3",
+      "declared_prerequisites": [
+        1,
+        2
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 10
+    },
+    {
+      "step": 12,
+      "issue": 5,
+      "title": "[F05] Build performance, observability and recovery baselines",
+      "milestone": "M0",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/5",
+      "declared_prerequisites": [
+        1,
+        2
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 11
+    },
+    {
+      "step": 13,
+      "issue": 6,
+      "title": "[Q01] Build browser-only offline payload generation",
+      "milestone": "M1",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/6",
+      "declared_prerequisites": [
+        1,
+        3
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 12
+    },
+    {
+      "step": 14,
+      "issue": 7,
+      "title": "[Q02] Build conservative QR styling and preview",
+      "milestone": "M1",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/7",
+      "declared_prerequisites": [
+        6
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 13
+    },
+    {
+      "step": 15,
+      "issue": 8,
+      "title": "[Q03] Implement free scannability and print-readiness checks",
+      "milestone": "M1",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/8",
+      "declared_prerequisites": [
+        6,
+        7
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 14
+    },
+    {
+      "step": 16,
+      "issue": 9,
+      "title": "[Q04] Add PNG, SVG and printable card exports",
+      "milestone": "M1",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/9",
+      "declared_prerequisites": [
+        7,
+        8
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 15
+    },
+    {
+      "step": 17,
+      "issue": 10,
+      "title": "[Q05] Complete accessible account-free QR onboarding",
+      "milestone": "M1",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/10",
+      "declared_prerequisites": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 16
+    },
+    {
+      "step": 18,
+      "issue": 11,
+      "title": "[D01] Harden accounts, ownership and free-tier quotas",
+      "milestone": "M2",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/11",
+      "declared_prerequisites": [
+        3,
+        4
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN07",
+        "IN12"
+      ],
+      "predecessor_step": 17
+    },
+    {
+      "step": 19,
+      "issue": 12,
+      "title": "[D02] Implement dynamic-code lifecycle and destination history",
+      "milestone": "M2",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/12",
+      "declared_prerequisites": [
+        11,
+        4
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 18
+    },
+    {
+      "step": 20,
+      "issue": 13,
+      "title": "[D03] Make redirect resolution resilient and measurable",
+      "milestone": "M2",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/13",
+      "declared_prerequisites": [
+        12,
+        5
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 19
+    },
+    {
+      "step": 21,
+      "issue": 14,
+      "title": "[D04] Build asynchronous privacy-conscious scan analytics",
+      "milestone": "M2",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/14",
+      "declared_prerequisites": [
+        13,
+        4
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN05"
+      ],
+      "predecessor_step": 20
+    },
+    {
+      "step": 22,
+      "issue": 15,
+      "title": "[D05] Implement bounded routing, expiry and atomic scan limits",
+      "milestone": "M2",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/15",
+      "declared_prerequisites": [
+        12,
+        13,
+        14
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN06",
+        "IN12"
+      ],
+      "predecessor_step": 21
+    },
+    {
+      "step": 23,
+      "issue": 16,
+      "title": "[P01] Build constrained hosted-page schemas, themes and editor",
+      "milestone": "M3",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/16",
+      "declared_prerequisites": [
+        11,
+        4,
+        10
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 22
+    },
+    {
+      "step": 24,
+      "issue": 17,
+      "title": "[P02] Implement versioned publish, subdomains and edge caching",
+      "milestone": "M3",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/17",
+      "declared_prerequisites": [
+        16,
+        12,
+        5
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN11"
+      ],
+      "predecessor_step": 23
+    },
+    {
+      "step": 25,
+      "issue": 18,
+      "title": "[P03] Deliver core page blocks and open-status behavior",
+      "milestone": "M3",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/18",
+      "declared_prerequisites": [
+        16,
+        17
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 24
+    },
+    {
+      "step": 26,
+      "issue": 19,
+      "title": "[P04] Add page media limits, destination previews and abuse response",
+      "milestone": "M3",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/19",
+      "declared_prerequisites": [
+        16,
+        17,
+        3
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 25
+    },
+    {
+      "step": 27,
+      "issue": 20,
+      "title": "[P05] Pass MVP release, backup restore and printed-link continuity gates",
+      "milestone": "M3",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/20",
+      "declared_prerequisites": [
+        3,
+        5,
+        10,
+        14,
+        15,
+        17,
+        18,
+        19
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 26
+    },
+    {
+      "step": 28,
+      "issue": 21,
+      "title": "[B01] Build Brand Studio presets and campaign variants",
+      "milestone": "M4",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/21",
+      "declared_prerequisites": [
+        7,
+        8,
+        16,
+        20
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 27
+    },
+    {
+      "step": 29,
+      "issue": 22,
+      "title": "[B02] Pilot one industry pack with guided onboarding",
+      "milestone": "M4",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/22",
+      "declared_prerequisites": [
+        21,
+        18,
+        20,
+        1
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN13"
+      ],
+      "predecessor_step": 28
+    },
+    {
+      "step": 30,
+      "issue": 23,
+      "title": "[B03] Add scheduling, translation and page-block analytics",
+      "milestone": "M4",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/23",
+      "declared_prerequisites": [
+        14,
+        17,
+        18
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 29
+    },
+    {
+      "step": 31,
+      "issue": 24,
+      "title": "[B04] Build reviewed AI page setup from approved inputs",
+      "milestone": "M4",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/24",
+      "declared_prerequisites": [
+        16,
+        19,
+        22
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN14"
+      ],
+      "predecessor_step": 30
+    },
+    {
+      "step": 32,
+      "issue": 25,
+      "title": "[B05] Approve pricing and implement paid entitlements",
+      "milestone": "M4",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/25",
+      "declared_prerequisites": [
+        11,
+        14,
+        20,
+        1
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN12"
+      ],
+      "predecessor_step": 31
+    },
+    {
+      "step": 33,
+      "issue": 26,
+      "title": "[T01] Add teams, approvals, audit logs and multi-location templates",
+      "milestone": "M5",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/26",
+      "declared_prerequisites": [
+        11,
+        12,
+        16,
+        21,
+        25
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 32
+    },
+    {
+      "step": 34,
+      "issue": 27,
+      "title": "[T02] Add verified custom domains and safe domain lifecycle",
+      "milestone": "M5",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/27",
+      "declared_prerequisites": [
+        17,
+        26,
+        25
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN11",
+        "IN12"
+      ],
+      "predecessor_step": 33
+    },
+    {
+      "step": 35,
+      "issue": 28,
+      "title": "[T03] Add authenticity signatures and cautious anomaly alerts",
+      "milestone": "M5",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/28",
+      "declared_prerequisites": [
+        13,
+        26,
+        3
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 34
+    },
+    {
+      "step": 36,
+      "issue": 29,
+      "title": "[T04] Implement Apple and Google wallet pass adapters",
+      "milestone": "M5",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/29",
+      "declared_prerequisites": [
+        26,
+        28,
+        25
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN15"
+      ],
+      "predecessor_step": 35
+    },
+    {
+      "step": 37,
+      "issue": 30,
+      "title": "[T05] Implement selected no-code business connectors",
+      "milestone": "M5",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/30",
+      "declared_prerequisites": [
+        26,
+        14,
+        22
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN16"
+      ],
+      "predecessor_step": 36
+    },
+    {
+      "step": 38,
+      "issue": 31,
+      "title": "[A01] Publish versioned APIs, scoped keys and developer docs",
+      "milestone": "M6",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/31",
+      "declared_prerequisites": [
+        26,
+        25,
+        20
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 37
+    },
+    {
+      "step": 39,
+      "issue": 32,
+      "title": "[A02] Add bounded bulk, render jobs and data exports",
+      "milestone": "M6",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/32",
+      "declared_prerequisites": [
+        31,
+        8,
+        14,
+        4
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 38
+    },
+    {
+      "step": 40,
+      "issue": 33,
+      "title": "[A03] Deliver signed outgoing webhooks with replay controls",
+      "milestone": "M6",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/33",
+      "declared_prerequisites": [
+        31,
+        14,
+        30
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 39
+    },
+    {
+      "step": 41,
+      "issue": 34,
+      "title": "[A04] Build developer SDKs and a scoped embed designer",
+      "milestone": "M6",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/34",
+      "declared_prerequisites": [
+        31,
+        32,
+        7,
+        16
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 40
+    },
+    {
+      "step": 42,
+      "issue": 35,
+      "title": "[A05] Prove platform capacity, noisy-neighbor isolation and usage reconciliation",
+      "milestone": "M6",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/35",
+      "declared_prerequisites": [
+        31,
+        32,
+        33,
+        34,
+        5
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 41
+    },
+    {
+      "step": 43,
+      "issue": 36,
+      "title": "[X01] Add authenticated text and webhook page updates",
+      "milestone": "M7",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/36",
+      "declared_prerequisites": [
+        33,
+        26,
+        23
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN16"
+      ],
+      "predecessor_step": 42
+    },
+    {
+      "step": 44,
+      "issue": 37,
+      "title": "[X02] Add opt-in offline caching for hosted pages",
+      "milestone": "M7",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/37",
+      "declared_prerequisites": [
+        17,
+        19,
+        26
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 43
+    },
+    {
+      "step": 45,
+      "issue": 38,
+      "title": "[X03] Evaluate artistic, animated and material-specific QR packs",
+      "milestone": "M7",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/38",
+      "declared_prerequisites": [
+        8,
+        9,
+        32
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [],
+      "predecessor_step": 44
+    },
+    {
+      "step": 46,
+      "issue": 39,
+      "title": "[X04] Evaluate community tip blocks and additional industry packs",
+      "milestone": "M7",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/39",
+      "declared_prerequisites": [
+        26,
+        30,
+        19,
+        22
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN17"
+      ],
+      "predecessor_step": 45
+    },
+    {
+      "step": 47,
+      "issue": 40,
+      "title": "[X05] Decide physical-product fulfillment and deferred engines",
+      "milestone": "M7",
+      "url": "https://github.com/Protagonist01/url-shortener/issues/40",
+      "declared_prerequisites": [
+        22,
+        38,
+        25
+      ],
+      "status": "queued",
+      "additional_entry_requirements": [
+        "IN18"
+      ],
+      "predecessor_step": 46
+    }
+  ]
+}
