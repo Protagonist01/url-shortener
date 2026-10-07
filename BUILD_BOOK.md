@@ -21,6 +21,8 @@ A journal of the real reasoning behind this build: decisions, options rejected, 
 - [Entry 17 — Auditing dependencies before choosing upgrades](#entry-17--auditing-dependencies-before-choosing-upgrades)
 - [Entry 18 — Removing unused JWT crypto without breaking existing tokens](#entry-18--removing-unused-jwt-crypto-without-breaking-existing-tokens)
 - [Entry 19 — Separating test tools without making the scanner blind](#entry-19--separating-test-tools-without-making-the-scanner-blind)
+- [Entry 20 — Framework repair includes the metrics dependency](#entry-20--framework-repair-includes-the-metrics-dependency)
+- [Entry 21 — Sequential sprints advance on evidence](#entry-21--sequential-sprints-advance-on-evidence)
 
 ---
 
@@ -1194,3 +1196,59 @@ Candidate2a95113 passed actual Linux foundation37693481792/job113039193207 and t
 The separate read-only reviewer found an actual scanner freshness gap: pip accepts -rFILE and --requirement=FILE, but the first hash walker recognized only spaced includes. A focused parent probe confirmed both aliases hide changed child bytes with unchanged HEAD. Extend include parsing to both aliases and local constraints, reject unsupported continuation syntax, and add a downgrade regression for all four compact forms. Rerun local checks and actual Linux CI after this confirmed correction. A literal plus from a JavaScript string continuation had also reached the initial probe with statement; inspection caught and corrected it before the passing candidate commit.
 
 Correction headc5eac2309cf7a072a8787e1791ce0268fc82df39 passed foundation37694595696/job113043066577 and advisory37694595813/job113043066593. Downloaded14-file foundation and9-file advisory artifacts after run/head/conclusion and allowed filename/size validation. Recursive manifest hashes match current files; source merge checkout aaf4c2c845effcebf37207e1aaa1df49b9e5940c is distinct from branch head. Retained six exact advisory JSON/metadata files and test-dependency-linux-evidence.json;18 API tests have zero errors/failures/skips in6.145s. Runtime47/test53/operations51 retain26 raw framework/parser records13 unique IDs. The package boundary/focused pytest invariant are repaired;61/full locks/release gates stay open. Final documentation-head CI and authorized merge remain pending at this checkpoint.
+
+Final documentation head5fb8f9cf132aa4254dd340b53cdcd213624dfc8e passed foundation37695071938/advisory37695072149. Reviewed PR65 merged under the exact head guard asdc815b5d7610fb8772d23705ba2e345d057706a1. GitHub62 is closed with all five acceptance checks, and fetched main contains the merge. Original76 saved source/config/readme/ignore hashes still match. This supersedes the pending checkpoint; no parent/milestone is complete.
+
+## Entry 20 — Framework repair includes the metrics dependency
+**Files touched so far:** investigation/progress journal only; issue61 implementation is not selected or verified.
+
+### Context and how to investigate
+Remaining reports identify thirteen package/advisory IDs across Starlette0.41.3 and python-multipart0.0.20. Fetch each canonical PyPA record and maintainer fix/release, then trace whether the published app reaches its parser/static/range path. Public JSON URL APIs do not imply multipart upload coverage; unpublished QR uploads remain IN08.
+
+Before changing Starlette, inspect exact package metadata for every direct consumer. FastAPI0.115.6 constrains the old framework, and instrumentator7.0.0 independently requires Starlette below1.0; forcing a new Starlette alone cannot resolve. Actual public PyPI metadata for instrumentator8.1.0 supports Starlette>=1,<2. Latest FastAPI0.142.4 supports the newer framework but adds base OpenTelemetry;0.141.1 admits Starlette>=0.46 with the current Pydantic pin without that new base dependency. Starlette1.7.0 and multipart0.0.32 are current primary-metadata candidates, not adopted versions.
+
+Compare the smallest jointly compatible security repair with the latest framework stack, including removed APIs, metrics and telemetry behavior. Do not introduce automatic data collection or claim lower overhead from metadata. Record candidate resolution, all-scope fresh advisories and focused real parser/static boundary controls before choosing. Reuse isolated API/worker/image checks and add bounded concurrency/resource measurements appropriate to actual published routes. F01 has not approved numerical production targets.
+
+### In progress and limits
+Metadata investigation exposed the metrics constraint; no framework pins have changed. GitHub read polling had DNS/timeouts, but a separate completed current-head read verified both PR65 jobs before merge. Do not restart CI or create duplicate PRs on an observation failure. New branch codex/framework-parser-dependencies starts from verified merge dc815b5. Owner choices/full roadmap remain pending.
+
+## Entry 21 — Sequential sprints advance on evidence
+**Files touched:** AGENTS, roadmap, sprint sequence/records, PR template and input/progress ledgers.
+
+### Why
+On2026-10-08 the owner requested sequential sprints with completion gates before
+the next step. Earlier instructions allowed unrelated implementation while
+waiting; that permission now yields to one active issue. A closed child or a
+green narrow test cannot pass its parent's entire release gate.
+
+### How to build the sequence
+Refresh all47 open GitHub issues and read the declared prerequisites for the
+original40 roadmap issues plus audit/dependency additions. Put ready independent
+repair61 first, then F01/1 before policy-dependent foundation work. Keep all
+remaining M0 issues and stagesM1–M7 exactly once; verify every declared open
+prerequisite precedes its consumer. Closed audit2/discovery58 remain prerequisite
+evidence, not tasks to redo. No date/duration is promised.
+
+Create docs/sprints/sequence.json with one active step, issue links, declared
+prerequisites and additional input IDs. Write G0 readiness, G1 behavior,
+G2 compatibility, G3 performance/resources, G4 review/operations and G5 merged
+integration requirements in SEQUENTIAL.md. Start01-issue-61.md with a concrete
+acceptance-to-evidence table; only its entry gate is passed. Require actual
+current-head CI/review and fetched merged implementation/issue closure before
+advancement. Require the whole milestone's exit evidence before the next stage.
+Update AGENTS and the PR template so future agents/reviewers use the same gate.
+
+If a gate needs an answer, record it with the issue in INPUT_REQUIRED.md and
+hold the step. Investigate independent aspects of that issue; do not skip to
+another implementation. After61, F01 is presently held by IN01–IN06.
+Later legacy-management/prototype/rotation decisions still require their own
+answers. This changes sequencing, not the full eight-milestone objective.
+
+### Verification and current limits
+The actual live list has47 open issues, all8 milestones open; M0 has7 closed/12
+open. A Python validation of sequence.json passed47 unique issues, exactly one
+active/consecutive step order, prerequisite ordering and eight retained stages.
+Git diff --check passed. Live2/58/62 are completed and65 is merged. This is a
+documentation change with no runtime/query/resource effect; load tests do not
+apply. Reviewed publication/current-head CI remain pending at this checkpoint.
+No61 implementation/acceptance result is invented.

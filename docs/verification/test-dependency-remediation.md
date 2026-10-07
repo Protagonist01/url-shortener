@@ -62,7 +62,7 @@ To roll back dependency separation, revert this reviewed commit and rebuild from
 
 ## Verification status
 
-Outcome: **fixed for the scoped pytest dependency/boundary**, subject to final-head merge checks. Broader production/security readiness is incomplete.
+Outcome: **fixed for the scoped pytest dependency/boundary**. Broader production/security readiness is incomplete.
 
 Ordered gates for implementation head `c5eac2309cf7a072a8787e1791ce0268fc82df39`:
 
@@ -75,3 +75,5 @@ Actual [foundation37694595696/job113043066577](https://github.com/Protagonist01/
 Fresh scopes contain47 runtime,53 test and51 operations packages. Pytest/plugin have no recorded findings; runtime contains no pytest/plugin/Flower/psutil/scanner. Each scope retains26 raw records in Starlette/python-multipart,13 unique package/advisory IDs. Exact [runtime](../security/dependency-after-test-runtime-linux.json), [test](../security/dependency-after-test-test-linux.json) and [operations](../security/dependency-after-test-operations-linux.json) reports have matching metadata files. Counts are not distinct exploitable-vulnerability counts or full-security approval.
 
 One read-only review cycle is complete; its confirmed scanner alias finding was corrected and relevant checks rerun. No runtime request/schema/index change occurs. Local Docker remained unavailable despite a background startup attempt; required Linux checks passed. No Windows image, physical QR/unpublished prototype, cross-UID exploit, external Flower image audit, prefork/load, full lock, SLO or release-readiness proof exists. Parent3, issue61 and all milestone/security gates remain open.
+
+Final documentation head5fb8f9cf132aa4254dd340b53cdcd213624dfc8e passed foundation37695071938 and advisory37695072149. The owner-authorized, exact-head guarded merge of PR65 returned dc815b5d7610fb8772d23705ba2e345d057706a1. Fetched main contains that merge; GitHub closed62 with all five acceptance criteria checked. This supersedes earlier pending-merge checkpoints.

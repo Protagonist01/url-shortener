@@ -58,6 +58,17 @@ Commands: `python -m pytest tests/test_worker_registration.py -q`; `python -m sc
 
 ## Continuation rules
 
+### Sequential execution — owner instruction2026-10-08
+
+docs/sprints/SEQUENTIAL.md defines one active issue and G0–G5 entry/behavior/
+quality/performance/review/integration gates. sequence.json covers all47 live
+open issues exactly once in dependency order; milestone exit gates prevent
+advancing to the next stage. Current: Sprint1/61 investigation. No61 acceptance
+item is passed. Next: Sprint2/1, held for IN01–IN06 until explicit approval.
+The sequential instruction supersedes starting unrelated implementation issues
+while waiting; questions remain in INPUT_REQUIRED.md. Full eight-stage objective
+is unchanged. Execution-rule publication is setup, not product completion.
+
 ### Latest checkpoint — 2026-10-07
 
 PRs59/63/64 are merged; dependency evidence58 and JWT repair60 are closed. [PR65](https://github.com/Protagonist01/url-shortener/pull/65) implements62 with pytest9.1.1/plugin1.4.0 and separate runtime/test/operations installs. Review found compact includes omitted child hashes; a confirmed correction adds downgrade regressions.
@@ -65,5 +76,13 @@ PRs59/63/64 are merged; dependency evidence58 and JWT repair60 are closed. [PR65
 Implementation c5eac2309cf7a072a8787e1791ce0268fc82df39 passed actual foundation37694595696/advisory37694595813. Old/fixed direct/chained symlink checks, ordinary root, production image package/CLI/health, monitoring,8 token contracts,18 HTTP checks, migrations and worker delivery pass. Retained exact evidence lives in docs/verification/test-dependency-remediation.md. Runtime47/test53/operations51 still contain26 raw Starlette/multipart records13 unique IDs under open61. Windows daemon remains unavailable; no Windows/load/full-lock/security/milestone proof.
 
 PR65 merge waits for final documentation-head checks;62 remains open until then. Parent3/43/45 and all eight milestones remain incomplete. Next independent task is61 compatible framework/parser repair. Owner choices remain in INPUT_REQUIRED.md; the full roadmap goal stays active.
+
+PR65 final head5fb8f9cf132aa4254dd340b53cdcd213624dfc8e passed foundation37695071938/advisory37695072149 and merged with that head guard asdc815b5d7610fb8772d23705ba2e345d057706a1. Main ancestry and closed62/all acceptance checks are verified. This supersedes the pending-merge sentence. Original76 saved app/test/config/readme/ignore hashes remain unchanged.
+
+Current branch codex/framework-parser-dependencies starts from that fetched main. Issue61's primary metadata investigation found instrumentator7.0.0 requires Starlette below1.0;8.1.0 admits1.x. Latest FastAPI0.142.4 introduces base OpenTelemetry, while0.141.1 metadata has no such base dependency and admits Starlette1.x/Pydantic2.10.4. These are candidates, not installed/verified pins or a policy choice. Inspect all thirteen framework/parser advisory boundaries and actual compatibility/resource behavior before adopting any candidate.
+
+Authoritative refresh2026-10-07T22:24:33Z:47 open issues excluding PRs; all8 milestones open. M0 has7 completed/12 open; later stages each have5 open. No goal or milestone completion is claimed.
+
+Execution-control correction: get_goal currently reports blocked despite authorized continuation and this turn's verified progress. No blocked/completed update was issued in this turn. The API cannot resume goals; INPUT_REQUIRED.md IN19 records the UI control issue. The full objective remains incomplete and manual work proceeds on61; earlier “active” wording is not a claim about the current controller status.
 
 Use GitHub as live status. Add each result with commit/PR, relevant tests, observed failures and next available safe task. Do not infer approval from a pending answer. End a turn with the full goal active unless requirement-by-requirement evidence proves completion or the specified repeated-blocker threshold is met. No dates, guarantees, quotas or approval decisions are invented.
