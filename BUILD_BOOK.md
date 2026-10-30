@@ -1399,3 +1399,8 @@ The owner clarified that both scenes should fade at the same time. At each beat,
 **Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
 
 The owner reported that the crossfade still looked abrupt. Inspection found the outgoing-layer cleanup timer was shorter than the visual transition, and the prior easing changed opacity quickly at the start. Set both title and artwork fades to a symmetric 1.5-second ease-in-out and retain outgoing layers for 1.6 seconds. This keeps the overlapping crossfade intact for its full duration.
+
+## Entry 29 — Reducing the crossfade overlap
+**Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
+
+The owner asked to reduce the double-image overlap while preserving a gradual, gap-free handoff. Shortened both headline and artwork opacity transitions from 1.5 seconds to 1.1 seconds, keeping the shared ease-in-out curve and same-frame activation. Keep outgoing layers for 1.2 seconds, just beyond the CSS fade.

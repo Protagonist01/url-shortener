@@ -1,6 +1,6 @@
 (() => {
   const duration = 5200;
-  const fadeDuration = 1600;
+  const fadeDuration = 1200;
   const scenes = [...document.querySelectorAll('.story-scene')];
   const words = [...document.querySelectorAll('.hero-word')];
   const stage = document.querySelector('.story-stage');
