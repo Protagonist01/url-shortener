@@ -1372,3 +1372,10 @@ needed. Validate47 unique/consecutive dependency-ordered steps, completed61,
 sole active1,45 queued, all8 stages and git diff --check. Publish this gate
 checkpoint in its own reviewed documentation PR without closing F01 or any
 milestone. The full goal remains incomplete; owner choices are in the register.
+
+## Entry 24 — Shipping the animated SnipURL hero
+**Files touched:** `app/static/index.html`, `app/static/story.css`, `app/static/story.js`, `app/static/demo-qr.png`, and this entry.
+
+The hero is a visual page change. Keep the existing shortening, analytics, and QR flows intact. The scene script advances one story beat at a time, pauses when the page is hidden or the hero scrolls offscreen, and respects reduced-motion settings. The QR illustration is a local static asset. Server-upload image QR controls were excluded because static QR artwork must stay in the browser under the product privacy rules.
+
+Validation is recorded with the matching pull request and deployment evidence; no physical QR scan or production capacity claim follows from this visual update.

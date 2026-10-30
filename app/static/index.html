@@ -275,6 +275,7 @@
       html{scroll-behavior:auto}
     }
   </style>
+  <link rel="stylesheet" href="/static/story.css">
 </head>
 <body>
 
@@ -301,10 +302,43 @@
 
 <main class="wrap">
 
-  <section class="hero rise d1">
-    <span class="eyebrow">Fast &middot; Free &middot; Open Source</span>
-    <h1>Paste. Snip.<br><span class="uline"><em>Share.</em><svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M3 9 C 30 3, 70 2, 117 6"/></svg></span></h1>
-    <p>Turn long URLs into clean, trackable short links with built-in analytics and QR codes. No sign-up required.</p>
+  <section class="hero">
+    <div class="hero-copy rise d1">
+      <h1 class="story-headline"><span class="hero-word" data-word="0">Snip it.</span><em class="hero-word" data-word="1" hidden>Scan it.</em><span class="hero-word" data-word="2" hidden>Share it.</span></h1>
+    </div>
+    <div class="story-stage" role="group" aria-label="An animated illustration of cutting a long link, scanning a QR code, and sharing it">
+      <div class="story-scenes" aria-hidden="true">
+        <div class="story-scene active" data-scene="0">
+          <div class="snip-drawing">
+            <div class="paper-strip"><span class="long-address">your-idea.com</span><span class="offcut">/a/very/long/link</span></div>
+            <span class="cut-guide"></span>
+            <svg class="cut-scissors" viewBox="0 0 60 100" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <g class="scissor-blade"><path d="M20 25 40 91 34 86 25 39" fill="#d5d7cc" stroke="#596655" stroke-width="1.5"/><ellipse cx="17" cy="16" rx="10" ry="12" stroke="#245b3c" stroke-width="5"/></g>
+              <g class="scissor-blade other"><path d="M40 25 20 91 26 86 35 39" fill="#e7e8df" stroke="#596655" stroke-width="1.5"/><ellipse cx="43" cy="16" rx="10" ry="12" stroke="#245b3c" stroke-width="5"/></g>
+              <circle cx="30" cy="38" r="3.5" fill="#faf9ee" stroke="#52634b" stroke-width="1.5"/>
+            </svg>
+            <div class="snipped-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 0 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0)"/></svg><span>snipurl / <b>your-idea</b></span><span class="link-check">✓</span></div>
+          </div>
+        </div>
+        <div class="story-scene" data-scene="1">
+          <div class="scan-drawing"><div class="qr-paper"><img src="/static/demo-qr.png" alt=""></div><div class="phone-frame"><div class="phone-speaker"></div><div class="viewfinder"><i></i><i></i><i></i><i></i><span class="reading-beam"></span></div><span class="scan-confirm">✓ Link found</span></div></div>
+        </div>
+        <div class="story-scene" data-scene="2">
+          <svg class="share-drawing" viewBox="0 0 440 280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <g class="share-routes" stroke="#b3bba8" stroke-width="1.5"><path class="share-route" d="M181 140 C245 140 225 49 319 49" pathLength="1"/><path class="share-route" d="M181 140 H319" pathLength="1"/><path class="share-route" d="M181 140 C245 140 225 231 319 231" pathLength="1"/></g>
+            <g class="share-origin"><rect x="29" y="108" width="158" height="64" rx="11" fill="#fffdf7" stroke="#c6cbb9"/><g transform="translate(45 128)" stroke="#2b6345" stroke-width="1.8"><path d="m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 0 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></g><text x="78" y="144" fill="#355940" stroke="none">your-idea</text></g>
+            <g class="share-destination destination-a"><rect x="319" y="24" width="58" height="50" rx="12" fill="#fffdf7" stroke="#c6cbb9"/><path d="M337 39h22v15h-13l-7 5v-5h-2V39Z" stroke="#667659" stroke-width="1.6"/><path d="M343 44h10m-10 5h7" stroke="#667659" stroke-width="1.6"/></g>
+            <g class="share-destination destination-b"><rect x="319" y="115" width="58" height="50" rx="12" fill="#fffdf7" stroke="#c6cbb9"/><rect x="336" y="131" width="25" height="18" rx="2" stroke="#667659" stroke-width="1.6"/><path d="m337 133 11 8 12-8" stroke="#667659" stroke-width="1.6"/></g>
+            <g class="share-destination destination-c"><rect x="319" y="206" width="58" height="50" rx="12" fill="#fffdf7" stroke="#c6cbb9"/><rect x="341" y="215" width="15" height="30" rx="3" stroke="#667659" stroke-width="1.6"/><path d="M346 220h5m-4 20h3" stroke="#667659" stroke-width="1.6"/></g>
+            <circle class="share-packet packet-a" r="4" fill="#367c53"/><circle class="share-packet packet-b" r="4" fill="#367c53"/><circle class="share-packet packet-c" r="4" fill="#367c53"/>
+            <g class="share-receipt receipt-a" transform="translate(372 25)"><circle r="9" fill="#2f704c"/><path d="m-4 0 3 3 5-6" stroke="#fffdf7" stroke-width="1.6"/></g>
+            <g class="share-receipt receipt-b" transform="translate(372 116)"><circle r="9" fill="#2f704c"/><path d="m-4 0 3 3 5-6" stroke="#fffdf7" stroke-width="1.6"/></g>
+            <g class="share-receipt receipt-c" transform="translate(372 207)"><circle r="9" fill="#2f704c"/><path d="m-4 0 3 3 5-6" stroke="#fffdf7" stroke-width="1.6"/></g>
+          </svg>
+        </div>
+      </div>
+      <button class="motion-toggle" id="motionToggle" aria-pressed="false">Pause motion</button>
+    </div>
   </section>
 
   <section class="card shorten-card rise d2">
@@ -666,5 +700,6 @@ async function authSubmit(e){
 function closeModal(id){document.getElementById(id).classList.remove('open')}
 window.onclick=e=>{if(e.target.classList.contains('overlay'))e.target.classList.remove('open')};
 </script>
+  <script src="/static/story.js"></script>
 </body>
 </html>
