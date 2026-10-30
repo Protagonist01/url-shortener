@@ -1394,3 +1394,8 @@ Changed the earlier overlapping crossfade to a two-step opacity transition. The 
 **Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
 
 The owner clarified that both scenes should fade at the same time. At each beat, the next scene becomes active in the same frame that the current scene begins fading out. Both opacity transitions use the same 820 ms easing; the outgoing layer stays above the incoming layer so its falling opacity reveals the next scene underneath without an empty frame. The headline uses the same handoff.
+
+## Entry 28 — Letting the hero crossfade finish
+**Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
+
+The owner reported that the crossfade still looked abrupt. Inspection found the outgoing-layer cleanup timer was shorter than the visual transition, and the prior easing changed opacity quickly at the start. Set both title and artwork fades to a symmetric 1.5-second ease-in-out and retain outgoing layers for 1.6 seconds. This keeps the overlapping crossfade intact for its full duration.
