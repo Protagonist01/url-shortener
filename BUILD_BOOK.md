@@ -1389,3 +1389,8 @@ Removed the visible pause control. Motion still pauses automatically when the ta
 **Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
 
 Changed the earlier overlapping crossfade to a two-step opacity transition. The outgoing headline and artwork complete a 620 ms fade to zero first; after that, the next headline and artwork fade in. Removed the vertical movement and scale change so the transition reads as a fade-out followed by a fade-in. Reduced-motion preference still holds the first static scene.
+
+## Entry 27 — Cross-dissolving the hero scenes
+**Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
+
+The owner clarified that both scenes should fade at the same time. At each beat, the next scene becomes active in the same frame that the current scene begins fading out. Both opacity transitions use the same 820 ms easing; the outgoing layer stays above the incoming layer so its falling opacity reveals the next scene underneath without an empty frame. The headline uses the same handoff.

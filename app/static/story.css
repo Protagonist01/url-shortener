@@ -1,12 +1,12 @@
 /* A single phrase and object sequence share a 5.2-second beat. */
 .hero{padding:36px 0 26px;gap:44px;grid-template-columns:1.05fr 1fr;min-height:342px;--e-out:cubic-bezier(.16,1,.3,1);--e-in:cubic-bezier(.45,0,.75,.35);--e-both:cubic-bezier(.4,0,.6,1)}
 .hero .story-headline{font-size:clamp(5rem,10.5vw,8rem);line-height:1.08;letter-spacing:-.06em;margin:12px 0 20px;min-height:1.08em;white-space:nowrap;display:grid}
-.hero-word{display:block;grid-area:1/1;opacity:0;transition:opacity .62s var(--e-out);will-change:opacity}
+.hero-word{display:block;grid-area:1/1;opacity:0;transition:opacity .82s var(--e-out);will-change:opacity}
 .hero-word.active{opacity:1;z-index:1}
-.hero-word.out{opacity:0}
+.hero-word.out{opacity:0;z-index:2}
 
 .story-stage{position:relative;height:280px;min-height:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible;isolation:isolate}
-.story-scenes{position:absolute;inset:0;pointer-events:none}.story-scene{position:absolute;inset:0;overflow:visible;display:block;opacity:0;transition:opacity .62s var(--e-out)}.story-scene.active{opacity:1;z-index:1}.story-scene.out{opacity:0}
+.story-scenes{position:absolute;inset:0;pointer-events:none}.story-scene{position:absolute;inset:0;overflow:visible;display:block;opacity:0;transition:opacity .82s var(--e-out)}.story-scene.active{opacity:1;z-index:1}.story-scene.out{opacity:0;z-index:2}
 .snip-drawing{position:absolute;width:min(100%,440px);height:260px;top:0;left:50%;transform:translateX(-50%) rotate(-5deg)}
 .paper-strip{position:absolute;left:8%;right:8%;top:118px;height:56px;display:flex;font:12px var(--f-mono)}
 .long-address,.offcut{display:flex;align-items:center;width:50%;height:56px;box-sizing:border-box;padding:0 15px;background:#fffef7;white-space:nowrap;overflow:hidden;border-top:1px solid #dedfd2;border-bottom:1px solid #dedfd2;box-shadow:0 8px 12px -5px #28371a14}
