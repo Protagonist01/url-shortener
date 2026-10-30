@@ -1384,3 +1384,8 @@ Validation is recorded with the matching pull request and deployment evidence; n
 **Files touched:** `app/static/index.html`, `app/static/story.css`, `app/static/story.js`, and this entry.
 
 Removed the visible pause control. Motion still pauses automatically when the tab is hidden, the hero leaves view, or reduced motion is enabled. Each headline and illustration now crossfades over roughly one second with a small eased vertical shift, so the three story beats overlap instead of switching abruptly. Checked the local browser preview through all three scenes; the pause control is absent.
+
+## Entry 26 — Sequentially fading between hero beats
+**Files touched:** `app/static/story.css`, `app/static/story.js`, and this entry.
+
+Changed the earlier overlapping crossfade to a two-step opacity transition. The outgoing headline and artwork complete a 620 ms fade to zero first; after that, the next headline and artwork fade in. Removed the vertical movement and scale change so the transition reads as a fade-out followed by a fade-in. Reduced-motion preference still holds the first static scene.

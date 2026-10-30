@@ -1,5 +1,6 @@
 (() => {
   const duration = 5200;
+  const fadeDuration = 680;
   const scenes = [...document.querySelectorAll('.story-scene')];
   const words = [...document.querySelectorAll('.hero-word')];
   const stage = document.querySelector('.story-stage');
@@ -15,17 +16,21 @@
 
   function setScene(next) {
     const previous = scenes[index];
+    const previousWord = words[index];
     previous.classList.remove('active');
     previous.classList.add('out');
-    window.setTimeout(() => previous.classList.remove('out'), 1000);
-    index = next;
-    scenes[index].classList.add('active');
-    words.forEach((word, i) => {
-      word.classList.toggle('active', i === index);
-      word.classList.toggle('out', i !== index);
-      word.setAttribute('aria-hidden', String(i !== index));
-      if (i !== index) window.setTimeout(() => word.classList.remove('out'), 900);
-    });
+    previousWord.classList.remove('active');
+    previousWord.classList.add('out');
+    previousWord.setAttribute('aria-hidden', 'true');
+
+    window.setTimeout(() => {
+      previous.classList.remove('out');
+      previousWord.classList.remove('out');
+      index = next;
+      scenes[index].classList.add('active');
+      words[index].classList.add('active');
+      words[index].setAttribute('aria-hidden', 'false');
+    }, fadeDuration);
   }
 
   function stop() {
